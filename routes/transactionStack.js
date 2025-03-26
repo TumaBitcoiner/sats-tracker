@@ -13,8 +13,6 @@ const TransactionStack = createNativeStackNavigator({
                     headerTitle: 'Transactions'
                 }
             }
-            
-
         },
         TransactionDetails:{            
             screen: TransactionDetails,

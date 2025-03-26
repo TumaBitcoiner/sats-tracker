@@ -2,10 +2,11 @@ import { createStaticNavigation, TabRouter } from '@react-navigation/native';
 //import { Button } from '@react-navigation/elements';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/home';
-import Budget from '../screens/budget';
+//import Budget from '../screens/budget';
 //import Transactions from '../screens/transactions';
 import TransactionStack from './transactionStack';
 import {MaterialIcons} from '@expo/vector-icons'
+import BudgetStack from './budgetStack';
 
 
   const BottomTabNavigatorHome = createBottomTabNavigator({
@@ -29,8 +30,8 @@ import {MaterialIcons} from '@expo/vector-icons'
             }
         }, 
         
-        Budget: {
-            screen: Budget,
+        BudgetStack: {
+            screen: BudgetStack,
             options:{
                 tabBarIcon:({ color, size }) =>
                     <MaterialIcons name='account-balance-wallet' color={color} size={size}/>           
