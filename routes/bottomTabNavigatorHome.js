@@ -16,8 +16,8 @@ import BudgetStack from './budgetStack';
             screen: Home,
             options:{
                 tabBarIcon:({ color, size }) =>           
-                    <MaterialIcons name='home' color={color} size={size}/>           
-                
+                    <MaterialIcons name='home' color={color} size={size}/>,
+                title:'Home' 
             }
         },
         
@@ -25,8 +25,8 @@ import BudgetStack from './budgetStack';
             screen: TransactionStack,
             options:{
                 tabBarIcon:({ color, size }) =>
-                    <MaterialIcons name='money' color={color} size={size} />           
-                
+                    <MaterialIcons name='money' color={color} size={size} />,
+                title:'Transactions'
             }
         }, 
         
@@ -34,15 +34,18 @@ import BudgetStack from './budgetStack';
             screen: BudgetStack,
             options:{
                 tabBarIcon:({ color, size }) =>
-                    <MaterialIcons name='account-balance-wallet' color={color} size={size}/>           
-            }
+                    <MaterialIcons name='account-balance-wallet' color={color} size={size}/>,
+                title:'Budget',   
+            },
         },
     },
     screenOptions:{
         tabBarInactiveTintColor: 'black',
         tabBarActiveTintColor: 'black',
-        tabBarInactiveBackgroundColor: 'orange',
+        tabBarInactiveBackgroundColor: 'orange',                 
+        headerShown: 'false',
     }
   })
+  
 
   export default createStaticNavigation(BottomTabNavigatorHome);

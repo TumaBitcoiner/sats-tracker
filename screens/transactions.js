@@ -2,16 +2,22 @@ import React, {useState} from 'react'
 import { StyleSheet, View, Text, TouchableOpacity, FlatList} from 'react-native'
 import { useNavigation } from "@react-navigation/native";
 import Card from '../shared/card'
+import { globalStyles } from '../styles/global';
+import { categoryIcons } from '../styles/categories';
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 export default function Transactions(){
 
     const navigation = useNavigation();
-
+    //const [date, setDate] = useState({day: '25', month: '03', year:'2025'});
+    
     const [transactions, setTransactions] = useState([
-        {amount:'120', category:'Food', note:'lorem ipsum', key:'1'},
+        {date: { day: '24', month: '03', year: '2025' }, amount:'120', category:'Groceries', transactionType: 'LN', transactionFee: '1', note:'Spesa mensile cibo', place:'Esselunga', key:'1'},
+        {date: { day: '24', month: '03', year: '2025' }, amount:'16000', category:'Transportation', transactionType: 'OC', transactionFee: '152', note:'Macchina nuova', place:'Car Shop', key:'2'},
     ]);
-
+    
+    
     return(
         <View>
             <FlatList 
@@ -19,9 +25,15 @@ export default function Transactions(){
                 renderItem={( {item} ) => (
                     <TouchableOpacity onPress={()=> navigation.navigate('TransactionDetails', item)}>
                         <Card>
-                            <View style={styles.transactionCard}>
-                                <Text style={styles.transactionCategory}>{item.category}</Text>
-                                <Text style={styles.transactionAmount}>{item.amount}</Text>
+                            <View style={globalStyles.transactionCard}>
+                                <View style={globalStyles.transactionCard}>
+                                    <MaterialIcons name={categoryIcons.categories[item.category]} style={globalStyles.icons} />
+                                    <Text style={globalStyles.transactionCategoryText}>{item.category}</Text>
+                                </View>
+                                <View style={globalStyles.transactionCard}>
+                                    <Text style={globalStyles.transactionAmount}>{item.amount}</Text>
+                                    <Text style={globalStyles.transactionAmount}>{item.transactionType}</Text>
+                                </View>
                             </View>
                         </Card>
                     </TouchableOpacity>
@@ -32,16 +44,10 @@ export default function Transactions(){
 }
 
 const styles = StyleSheet.create({
-
-    transactionCard:{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    transactionAmount: {
+    date:{
         fontSize: 20,
-    },
-    transactionCategory: {
         fontWeight: 'bold',
-        fontSize: 20,
+        textAlign: 'center',
+        marginBottom: 20,
     }
-});
+})
