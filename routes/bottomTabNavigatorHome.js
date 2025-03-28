@@ -26,7 +26,9 @@ import BudgetStack from './budgetStack';
             options:{
                 tabBarIcon:({ color, size }) =>
                     <MaterialIcons name='money' color={color} size={size} />,
-                title:'Transactions'
+                
+                headerShown: false, 
+                title:'Transactions',
             }
         }, 
         
@@ -35,15 +37,16 @@ import BudgetStack from './budgetStack';
             options:{
                 tabBarIcon:({ color, size }) =>
                     <MaterialIcons name='account-balance-wallet' color={color} size={size}/>,
-                title:'Budget',   
+                
+                headerShown: false, 
+                title:'Budget', 
             },
         },
     },
     screenOptions:{
         tabBarInactiveTintColor: 'black',
         tabBarActiveTintColor: 'black',
-        tabBarInactiveBackgroundColor: 'orange',                 
-        headerShown: 'false',
+        tabBarInactiveBackgroundColor: 'orange',  
     }
   })
   

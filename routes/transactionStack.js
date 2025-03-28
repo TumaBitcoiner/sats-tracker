@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //import { createStaticNavigation } from '@react-navigation/native';
 import Transactions from '../screens/transactions';
 import TransactionDetails from '../screens/transactionDetails';
+import Header from '../shared/header';
 
 const TransactionStack = createNativeStackNavigator({
     screens : {
@@ -10,7 +11,7 @@ const TransactionStack = createNativeStackNavigator({
             screen: Transactions,
             options: ({navigation}) => {
                 return{
-                    headerTitle: 'Transactions'
+                    headerTitle: () => <Header title='Transactions'/>
                 }
             }
         },
