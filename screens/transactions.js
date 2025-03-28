@@ -5,6 +5,7 @@ import Card from '../shared/card'
 import { globalStyles } from '../styles/global';
 import { categoryIcons } from '../styles/categories';
 import { MaterialIcons } from '@expo/vector-icons';
+import ButtonAdd from '../shared/buttonAdd';
 
 
 export default function Transactions(){
@@ -39,6 +40,7 @@ export default function Transactions(){
                     </TouchableOpacity>
                 )}
             />
+            <ButtonAdd/>
         </View>
     )    
 }
