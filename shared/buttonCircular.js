@@ -1,12 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons'
-import React, {useState} from 'react'
-import { StyleSheet, View, Text, TouchableOpacity, FlatList} from 'react-native'
+import { StyleSheet, TouchableOpacity} from 'react-native'
 
-export default function ButtonAdd({onPress}){
+export default function ButtonCircular({onPress, icon}){
 
     return(
         <TouchableOpacity style={styles.button}>
-            <MaterialIcons name='add' size= {45} color='black' onPress={onPress}/>
+            <MaterialIcons name={icon} size= {45} color='black' onPress={onPress}/>
         </TouchableOpacity>
     )
 }
