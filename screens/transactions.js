@@ -1,14 +1,17 @@
 import React, {useState} from 'react'
-import { StyleSheet, View, Text, TouchableOpacity, FlatList} from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, FlatList, Modal, TouchableWithoutFeedback, Keyboard} from 'react-native'
 import { useNavigation } from "@react-navigation/native";
 import Card from '../shared/card'
 import { globalStyles } from '../styles/global';
 import { categoryIcons } from '../styles/categories';
 import { MaterialIcons } from '@expo/vector-icons';
-import ButtonAdd from '../shared/buttonAdd';
+import TransactionForm from '../modals/transactionForm';
+import ButtonCircular from '../shared/buttonCircular';
 
 
 export default function Transactions(){
+
+    const [modalOpen, setModalOpen] = useState(false);
 
     const navigation = useNavigation();
     //const [date, setDate] = useState({day: '25', month: '03', year:'2025'});
@@ -20,7 +23,20 @@ export default function Transactions(){
     
     
     return(
-        <View>
+        <View style={globalStyles.container}>
+
+            <Modal visible={modalOpen} animationType="slide">
+               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={globalStyles.modalOverlay}>  
+
+                            <View style={globalStyles.modalContent}>                        
+                                <TransactionForm/>
+                                <ButtonCircular onPress={() => setModalOpen(false)} icon='close'/>
+                            </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
+
             <FlatList 
                 data={transactions}
                 renderItem={( {item} ) => (
@@ -40,12 +56,15 @@ export default function Transactions(){
                     </TouchableOpacity>
                 )}
             />
-            <ButtonAdd/>
+            <ButtonCircular onPress={() => setModalOpen(true)} icon='add'/>
         </View>
     )    
 }
 
 const styles = StyleSheet.create({
+    container:{
+        flex: 1,
+    },
     date:{
         fontSize: 20,
         fontWeight: 'bold',
