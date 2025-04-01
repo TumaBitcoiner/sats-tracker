@@ -1,15 +1,20 @@
 import React, {useState} from "react";
-import {StyleSheet, View, TextInput, Text, Button, TouchableOpacity} from 'react-native';
+import {FlatList, View, TextInput, Text, TouchableOpacity, Modal} from 'react-native';
 import { globalStyles } from "../styles/global";
+import { categoryIcons, categories } from '../styles/categories';
 import {Formik} from 'formik'
 import { MaterialIcons } from "@expo/vector-icons";
 import ButtonFlat from "../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
+import Card from "../shared/card";
 
 export default function TransactionForm(){
 
     const [dateOpen, setDateOpen] = useState(false);
     const [date, setDate] = useState(new Date());
+    const [categoryOpen, setCategoryOpen] = useState(false);
+    const [category, setCategory] = useState('question-mark');
+
     return(
         <View >
 
@@ -22,12 +27,11 @@ export default function TransactionForm(){
                     note: '',
                     place: '',
                     date: new Date(),
+                    category: 'No category selected..'
                 }}
             >
 
-                {(formikProps) => (
-
-                    
+                {(formikProps) => (                    
                     <View>
 
 
@@ -89,6 +93,7 @@ export default function TransactionForm(){
                                 setDateOpen(false)
                             }}
                         />
+
                         <TouchableOpacity onPress={() => setDateOpen(true)}>
                             <View style={globalStyles.inputContainer}>    
                                 
@@ -101,6 +106,41 @@ export default function TransactionForm(){
                             </View>
                         </TouchableOpacity>
                         
+                        <Modal visible={categoryOpen} animationType="slide">
+                            
+                            <FlatList 
+                                data={categories.expenses}
+                                renderItem={( {item} ) => (
+                                    <TouchableOpacity 
+                                        onPress={() => {
+                                            setCategoryOpen(false);
+                                            formikProps.setFieldValue('category', item.at(1)); 
+                                            setCategory(item.at(0));
+                                        }}>
+                                        <Card>
+                                            <View style={globalStyles.transactionCard}>
+                                                <MaterialIcons name={item.at(0)} style={globalStyles.icons} />
+                                                <Text style={globalStyles.transactionCategoryText}>{item.at(1)}</Text>
+                                            </View>
+                                        </Card>
+                                    </TouchableOpacity>
+                                )}
+                            />
+
+                        </Modal>
+
+                        <TouchableOpacity onPress={() => setCategoryOpen(true)}>
+                            <View style={globalStyles.inputContainer}>   
+                                
+                                <MaterialIcons name={category} style={globalStyles.icons} />
+                                
+                                <Text style={globalStyles.infoText} >{formikProps.values.category}</Text>
+                                    
+                                <MaterialIcons name='arrow-forward-ios' style={{...globalStyles.icons, ...{position: 'absolute', right: 0}}} />
+  
+                            </View>
+                        </TouchableOpacity>               
+
                         <View style={globalStyles.inputContainer}>                      
 
                             <TextInput
