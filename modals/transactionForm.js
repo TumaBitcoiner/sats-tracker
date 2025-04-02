@@ -1,12 +1,15 @@
 import React, {useState} from "react";
-import {FlatList, View, TextInput, Text, TouchableOpacity, Modal} from 'react-native';
+import {View, TextInput, Text, TouchableOpacity, 
+    Modal, TouchableWithoutFeedback, Keyboard
+} from 'react-native';
 import { globalStyles } from "../styles/global";
-import { categoryIcons, categories } from '../styles/categories';
+import { categories } from '../styles/categories';
 import {Formik} from 'formik'
 import { MaterialIcons } from "@expo/vector-icons";
 import ButtonFlat from "../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
-import Card from "../shared/card";
+import CategoryChoice from "./categoryChoice";
+import TopTabNavigatorCategories from "../routes/topTabNavigatorCategory";
 
 export default function TransactionForm(){
 
@@ -34,7 +37,7 @@ export default function TransactionForm(){
                 {(formikProps) => (                    
                     <View>
 
-
+                        {/* Amount */}
                         <View style={globalStyles.inputContainer}>
                             <MaterialIcons name='money' style={globalStyles.icons} />
                             
@@ -50,6 +53,7 @@ export default function TransactionForm(){
                             
                         </View>
 
+                        {/* Transaction Fee */}
                         <View style={globalStyles.inputContainer}>
                             <MaterialIcons name='money' style={globalStyles.icons} />
                             
@@ -64,6 +68,7 @@ export default function TransactionForm(){
                             
                         </View>                        
 
+                        {/* Place */}
                         <View style={globalStyles.inputContainer}>
                             <MaterialIcons name='place' style={globalStyles.icons} />
                             
@@ -94,6 +99,7 @@ export default function TransactionForm(){
                             }}
                         />
 
+                        {/* Date */}
                         <TouchableOpacity onPress={() => setDateOpen(true)}>
                             <View style={globalStyles.inputContainer}>    
                                 
@@ -106,27 +112,26 @@ export default function TransactionForm(){
                             </View>
                         </TouchableOpacity>
                         
+                        {/* Category */}
                         <Modal visible={categoryOpen} animationType="slide">
                             
-                            <FlatList 
-                                data={categories.expenses}
-                                renderItem={( {item} ) => (
-                                    <TouchableOpacity 
-                                        onPress={() => {
-                                            setCategoryOpen(false);
-                                            formikProps.setFieldValue('category', item.at(1)); 
-                                            setCategory(item.at(0));
-                                        }}>
-                                        <Card>
-                                            <View style={globalStyles.transactionCard}>
-                                                <MaterialIcons name={item.at(0)} style={globalStyles.icons} />
-                                                <Text style={globalStyles.transactionCategoryText}>{item.at(1)}</Text>
-                                            </View>
-                                        </Card>
-                                    </TouchableOpacity>
-                                )}
-                            />
-
+                            <TouchableWithoutFeedback onPress={() => setCategoryOpen(false)}>
+                                <View style={globalStyles.modalOverlay}>  
+            
+                                        <View style={globalStyles.modalContent}>                        
+                                            
+                                            <TopTabNavigatorCategories onPress={(item) => {
+                                                    setCategoryOpen(false);
+                                                    formikProps.setFieldValue('category', item[1]); 
+                                                    setCategory(item[0]);
+                                                    
+                                                }}
+                                            />
+                                            
+                                        </View>
+                                </View>
+                            </TouchableWithoutFeedback>
+                                                        
                         </Modal>
 
                         <TouchableOpacity onPress={() => setCategoryOpen(true)}>

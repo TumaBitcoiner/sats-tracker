@@ -8,6 +8,7 @@ export const categoryIcons = {
 
 export const categories = {
     expenses: [
+        ['bolt', 'Zap'],
         ['local-grocery-store', 'Groceries'],
         ['directions-car', 'Transportation'],
         ['restaurant', 'Dining Out'],
@@ -18,5 +19,8 @@ export const categories = {
         ['home', 'Housing'],
         ['directions-bus', 'Public Transport'], 
         ['local-parking', 'Parking'],
+    ],
+    income:[
+        ['attach-money', 'Salary'],
     ]
 }

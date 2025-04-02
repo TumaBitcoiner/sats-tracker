@@ -22,7 +22,7 @@ export default function TransactionDetails({route}){
             </View>
             <View style={globalStyles.info}>
                 <MaterialIcons name='calendar-month' style={globalStyles.icons} />
-                <Text style={globalStyles.infoText}>{`${route.params.date.day}/${route.params.date.month}/${route.params.date.year}`}</Text>
+                <Text style={globalStyles.infoText}>{`${route.params.date}`}</Text>
             </View>
             <View style={globalStyles.info}>
                 <MaterialIcons name='place' style={globalStyles.icons} />

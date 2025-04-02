@@ -7,6 +7,7 @@ import { categoryIcons } from '../styles/categories';
 import { MaterialIcons } from '@expo/vector-icons';
 import TransactionForm from '../modals/transactionForm';
 import ButtonCircular from '../shared/buttonCircular';
+import DatePicker from 'react-native-date-picker';
 
 
 export default function Transactions(){
@@ -14,11 +15,11 @@ export default function Transactions(){
     const [modalOpen, setModalOpen] = useState(false);
 
     const navigation = useNavigation();
-    //const [date, setDate] = useState({day: '25', month: '03', year:'2025'});
+    const [date, setDate] = useState(new Date());
     
     const [transactions, setTransactions] = useState([
-        {date: { day: '24', month: '03', year: '2025' }, amount:'120', category:'Groceries', transactionType: 'LN', transactionFee: '1', note:'Spesa mensile cibo', place:'Esselunga', key:'1'},
-        {date: { day: '24', month: '03', year: '2025' }, amount:'16000', category:'Transportation', transactionType: 'OC', transactionFee: '152', note:'Macchina nuova', place:'Car Shop', key:'2'},
+        {date: date.toLocaleDateString(), amount:'120', category:'Groceries', transactionType: 'LN', transactionFee: '1', note:'Spesa mensile cibo', place:'Esselunga', key:'1'},
+        {date: date.toLocaleDateString(), amount:'16000', category:'Transportation', transactionType: 'OC', transactionFee: '152', note:'Macchina nuova', place:'Car Shop', key:'2'},
     ]);
     
     
