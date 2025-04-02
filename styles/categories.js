@@ -1,11 +1,3 @@
-export const categoryIcons = {
-    categories: {
-        'Groceries': 'local-grocery-store',
-        'Transportation': 'directions-car',
-
-    }
-}
-
 export const categories = {
     expenses: [
         ['bolt', 'Zap'],

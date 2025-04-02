@@ -12,6 +12,7 @@ export const globalStyles = StyleSheet.create({
     transactionAmount: {
         fontSize: 20,
         paddingRight: 10,
+        justifyContent: 'flex-end',
 
     },
     transactionCategoryText: {

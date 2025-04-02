@@ -3,7 +3,6 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import Card from "../shared/card";
 import { globalStyles } from "../styles/global";
 import { MaterialIcons } from "@expo/vector-icons";
-import { categoryIcons } from '../styles/categories';
 
 export default function TransactionDetails({route}){
 
@@ -12,12 +11,12 @@ export default function TransactionDetails({route}){
             <View style={globalStyles.transactionCard}>
                     
                 <View style={styles.category}>
-                    <MaterialIcons name={categoryIcons.categories[route.params.category]} style={globalStyles.icons} />
-                    <Text style={{...globalStyles.transactionCategoryText, ...styles.category}}>{route.params.category}</Text>
+                    <MaterialIcons name={route.params.category[0]} style={globalStyles.icons} />
+                    <Text style={{...globalStyles.transactionCategoryText, ...styles.category}}>{route.params.category[1]}</Text>
                 </View>
                 <View>
-                    <Text style={globalStyles.transactionAmount}>{route.params.amount}</Text>
-                    <Text style={{...globalStyles.transactionAmount, ...styles.feeText}}>{route.params.transactionFee}</Text>
+                    <Text style={globalStyles.transactionAmount}>{route.params.amount} sats</Text>
+                    <Text style={{...globalStyles.transactionAmount, ...styles.feeText}}>{route.params.transactionFee} sats</Text>
                 </View>
             </View>
             <View style={globalStyles.info}>

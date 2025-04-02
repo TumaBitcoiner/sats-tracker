@@ -3,7 +3,6 @@ import {View, TextInput, Text, TouchableOpacity,
     Modal, TouchableWithoutFeedback, Keyboard
 } from 'react-native';
 import { globalStyles } from "../styles/global";
-import { categories } from '../styles/categories';
 import {Formik} from 'formik'
 import { MaterialIcons } from "@expo/vector-icons";
 import ButtonFlat from "../shared/butttonFlat";
