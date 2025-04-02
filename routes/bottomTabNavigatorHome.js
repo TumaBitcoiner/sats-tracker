@@ -1,11 +1,9 @@
 import { createStaticNavigation, TabRouter } from '@react-navigation/native';
-//import { Button } from '@react-navigation/elements';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/home';
-//import Budget from '../screens/budget';
-//import Transactions from '../screens/transactions';
-import TransactionStack from './transactionStack';
 import {MaterialIcons} from '@expo/vector-icons'
+import Home from '../screens/home';
+import TransactionStack from './transactionStack';
+import Wallets from '../screens/wallets';
 import BudgetStack from './budgetStack';
 
 
@@ -32,11 +30,22 @@ import BudgetStack from './budgetStack';
             }
         }, 
         
+        Wallets: {
+            screen: Wallets,
+            options:{
+                tabBarIcon:({ color, size }) =>
+                    <MaterialIcons name='account-balance-wallet' color={color} size={size} />,
+                
+                //headerShown: false, 
+                title:'Wallets',
+            }
+        }, 
+
         BudgetStack: {
             screen: BudgetStack,
             options:{
                 tabBarIcon:({ color, size }) =>
-                    <MaterialIcons name='account-balance-wallet' color={color} size={size}/>,
+                    <MaterialIcons name='savings' color={color} size={size}/>,
                 
                 headerShown: false, 
                 title:'Budget', 
