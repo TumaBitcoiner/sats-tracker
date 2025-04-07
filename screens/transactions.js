@@ -7,7 +7,6 @@ import { categories } from '../styles/categories';
 import { MaterialIcons } from '@expo/vector-icons';
 import TransactionForm from '../modals/transactionForm';
 import ButtonCircular from '../shared/buttonCircular';
-import DatePicker from 'react-native-date-picker';
 import { initializeDB, insertTransaction, getTransactions } from '../database/database'; // Import the createTable function
 
 
@@ -22,7 +21,7 @@ export default function Transactions(){
     const [modalOpen, setModalOpen] = useState(false);
     
     const navigation = useNavigation();
-    const [date, setDate] = useState(new Date());
+    //const [date, setDate] = useState(new Date());
     
     const [transactions, setTransactions] = useState([]);
     
@@ -32,13 +31,7 @@ export default function Transactions(){
                 await initializeDB();
                 console.log('Database initialized successfully');
                 const fetchedTransactions = await getTransactions();
-                // for(const row of fetchedTransactions) {
-                //     console.log(row.id, row.amount);
-
-                //     setTransactions((currentTransactions) => {                        
-                //         return [row, ...currentTransactions];
-                //     });
-                // }
+                
                 setTransactions(fetchedTransactions);
             } catch (error) {
                 console.error('Error:', error);
@@ -52,6 +45,8 @@ export default function Transactions(){
         console.log(transaction);
         setModalOpen(false);      
        
+        console.log(transaction.date.getDay(), transaction.date.getMonth(), transaction.date.getFullYear());
+
         try{
             const id = await insertTransaction(transaction); 
             console.log('Transaction added with ID:', id);
@@ -60,7 +55,7 @@ export default function Transactions(){
                 { ...transaction, id },
                 ...currentTransactions
             ]);
-            
+
         } catch (error) {
             console.error('Error adding transaction:', error);
         }
@@ -87,14 +82,14 @@ export default function Transactions(){
 
             <FlatList 
                 data={transactions}
-                keyExtractor={(item) => item.id.toString()} // Use the database ID as the key
+                //keyExtractor={(item) => item.id.toString()} // Use the database ID as the key
                 renderItem={( {item} ) => (
                     <TouchableOpacity onPress={()=> navigation.navigate('TransactionDetails', item)}>
                         <Card>
                             <View style={globalStyles.transactionCard}>
                                 <View style={globalStyles.transactionCard}>
-                                    <MaterialIcons name={categories.expenses[0][0]} style={globalStyles.icons} />
-                                    <Text style={globalStyles.transactionCategoryText}>{categories.expenses[0][1]}</Text>
+                                    <MaterialIcons name={categories.expenses[item.category][0]} style={globalStyles.icons} />
+                                    <Text style={globalStyles.transactionCategoryText}>{categories.expenses[item.category][1]}</Text>
                                 </View>
                                 <View style={globalStyles.transactionCard}>
                                     <Text style={globalStyles.transactionAmount}>{item.amount}</Text>

@@ -7,15 +7,17 @@ import {Formik} from 'formik'
 import { MaterialIcons } from "@expo/vector-icons";
 import ButtonFlat from "../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
-import CategoryChoice from "./categoryChoice";
+import {categories} from "../styles/categories";
 import TopTabNavigatorCategories from "../routes/topTabNavigatorCategory";
 
 export default function TransactionForm({addNewTransaction}){
 
     const [dateOpen, setDateOpen] = useState(false);
-    const [stringDate, setStringDate] = useState('');
+    const [date, setDate] = useState(new Date());
     const [categoryOpen, setCategoryOpen] = useState(false);
-    const [category, setCategory] = useState('question-mark');
+    const [category, setCategory] = useState(0);
+
+    console.log(date);
 
     return(
         <View >
@@ -28,8 +30,8 @@ export default function TransactionForm({addNewTransaction}){
                     transactionFee: 0,
                     note: '',
                     place: '',
-                    date: '',
-                    category: 'No category selected..'
+                    date: new Date(),
+                    category: 0
                 }}
                 onSubmit={(values)=>{
                     addNewTransaction(values);
@@ -86,29 +88,31 @@ export default function TransactionForm({addNewTransaction}){
                             
                         </View>
 
+                        {/* Date */}
                         <DatePicker
                             modal
                             open={dateOpen}
-                            date={new Date()}
+                            date={date}
                             mode='date'
-                            onConfirm={(selectedDate) => {
-                                setDateOpen(false)
-                                setStringDate(selectedDate.toLocaleDateString()); // Convert to string
-                                formikProps.setFieldValue('date', stringDate); // Update Formik's date field
+                            onConfirm={(date) => {
+                                setDateOpen(false);
+                                setDate(date);
+                                console.log(date);
+                                //setStringDate(selectedDate.toLocaleDateString()); // Convert to string
+                                formikProps.setFieldValue('date', date); // Update Formik's date field
 
                             }}
                             onCancel={() => {
-                                setDateOpen(false)
+                                setDateOpen(false);
                             }}
                         />
 
-                        {/* Date */}
                         <TouchableOpacity onPress={() => setDateOpen(true)}>
                             <View style={globalStyles.inputContainer}>    
                                 
                                 <MaterialIcons name='calendar-month' style={globalStyles.icons} />
                                                             
-                                <Text style={globalStyles.infoText} >{formikProps.values.date}</Text>
+                                <Text style={globalStyles.infoText} >{formikProps.values.date.toDateString()}</Text>
                                 
                                 <MaterialIcons name='arrow-forward-ios' style={{...globalStyles.icons, ...{position: 'absolute', right: 0}}} />
 
@@ -123,10 +127,10 @@ export default function TransactionForm({addNewTransaction}){
             
                                         <View style={globalStyles.modalContent}>                        
                                             
-                                            <TopTabNavigatorCategories onPress={(item) => {
+                                            <TopTabNavigatorCategories onPress={(item, index) => {
                                                     setCategoryOpen(false);
-                                                    formikProps.setFieldValue('category', item[1]); 
-                                                    setCategory(item[0]);
+                                                    formikProps.setFieldValue('category', index); 
+                                                    setCategory(index);
                                                     
                                                 }}
                                             />
@@ -140,9 +144,9 @@ export default function TransactionForm({addNewTransaction}){
                         <TouchableOpacity onPress={() => setCategoryOpen(true)}>
                             <View style={globalStyles.inputContainer}>   
                                 
-                                <MaterialIcons name={category} style={globalStyles.icons} />
+                                <MaterialIcons name={categories.expenses[formikProps.values.category][0]} style={globalStyles.icons} />
                                 
-                                <Text style={globalStyles.infoText} >{formikProps.values.category}</Text>
+                                <Text style={globalStyles.infoText} >{categories.expenses[formikProps.values.category][1]}</Text>
                                     
                                 <MaterialIcons name='arrow-forward-ios' style={{...globalStyles.icons, ...{position: 'absolute', right: 0}}} />
   

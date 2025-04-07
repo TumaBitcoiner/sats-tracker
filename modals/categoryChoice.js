@@ -11,9 +11,9 @@ function CategoryChoice({categoryType, onPress}) {
     return(
         <FlatList 
             data={categoryType}
-            renderItem={( {item} ) => (
+            renderItem={( {item, index} ) => (
                 <TouchableOpacity 
-                    onPress={() => onPress(item)}>
+                    onPress={() => onPress(item, index)}>
                     <Card>
                         <View style={globalStyles.transactionCard}>
                             <MaterialIcons name={item[0]} style={globalStyles.icons} />
@@ -22,6 +22,7 @@ function CategoryChoice({categoryType, onPress}) {
                     </Card>
                 </TouchableOpacity>
             )}
+            keyExtractor={(_, index) => index.toString()}
         />
     )
 }

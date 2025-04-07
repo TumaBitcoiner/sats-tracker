@@ -1,5 +1,6 @@
 export const categories = {
     expenses: [
+        ['question-mark', 'No category selected..'],
         ['bolt', 'Zap'],
         ['local-grocery-store', 'Groceries'],
         ['directions-car', 'Transportation'],

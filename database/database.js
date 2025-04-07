@@ -1,7 +1,8 @@
 import * as SQLite from 'expo-sqlite';
+import DatePicker from 'react-native-date-picker';
 
 // Open the database
-const db = SQLite.openDatabaseAsync('transactions.db');
+const db = SQLite.openDatabaseAsync('sats-tracker-7.db');
 
 export const initializeDB = async () => {
 
@@ -13,15 +14,15 @@ export const initializeDB = async () => {
             PRAGMA journal_mode = WAL;
             CREATE TABLE IF NOT EXISTS transactions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                date TEXT,
+                date DATE,
                 amount REAL,
                 transactionFee REAL,
-                category TEXT,
+                category INTEGER,
                 transactionType TEXT,
                 note TEXT,
                 place TEXT
             );`);
-
+            
         console.log('Table created successfully!');
 
     } catch (error) {
@@ -35,12 +36,14 @@ export const insertTransaction = async (transaction) => {
     const database = await db;
     console.log('Adding transaction...');
 
+    const sqliteDate = transaction.date.toISOString().split('T')[0];
+
     try {
 
         const result = await database.runAsync(
             `INSERT INTO transactions (date, amount, transactionFee, category, transactionType, note, place) VALUES (?, ?, ?, ?, ?, ?, ?);`,
             [
-                transaction.date,
+                sqliteDate,
                 transaction.amount,
                 transaction.transactionFee,
                 transaction.category,
@@ -69,10 +72,12 @@ export const getTransactions = async () => {
 
     try {
         const result = await database.getAllAsync('SELECT * FROM transactions ORDER BY id DESC;');
-        return result;
-        // for (const row of result) {
-        //     console.log(row.id, row.amount);
-        // }
+        
+        return result.map(row => ({
+            ...row,
+            date: new Date(row.date + 'T00:00:00') // Convert SQLite date string to Date object
+        }));
+
     } catch (error) {
         console.error('Error fetching transactions:', error);
         throw error;
