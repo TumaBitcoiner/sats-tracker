@@ -71,7 +71,7 @@ export const getTransactions = async () => {
     console.log('Fetching transactions...');
 
     try {
-        const result = await database.getAllAsync('SELECT * FROM transactions ORDER BY id DESC;');
+        const result = await database.getAllAsync('SELECT * FROM transactions ORDER BY date DESC, id DESC;');
         
         return result.map(row => ({
             ...row,
