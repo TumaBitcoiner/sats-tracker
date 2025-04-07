@@ -2,7 +2,7 @@ import * as SQLite from 'expo-sqlite';
 import DatePicker from 'react-native-date-picker';
 
 // Open the database
-const db = SQLite.openDatabaseAsync('sats-tracker-7.db');
+const db = SQLite.openDatabaseAsync('sats-tracker-8.db');
 
 export const initializeDB = async () => {
 
@@ -20,7 +20,8 @@ export const initializeDB = async () => {
                 category INTEGER,
                 transactionType TEXT,
                 note TEXT,
-                place TEXT
+                place TEXT,
+                isExpenses BOOLEAN
             );`);
             
         console.log('Table created successfully!');
@@ -41,7 +42,7 @@ export const insertTransaction = async (transaction) => {
     try {
 
         const result = await database.runAsync(
-            `INSERT INTO transactions (date, amount, transactionFee, category, transactionType, note, place) VALUES (?, ?, ?, ?, ?, ?, ?);`,
+            `INSERT INTO transactions (date, amount, transactionFee, category, transactionType, note, place, isExpenses) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
             [
                 sqliteDate,
                 transaction.amount,
@@ -50,6 +51,7 @@ export const insertTransaction = async (transaction) => {
                 transaction.transactionType,
                 transaction.note,
                 transaction.place,
+                transaction.isExpenses,
             ]
         );
 

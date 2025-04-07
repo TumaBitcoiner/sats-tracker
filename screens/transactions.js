@@ -100,11 +100,23 @@ export default function Transactions(){
                         <Card>
                             <View style={globalStyles.transactionCard}>
                                 <View style={globalStyles.transactionCard}>
-                                    <MaterialIcons name={categories.expenses[item.category][0]} style={globalStyles.icons} />
-                                    <Text style={globalStyles.transactionCategoryText}>{categories.expenses[item.category][1]}</Text>
+                                    <MaterialIcons 
+                                        name={item.isExpenses
+                                            ? categories.expenses[item.category][0]
+                                            : categories.income[item.category][0]} 
+                                        style={globalStyles.icons} />
+                                    <Text style={globalStyles.transactionCategoryText}>
+                                        {item.isExpenses
+                                            ? categories.expenses[item.category][1]
+                                            : categories.income[item.category][1]}
+                                    </Text>
                                 </View>
                                 <View style={globalStyles.transactionCard}>
-                                    <Text style={globalStyles.transactionAmount}>{item.amount}</Text>
+                                    <Text style={item.isExpenses 
+                                        ? globalStyles.transactionAmountExpense 
+                                        : globalStyles.transactionAmountIncome}>
+                                        {item.amount}
+                                    </Text>
                                     <Text style={globalStyles.transactionAmount}>{item.transactionType}</Text>
                                 </View>
                             </View>

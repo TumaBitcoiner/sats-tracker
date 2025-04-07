@@ -6,14 +6,14 @@ import { globalStyles } from "../styles/global";
 import { categories } from "../styles/categories";
 
 
-function CategoryChoice({categoryType, onPress}) {
+function CategoryChoice({categoryType, onPress, isExpenses}) {
 
     return(
         <FlatList 
             data={categoryType}
             renderItem={( {item, index} ) => (
                 <TouchableOpacity 
-                    onPress={() => onPress(item, index)}>
+                    onPress={() => onPress(item, index, isExpenses)}>
                     <Card>
                         <View style={globalStyles.transactionCard}>
                             <MaterialIcons name={item[0]} style={globalStyles.icons} />
@@ -32,6 +32,7 @@ export function CategoryExpenses({onPress}) {
     return(
         <CategoryChoice 
             categoryType={categories.expenses} 
+            isExpenses={true}
             onPress={onPress}
         />
     )
@@ -42,6 +43,7 @@ export function CategoryIncome({onPress}) {
     return(
         <CategoryChoice 
             categoryType={categories.income} 
+            isExpenses={false}
             onPress={onPress}
         />
     )

@@ -9,10 +9,18 @@ export const globalStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },    
-    transactionAmount: {
+    transactionAmountIncome: {
         fontSize: 20,
         paddingRight: 10,
         justifyContent: 'flex-end',
+        color: 'green',
+
+    },
+    transactionAmountExpense: {
+        fontSize: 20,
+        paddingRight: 10,
+        justifyContent: 'flex-end',
+        color: 'red',
 
     },
     transactionCategoryText: {

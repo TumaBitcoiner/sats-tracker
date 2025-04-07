@@ -16,6 +16,7 @@ export default function TransactionForm({addNewTransaction}){
     const [date, setDate] = useState(new Date());
     const [categoryOpen, setCategoryOpen] = useState(false);
     const [category, setCategory] = useState(0);
+    const [isExpenses, setIsExpenses] = useState(true);
 
     console.log(date);
 
@@ -31,7 +32,8 @@ export default function TransactionForm({addNewTransaction}){
                     note: '',
                     place: '',
                     date: new Date(),
-                    category: 0
+                    category: 0,
+                    isExpenses: true,
                 }}
                 onSubmit={(values)=>{
                     addNewTransaction(values);
@@ -127,11 +129,12 @@ export default function TransactionForm({addNewTransaction}){
             
                                         <View style={globalStyles.modalContent}>                        
                                             
-                                            <TopTabNavigatorCategories onPress={(item, index) => {
+                                            <TopTabNavigatorCategories onPress={(item, index, isExpenses) => {
                                                     setCategoryOpen(false);
                                                     formikProps.setFieldValue('category', index); 
                                                     setCategory(index);
-                                                    
+                                                    setIsExpenses(isExpenses);
+                                                    formikProps.setFieldValue('isExpenses', isExpenses);
                                                 }}
                                             />
                                             
@@ -144,9 +147,17 @@ export default function TransactionForm({addNewTransaction}){
                         <TouchableOpacity onPress={() => setCategoryOpen(true)}>
                             <View style={globalStyles.inputContainer}>   
                                 
-                                <MaterialIcons name={categories.expenses[formikProps.values.category][0]} style={globalStyles.icons} />
+                                <MaterialIcons 
+                                    name={formikProps.values.isExpenses
+                                            ? categories.expenses[formikProps.values.category][0]
+                                            : categories.income[formikProps.values.category][0]} 
+                                    style={globalStyles.icons} />
                                 
-                                <Text style={globalStyles.infoText} >{categories.expenses[formikProps.values.category][1]}</Text>
+                                <Text style={globalStyles.infoText} >
+                                    {formikProps.values.isExpenses
+                                        ? categories.expenses[formikProps.values.category][1]
+                                        : categories.income[formikProps.values.category][1]}
+                                </Text>
                                     
                                 <MaterialIcons name='arrow-forward-ios' style={{...globalStyles.icons, ...{position: 'absolute', right: 0}}} />
   
