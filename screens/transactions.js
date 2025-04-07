@@ -32,13 +32,14 @@ export default function Transactions(){
                 await initializeDB();
                 console.log('Database initialized successfully');
                 const fetchedTransactions = await getTransactions();
-                for(const row of fetchedTransactions) {
-                    console.log(row.id, row.amount);
+                // for(const row of fetchedTransactions) {
+                //     console.log(row.id, row.amount);
 
-                    setTransactions((currentTransactions) => {                        
-                        return [row, ...currentTransactions];
-                    });
-                }
+                //     setTransactions((currentTransactions) => {                        
+                //         return [row, ...currentTransactions];
+                //     });
+                // }
+                setTransactions(fetchedTransactions);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -52,9 +53,14 @@ export default function Transactions(){
         setModalOpen(false);      
        
         try{
-
             const id = await insertTransaction(transaction); 
             console.log('Transaction added with ID:', id);
+
+            setTransactions(currentTransactions => [
+                { ...transaction, id },
+                ...currentTransactions
+            ]);
+            
         } catch (error) {
             console.error('Error adding transaction:', error);
         }
