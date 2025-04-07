@@ -10,10 +10,10 @@ import DatePicker from 'react-native-date-picker';
 import CategoryChoice from "./categoryChoice";
 import TopTabNavigatorCategories from "../routes/topTabNavigatorCategory";
 
-export default function TransactionForm(){
+export default function TransactionForm({addNewTransaction}){
 
     const [dateOpen, setDateOpen] = useState(false);
-    const [date, setDate] = useState(new Date());
+    const [stringDate, setStringDate] = useState('');
     const [categoryOpen, setCategoryOpen] = useState(false);
     const [category, setCategory] = useState('question-mark');
 
@@ -24,12 +24,15 @@ export default function TransactionForm(){
             <Formik
             
                 initialValues={{ 
-                    amount: '',
-                    transactionFee: '',
+                    amount: 0,
+                    transactionFee: 0,
                     note: '',
                     place: '',
-                    date: new Date(),
+                    date: '',
                     category: 'No category selected..'
+                }}
+                onSubmit={(values)=>{
+                    addNewTransaction(values);
                 }}
             >
 
@@ -90,7 +93,8 @@ export default function TransactionForm(){
                             mode='date'
                             onConfirm={(selectedDate) => {
                                 setDateOpen(false)
-                                formikProps.setFieldValue('date', selectedDate); // Update Formik's date field
+                                setStringDate(selectedDate.toLocaleDateString()); // Convert to string
+                                formikProps.setFieldValue('date', stringDate); // Update Formik's date field
 
                             }}
                             onCancel={() => {
@@ -104,7 +108,7 @@ export default function TransactionForm(){
                                 
                                 <MaterialIcons name='calendar-month' style={globalStyles.icons} />
                                                             
-                                <Text style={globalStyles.infoText} >{formikProps.values.date.toLocaleDateString()}</Text>
+                                <Text style={globalStyles.infoText} >{formikProps.values.date}</Text>
                                 
                                 <MaterialIcons name='arrow-forward-ios' style={{...globalStyles.icons, ...{position: 'absolute', right: 0}}} />
 
@@ -159,7 +163,7 @@ export default function TransactionForm(){
                             />
                         </View>
 
-                        <ButtonFlat title='Add Expense'/>
+                        <ButtonFlat title='Add Expense' onPress={formikProps.handleSubmit}/>
                     </View>
                 )}
             </Formik>

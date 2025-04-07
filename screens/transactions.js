@@ -1,28 +1,69 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, Modal, TouchableWithoutFeedback, Keyboard} from 'react-native'
 import { useNavigation } from "@react-navigation/native";
 import Card from '../shared/card'
 import { globalStyles } from '../styles/global';
-import { categories, categoryIcons } from '../styles/categories';
+import { categories } from '../styles/categories';
 import { MaterialIcons } from '@expo/vector-icons';
 import TransactionForm from '../modals/transactionForm';
 import ButtonCircular from '../shared/buttonCircular';
 import DatePicker from 'react-native-date-picker';
+import { initializeDB, insertTransaction, getTransactions } from '../database/database'; // Import the createTable function
 
 
 export default function Transactions(){
 
-    const [modalOpen, setModalOpen] = useState(false);
 
+    // const dispatch = useDispatch();
+    // const transactions = useSelector((state) => state.transactions.transactions);
+    // console.log(transactions.length);
+    
+    
+    const [modalOpen, setModalOpen] = useState(false);
+    
     const navigation = useNavigation();
     const [date, setDate] = useState(new Date());
     
-    const [transactions, setTransactions] = useState([
-        {date: date.toLocaleDateString(), amount:'120', category: categories.expenses[1], transactionType: 'LN', transactionFee: '1', note:'Spesa mensile cibo', place:'Esselunga', key:'1'},
-        {date: date.toLocaleDateString(), amount:'16000', category: categories.expenses[2], transactionType: 'OC', transactionFee: '152', note:'Macchina nuova', place:'Car Shop', key:'2'},
-    ]);
+    const [transactions, setTransactions] = useState([]);
     
+    useEffect(() => {
+        const initializeAndFetch = async () => {
+            try {
+                await initializeDB();
+                console.log('Database initialized successfully');
+                const fetchedTransactions = await getTransactions();
+                for(const row of fetchedTransactions) {
+                    console.log(row.id, row.amount);
+
+                    setTransactions((currentTransactions) => {                        
+                        return [row, ...currentTransactions];
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        initializeAndFetch();
+    }, []);
     
+    const handleAddTransaction = async (transaction) => {
+        console.log(transaction);
+        setModalOpen(false);      
+       
+        try{
+
+            const id = await insertTransaction(transaction); 
+            console.log('Transaction added with ID:', id);
+        } catch (error) {
+            console.error('Error adding transaction:', error);
+        }
+
+        //dispatch(saveTransaction(transaction));
+        //const transactionKey = useSelector(state => state.transactions);
+        
+    };
+
     return(
         <View style={globalStyles.container}>
 
@@ -31,7 +72,7 @@ export default function Transactions(){
                     <View style={globalStyles.modalOverlay}>  
 
                             <View style={globalStyles.modalContent}>                        
-                                <TransactionForm/>
+                                <TransactionForm addNewTransaction={handleAddTransaction}/>
                                 <ButtonCircular onPress={() => setModalOpen(false)} icon='close'/>
                             </View>
                     </View>
@@ -40,13 +81,14 @@ export default function Transactions(){
 
             <FlatList 
                 data={transactions}
+                keyExtractor={(item) => item.id.toString()} // Use the database ID as the key
                 renderItem={( {item} ) => (
                     <TouchableOpacity onPress={()=> navigation.navigate('TransactionDetails', item)}>
                         <Card>
                             <View style={globalStyles.transactionCard}>
                                 <View style={globalStyles.transactionCard}>
-                                    <MaterialIcons name={item.category[0]} style={globalStyles.icons} />
-                                    <Text style={globalStyles.transactionCategoryText}>{item.category[1]}</Text>
+                                    <MaterialIcons name={categories.expenses[0][0]} style={globalStyles.icons} />
+                                    <Text style={globalStyles.transactionCategoryText}>{categories.expenses[0][1]}</Text>
                                 </View>
                                 <View style={globalStyles.transactionCard}>
                                     <Text style={globalStyles.transactionAmount}>{item.amount}</Text>
