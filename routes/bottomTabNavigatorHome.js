@@ -15,7 +15,8 @@ import BudgetStack from './budgetStack';
             options:{
                 tabBarIcon:({ color, size }) =>           
                     <MaterialIcons name='home' color={color} size={size}/>,
-                title:'Home' 
+                title:'Home',
+                headerTitleAlign: 'center', 
             }
         },
         

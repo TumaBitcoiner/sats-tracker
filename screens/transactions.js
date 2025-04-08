@@ -95,9 +95,10 @@ export default function Transactions(){
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>
-
+            
             <FlatList 
                 data={transactions}
+                contentContainerStyle={globalStyles.listContainer} // Add padding at bottom
                 //keyExtractor={(item) => item.id.toString()} // Use the database ID as the key
                 renderItem={( {item} ) => (
                     <TouchableOpacity onPress={()=> navigation.navigate('TransactionDetails', item)}>
@@ -142,5 +143,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 20,
-    }
+    },
 })

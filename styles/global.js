@@ -77,5 +77,8 @@ export const globalStyles = StyleSheet.create({
         borderRadius: 6,
         //marginTop: 10
     },
+    listContainer: {
+        paddingBottom: 80 // Add space for the button
+    },
 
 });
