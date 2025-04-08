@@ -14,6 +14,7 @@ export const globalStyles = StyleSheet.create({
         paddingRight: 10,
         justifyContent: 'flex-end',
         color: 'green',
+        fontWeight: 'bold',
 
     },
     transactionAmountExpense: {
@@ -21,6 +22,7 @@ export const globalStyles = StyleSheet.create({
         paddingRight: 10,
         justifyContent: 'flex-end',
         color: 'red',
+        fontWeight: 'bold',
 
     },
     transactionCategoryText: {

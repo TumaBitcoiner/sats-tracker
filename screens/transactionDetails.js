@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import Card from "../shared/card";
 import { globalStyles } from "../styles/global";
 import { MaterialIcons } from "@expo/vector-icons";
-import { categories } from "../styles/categories";
+import { categoryArray } from "../styles/categories";
 
 export default function TransactionDetails({route}){
 
@@ -12,12 +12,27 @@ export default function TransactionDetails({route}){
             <View style={globalStyles.transactionCard}>
                     
                 <View style={styles.category}>
-                    <MaterialIcons name={categories.expenses[route.params.category][0]} style={globalStyles.icons} />
-                    <Text style={{...globalStyles.transactionCategoryText, ...styles.category}}>{categories.expenses[route.params.category][1]}</Text>
+                    <MaterialIcons 
+                        name={route.params.isExpenses
+                                ? categoryArray.expenses[route.params.category][0]
+                                : categoryArray.income[route.params.category][0]} 
+                        style={globalStyles.icons}
+                    />
+                    <Text style={{...globalStyles.transactionCategoryText, ...styles.category}}>
+                        {route.params.isExpenses
+                            ? categoryArray.expenses[route.params.category][1]
+                            : categoryArray.income[route.params.category][1]}
+                        </Text>
                 </View>
                 <View>
-                    <Text style={globalStyles.transactionAmount}>{route.params.amount} sats</Text>
-                    <Text style={{...globalStyles.transactionAmount, ...styles.feeText}}>{route.params.transactionFee} sats</Text>
+                    <Text 
+                        style={route.params.isExpenses 
+                            ? globalStyles.transactionAmountExpense 
+                            : globalStyles.transactionAmountIncome}
+                    >
+                        {route.params.amount} sats
+                    </Text>
+                    <Text style={{...globalStyles.transactionAmountExpense, ...styles.feeText}}>{route.params.transactionFee} sats</Text>
                 </View>
             </View>
             <View style={globalStyles.info}>

@@ -7,7 +7,7 @@ import {Formik} from 'formik'
 import { MaterialIcons } from "@expo/vector-icons";
 import ButtonFlat from "../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
-import {categories} from "../styles/categories";
+import {categories, categoryArray} from "../styles/categories";
 import TopTabNavigatorCategories from "../routes/topTabNavigatorCategory";
 
 export default function TransactionForm({addNewTransaction}){
@@ -32,7 +32,7 @@ export default function TransactionForm({addNewTransaction}){
                     note: '',
                     place: '',
                     date: new Date(),
-                    category: 0,
+                    category: 'No category selected..',
                     isExpenses: true,
                 }}
                 onSubmit={(values)=>{
@@ -129,10 +129,11 @@ export default function TransactionForm({addNewTransaction}){
             
                                         <View style={globalStyles.modalContent}>                        
                                             
-                                            <TopTabNavigatorCategories onPress={(item, index, isExpenses) => {
+                                            <TopTabNavigatorCategories onPress={(item, isExpenses) => {
                                                     setCategoryOpen(false);
-                                                    formikProps.setFieldValue('category', index); 
-                                                    setCategory(index);
+                                                    console.log(item[1]);
+                                                    formikProps.setFieldValue('category', item[1]); 
+                                                    //setCategory(index);
                                                     setIsExpenses(isExpenses);
                                                     formikProps.setFieldValue('isExpenses', isExpenses);
                                                 }}
@@ -149,14 +150,14 @@ export default function TransactionForm({addNewTransaction}){
                                 
                                 <MaterialIcons 
                                     name={formikProps.values.isExpenses
-                                            ? categories.expenses[formikProps.values.category][0]
-                                            : categories.income[formikProps.values.category][0]} 
+                                            ? categoryArray.expenses[formikProps.values.category][0]
+                                            : categoryArray.income[formikProps.values.category][0]} 
                                     style={globalStyles.icons} />
                                 
                                 <Text style={globalStyles.infoText} >
                                     {formikProps.values.isExpenses
-                                        ? categories.expenses[formikProps.values.category][1]
-                                        : categories.income[formikProps.values.category][1]}
+                                        ? categoryArray.expenses[formikProps.values.category][1]
+                                        : categoryArray.income[formikProps.values.category][1]}
                                 </Text>
                                     
                                 <MaterialIcons name='arrow-forward-ios' style={{...globalStyles.icons, ...{position: 'absolute', right: 0}}} />

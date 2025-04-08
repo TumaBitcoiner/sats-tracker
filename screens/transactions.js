@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, FlatList, Modal, TouchableWit
 import { useNavigation } from "@react-navigation/native";
 import Card from '../shared/card'
 import { globalStyles } from '../styles/global';
-import { categories } from '../styles/categories';
+import { categoryArray } from '../styles/categories';
 import { MaterialIcons } from '@expo/vector-icons';
 import TransactionForm from '../modals/transactionForm';
 import ButtonCircular from '../shared/buttonCircular';
@@ -102,13 +102,13 @@ export default function Transactions(){
                                 <View style={globalStyles.transactionCard}>
                                     <MaterialIcons 
                                         name={item.isExpenses
-                                            ? categories.expenses[item.category][0]
-                                            : categories.income[item.category][0]} 
+                                            ? categoryArray.expenses[item.category][0]
+                                            : categoryArray.income[item.category][0]} 
                                         style={globalStyles.icons} />
                                     <Text style={globalStyles.transactionCategoryText}>
                                         {item.isExpenses
-                                            ? categories.expenses[item.category][1]
-                                            : categories.income[item.category][1]}
+                                            ? categoryArray.expenses[item.category][1]
+                                            : categoryArray.income[item.category][1]}
                                     </Text>
                                 </View>
                                 <View style={globalStyles.transactionCard}>

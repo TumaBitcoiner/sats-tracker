@@ -3,7 +3,7 @@ import {FlatList, View, Text, TouchableOpacity} from 'react-native';
 import { MaterialIcons } from "@expo/vector-icons";
 import Card from "../shared/card";
 import { globalStyles } from "../styles/global";
-import { categories } from "../styles/categories";
+import { categories, categoryArray } from "../styles/categories";
 
 
 function CategoryChoice({categoryType, onPress, isExpenses}) {
@@ -11,9 +11,9 @@ function CategoryChoice({categoryType, onPress, isExpenses}) {
     return(
         <FlatList 
             data={categoryType}
-            renderItem={( {item, index} ) => (
+            renderItem={( {item} ) => (
                 <TouchableOpacity 
-                    onPress={() => onPress(item, index, isExpenses)}>
+                    onPress={() => onPress(item, isExpenses)}>
                     <Card>
                         <View style={globalStyles.transactionCard}>
                             <MaterialIcons name={item[0]} style={globalStyles.icons} />
@@ -22,7 +22,7 @@ function CategoryChoice({categoryType, onPress, isExpenses}) {
                     </Card>
                 </TouchableOpacity>
             )}
-            keyExtractor={(_, index) => index.toString()}
+            //keyExtractor={(_, index) => index.toString()}
         />
     )
 }

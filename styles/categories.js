@@ -17,3 +17,26 @@ export const categories = {
         ['attach-money', 'Salary'],
     ]
 }
+
+export const categoryArray = {
+
+    expenses:{
+
+        'No category selected..': ['question-mark', 'No category selected..'],
+        'Zap': ['bolt', 'Zap'],
+        'Groceries': ['local-grocery-store', 'Groceries'],
+        'Transportation': ['directions-car', 'Transportation'],
+        'Dining Out': ['restaurant', 'Dining Out'],
+        'Take Out': ['delivery-dining', 'Take Out'],
+        'Entertainment': ['tv', 'Entertainment'],
+        'Health': ['local-hospital', 'Health'],
+        'Sports': ['sports-soccer', 'Sports'],
+        'Housing': ['home', 'Housing'],
+        'Public Transport': ['directions-bus', 'Public Transport'],
+        'Parking': ['local-parking', 'Parking'],
+    },
+    income:{
+        'Salary': ['attach-money', 'Salary'],
+        'Zap Received': ['bolt', 'Zap Received'],
+    }
+}
