@@ -86,6 +86,60 @@ export const getTransactions = async () => {
     }
 };
 
+// Get total income of trnasactions from the database
+export const getTotalIncome = async () => {
+    const database = await db;
+    console.log('Calculating total income...');
+
+    try {
+        const result = await database.getAllAsync(
+            `SELECT SUM(amount) as total 
+             FROM transactions 
+             WHERE isExpenses = false;`
+        );
+        
+        return result[0]?.total || 0;
+    } catch (error) {
+        console.error('Error calculating total income:', error);
+        throw error;
+    }
+};
+
+export const getTotalExpenses = async () => {
+    const database = await db;
+    console.log('Calculating total expenses...');
+
+    try {
+        const result = await database.getAllAsync(
+            `SELECT SUM(amount) as total 
+             FROM transactions 
+             WHERE isExpenses = true;`
+        );
+        
+        return result[0]?.total || 0;
+    } catch (error) {
+        console.error('Error calculating total expenses:', error);
+        throw error;
+    }
+};
+
+export const getTotalFees = async () => {
+    const database = await db;
+    console.log('Calculating total fees...');
+
+    try {
+        const result = await database.getAllAsync(
+            `SELECT SUM(transactionFee) as total 
+             FROM transactions`
+        );
+        
+        return result[0]?.total || 0;
+    } catch (error) {
+        console.error('Error calculating total fees:', error);
+        throw error;
+    }
+};
+
 // Delete a transaction by ID
 export const deleteTransaction = (id) => {
     return dbPromise.then(db => {

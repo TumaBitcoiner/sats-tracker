@@ -8,9 +8,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import TransactionForm from '../modals/transactionForm';
 import ButtonCircular from '../shared/buttonCircular';
 import { initializeDB, insertTransaction, getTransactions } from '../database/database'; // Import the createTable function
-
+import { useTransactions } from '../context/transactionContext';
 
 export default function Transactions(){
+
+    const { totalIncome, totalExpenses, totalFees, updateTotals } = useTransactions();
 
 
     // const dispatch = useDispatch();
@@ -31,7 +33,7 @@ export default function Transactions(){
                 await initializeDB();
                 console.log('Database initialized successfully');
                 const fetchedTransactions = await getTransactions();
-                
+              
                 setTransactions(fetchedTransactions);
             } catch (error) {
                 console.error('Error:', error);
@@ -67,6 +69,8 @@ export default function Transactions(){
                     return dateB - dateA;
                 });
             });
+              
+            await updateTotals();
 
         } catch (error) {
             console.error('Error adding transaction:', error);

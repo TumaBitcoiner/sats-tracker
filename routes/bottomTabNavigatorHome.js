@@ -23,23 +23,23 @@ import BudgetStack from './budgetStack';
             screen: TransactionStack,
             options:{
                 tabBarIcon:({ color, size }) =>
-                    <MaterialIcons name='money' color={color} size={size} />,
+                    <MaterialIcons name='account-balance-wallet' color={color} size={size} />,
                 
                 headerShown: false, 
                 title:'Transactions',
             }
         }, 
         
-        Wallets: {
-            screen: Wallets,
-            options:{
-                tabBarIcon:({ color, size }) =>
-                    <MaterialIcons name='account-balance-wallet' color={color} size={size} />,
+        // Wallets: {
+        //     screen: Wallets,
+        //     options:{
+        //         tabBarIcon:({ color, size }) =>
+        //             <MaterialIcons name='account-balance-wallet' color={color} size={size} />,
                 
-                //headerShown: false, 
-                title:'Wallets',
-            }
-        }, 
+        //         //headerShown: false, 
+        //         title:'Wallets',
+        //     }
+        // }, 
 
         BudgetStack: {
             screen: BudgetStack,
