@@ -14,7 +14,7 @@ export const categories = {
         ['local-parking', 'Parking'],
     ],
     income:[
-        ['savings', 'Initial Balance']
+        ['savings', 'Initial Balance'],
         ['attach-money', 'Salary'],
         ['bolt', 'Zap Received'],
     ]
