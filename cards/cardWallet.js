@@ -19,18 +19,13 @@ export function CardWallet({onPress, type, name, balance}){
                             <Text style={globalStyles.transactionCategoryText}>
                                 {name}
                             </Text>
-                            <Text style={globalStyles.transactionAmountIncome}>
+                            
+                        </View>
+                        <View style={globalStyles.transactionCard}>
+                        <Text style={globalStyles.transactionAmountIncome}>
                                 {balance}
                             </Text>
                         </View>
-                        {/* <View style={globalStyles.transactionCard}>
-                            <Text style={item.isExpenses 
-                                ? globalStyles.transactionAmountExpense 
-                                : globalStyles.transactionAmountIncome}>
-                                {item.amount}
-                            </Text>
-                            <Text style={globalStyles.transactionAmount}>{item.transactionType}</Text>
-                        </View> */}
                     </View>
                 </Card>
             </TouchableOpacity>
