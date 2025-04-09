@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, FlatList, Modal, TouchableWit
 import { useNavigation } from "@react-navigation/native";
 import Card from '../shared/card'
 import { globalStyles } from '../styles/global';
-import { categoryArray } from '../styles/categories';
+import { categoryArray, walletsArray } from '../styles/categories';
 import { MaterialIcons } from '@expo/vector-icons';
 import TransactionForm from '../modals/transactionForm';
 import ButtonCircular from '../shared/buttonCircular';
@@ -20,22 +20,39 @@ export default function Transactions(){
     //const [date, setDate] = useState(new Date());
     
     const [transactions, setTransactions] = useState([]);
+
+    // Function to fetch transactions
+    const fetchTransactions = async () => {
+        try {
+            const fetchedTransactions = await getTransactions();
+            setTransactions(fetchedTransactions);
+        } catch (error) {
+            console.error('Error fetching transactions:', error);
+        }
+    };
     
     useEffect(() => {
         const initializeAndFetch = async () => {
             try {
                 await initializeDB();
                 console.log('Database initialized successfully');
-                const fetchedTransactions = await getTransactions();
+                await fetchTransactions();
               
-                setTransactions(fetchedTransactions);
             } catch (error) {
                 console.error('Error:', error);
             }
         };
 
         initializeAndFetch();
-    }, []);
+        // Set up focus listener to refresh transactions when screen is focused
+        const unsubscribe = navigation.addListener('focus', () => {
+            fetchTransactions();
+            updateTotals();
+        });
+
+        // Cleanup subscription
+        return unsubscribe;
+    }, [navigation]);
     
     const handleAddTransaction = async (transaction) => {
         console.log(transaction);
@@ -116,7 +133,9 @@ export default function Transactions(){
                                         : globalStyles.transactionAmountIncome}>
                                         {item.amount}
                                     </Text>
-                                    <Text style={globalStyles.transactionAmount}>{item.transactionType}</Text>
+                                    <MaterialIcons 
+                                        name={walletsArray.type[item.transactionType][0]}
+                                        style={globalStyles.icons} />
                                 </View>
                             </View>
                         </Card>
