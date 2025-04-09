@@ -5,7 +5,7 @@ import { walletsArray } from '../styles/categories';
 import Card from '../shared/card';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export function CardWallet({onPress, type, name}){
+export function CardWallet({onPress, type, name, balance}){
 
     return(
         <View>
@@ -18,6 +18,9 @@ export function CardWallet({onPress, type, name}){
                                 style={globalStyles.icons} />
                             <Text style={globalStyles.transactionCategoryText}>
                                 {name}
+                            </Text>
+                            <Text style={globalStyles.transactionAmountIncome}>
+                                {balance}
                             </Text>
                         </View>
                         {/* <View style={globalStyles.transactionCard}>

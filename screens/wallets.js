@@ -6,6 +6,7 @@ import { globalStyles } from '../styles/global';
 import Card from '../shared/card';
 import { initializeDB, getLNWallets, getOCWallets, createWallet } from '../database/database'; // Import the createTable function
 import { CardWallet } from '../cards/cardWallet';
+import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -16,17 +17,41 @@ export default function Wallets(){
     const [walletsOC, setWalletsOC] = useState([]);
     const [walletsLN, setWalletsLN] = useState([]);
 
+    const navigation = useNavigation();
+
+    const fetchWalletsLN = async () => {
+
+        try{
+            const fetchedLNWallets = await getLNWallets();
+            setWalletsLN(fetchedLNWallets);
+
+        }catch(error){
+            console.error('Error fetching wallets:', error);
+        }
+
+    }
+
+    const fetchWalletsOC = async () => {
+
+        try{
+            const fetchedOCWallets = await getOCWallets();
+            setWalletsOC(fetchedOCWallets);
+
+        }catch(error){
+            console.error('Error fetching wallets:', error);
+        }
+
+    }
+
     useEffect(() => {
             const initializeAndFetch = async () => {
                 try {
                     await initializeDB();
                     console.log('Database initialized successfully');
-
-                    const fetchedLNWallets = await getLNWallets();
-                    setWalletsLN(fetchedLNWallets);
-
-                    const fetchedOCWallets = await getOCWallets();
-                    setWalletsOC(fetchedOCWallets);
+                    
+                    fetchWalletsLN();
+                    
+                    fetchWalletsOC();
                     
                 } catch (error) {
                     console.error('Error:', error);
@@ -34,7 +59,15 @@ export default function Wallets(){
             };
     
             initializeAndFetch();
-    }, []);
+            
+            const unsubscribe = navigation.addListener('focus', () => {
+                fetchWalletsLN();                    
+                fetchWalletsOC();
+            });
+    
+            // Cleanup subscription
+            return unsubscribe;
+        }, [navigation]);
 
     const handleAddWallet = async (wallet) => {
         console.log(wallet);
@@ -101,6 +134,7 @@ export default function Wallets(){
                                     onPress={() => console.log('BRAVO')}
                                     name={item.name}
                                     type={item.type}
+                                    balance={item.balance}
                                 />
                             )}
                         />
@@ -119,7 +153,8 @@ export default function Wallets(){
                                 <CardWallet
                                     onPress={() => console.log('BRAVO')}
                                     name={item.name}
-                                    type={item.type}
+                                    type={item.type}                                    
+                                    balance={item.balance}
                                 />
                             )}
                         />
