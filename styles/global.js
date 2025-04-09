@@ -53,7 +53,7 @@ export const globalStyles = StyleSheet.create({
     modalContent: {
         //alignItems: 'flex-end',
         width: '100%', // 80% of the screen width
-        height:'80%',
+        height:'90%',
         backgroundColor: 'white', // Modal background color
         borderRadius: 20, // Rounded corners
         padding: 20, // Padding inside the modal

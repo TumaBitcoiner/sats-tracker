@@ -14,7 +14,9 @@ export const categories = {
         ['local-parking', 'Parking'],
     ],
     income:[
+        ['savings', 'Initial Balance']
         ['attach-money', 'Salary'],
+        ['bolt', 'Zap Received'],
     ]
 }
 
@@ -36,7 +38,25 @@ export const categoryArray = {
         'Parking': ['local-parking', 'Parking'],
     },
     income:{
+        'Initial Balance': ['savings', 'Initial Balance'],
         'Salary': ['attach-money', 'Salary'],
         'Zap Received': ['bolt', 'Zap Received'],
+    }
+}
+
+export const wallets = {
+    type:[
+        ['question-mark', 'No wallet type selected..'],
+        ['currency-bitcoin', 'OC'],
+        ['bolt', 'LN']
+    ]
+}
+
+export const walletsArray = {
+
+    type:{
+        'No wallet type selected..': ['question-mark', 'No wallet type selected..'],
+        'OC': ['currency-bitcoin', 'OC'],
+        'LN': ['bolt', 'LN'],
     }
 }

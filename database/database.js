@@ -2,7 +2,7 @@ import * as SQLite from 'expo-sqlite';
 import DatePicker from 'react-native-date-picker';
 
 // Open the database
-const db = SQLite.openDatabaseAsync('sats-tracker-9.db');
+const db = SQLite.openDatabaseAsync('sats-tracker-12.db');
 
 export const initializeDB = async () => {
 
@@ -12,6 +12,14 @@ export const initializeDB = async () => {
     try{
         await  database.execAsync(`
             PRAGMA journal_mode = WAL;
+            
+            CREATE TABLE IF NOT EXISTS wallets (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                type TEXT NOT NULL,
+                balance REAL DEFAULT 0
+            );
+
             CREATE TABLE IF NOT EXISTS transactions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 date DATE,
@@ -21,7 +29,9 @@ export const initializeDB = async () => {
                 transactionType TEXT,
                 note TEXT,
                 place TEXT,
-                isExpenses BOOLEAN
+                isExpenses BOOLEAN,
+                walletId INTEGER,
+                FOREIGN KEY (walletId) REFERENCES wallets(id) ON DELETE CASCADE
             );`);
             
         console.log('Table created successfully!');
@@ -32,8 +42,9 @@ export const initializeDB = async () => {
     }
 }
 
-export const insertTransaction = async (transaction) => {
-    
+ /* =================== Transactions =================== */
+ export const insertTransaction = async (transaction) => {
+     
     const database = await db;
     console.log('Adding transaction...');
 
@@ -42,7 +53,7 @@ export const insertTransaction = async (transaction) => {
     try {
 
         const result = await database.runAsync(
-            `INSERT INTO transactions (date, amount, transactionFee, category, transactionType, note, place, isExpenses) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+            `INSERT INTO transactions (date, amount, transactionFee, category, transactionType, note, place, isExpenses, walletId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
             [
                 sqliteDate,
                 transaction.amount,
@@ -52,7 +63,15 @@ export const insertTransaction = async (transaction) => {
                 transaction.note,
                 transaction.place,
                 transaction.isExpenses,
+                transaction.walletId
             ]
+        );
+
+        // Update wallet balance
+        await updateWalletBalance(
+            transaction.walletId, 
+            transaction.amount, 
+            transaction.isExpenses
         );
 
         console.log(result.lastInsertRowId, result.changes);
@@ -191,3 +210,103 @@ export const updateTransaction = (id, updatedTransaction) => {
         });
 
 };
+/* ==================================================== */
+
+ /* =================== Wallets =================== */
+
+ // Create a new wallet
+export const createWallet = async (wallet) => {
+    const database = await db;
+    
+    try {
+        const result = await database.runAsync(
+            `INSERT INTO wallets (name, type) VALUES (?, ?);`,
+            [wallet.name, wallet.type, wallet.balance]
+        );
+        const sqliteDate = new Date().toISOString().split('T')[0];
+        
+        await database.runAsync(
+            `INSERT INTO transactions (
+                date, 
+                amount, 
+                transactionFee, 
+                category, 
+                transactionType, 
+                note, 
+                place, 
+                isExpenses,
+                walletId
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+            [
+                sqliteDate,
+                wallet.balance,
+                0, // No transaction fee for initial balance
+                'Initial Balance', // Special category
+                wallet.type,
+                'Initial balance.',
+                '',
+                false, // Not an expense
+                result.lastInsertRowId
+            ]
+        );
+        return result.lastInsertRowId;
+        
+    } catch (error) {
+        console.error('Error creating wallet:', error);
+        throw error;
+    }
+
+};
+
+// Update wallet balance
+export const updateWalletBalance = async (walletId, amount, isExpense) => {
+    const database = await db;
+    
+    try {
+        await database.runAsync(
+            `UPDATE wallets 
+             SET balance = balance + ? 
+             WHERE id = ?;`,
+            [isExpense ? -amount : amount, walletId]
+        );
+    } catch (error) {
+        console.error('Error updating wallet balance:', error);
+        throw error;
+    }
+};
+
+// Get all wallets
+export const getWallets = async () => {
+    const database = await db;
+    
+    try {
+        return await database.getAllAsync(`SELECT * FROM wallets;`);
+    } catch (error) {
+        console.error('Error fetching wallets:', error);
+        throw error;
+    }
+};
+
+export const getLNWallets = async () => {
+    const database = await db;
+    
+    try {
+        return await database.getAllAsync(`SELECT * FROM wallets WHERE type = 'LN';`);
+    } catch (error) {
+        console.error('Error fetching wallets:', error);
+        throw error;
+    }
+};
+
+export const getOCWallets = async () => {
+    const database = await db;
+    
+    try {
+        return await database.getAllAsync(`SELECT * FROM wallets WHERE type = 'OC';`);
+    } catch (error) {
+        console.error('Error fetching wallets:', error);
+        throw error;
+    }
+};
+
+ /* =============================================== */

@@ -12,14 +12,8 @@ import { useTransactions } from '../context/transactionContext';
 
 export default function Transactions(){
 
-    const { totalIncome, totalExpenses, totalFees, updateTotals } = useTransactions();
-
-
-    // const dispatch = useDispatch();
-    // const transactions = useSelector((state) => state.transactions.transactions);
-    // console.log(transactions.length);
-    
-    
+    const { updateTotals } = useTransactions();
+  
     const [modalOpen, setModalOpen] = useState(false);
     
     const navigation = useNavigation();

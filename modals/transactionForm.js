@@ -1,24 +1,43 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {View, TextInput, Text, TouchableOpacity, 
-    Modal, TouchableWithoutFeedback, Keyboard
+    Modal, TouchableWithoutFeedback, Switch, StyleSheet
 } from 'react-native';
 import { globalStyles } from "../styles/global";
 import {Formik} from 'formik'
 import { MaterialIcons } from "@expo/vector-icons";
 import ButtonFlat from "../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
-import {categories, categoryArray} from "../styles/categories";
+import {categoryArray} from "../styles/categories";
 import TopTabNavigatorCategories from "../routes/topTabNavigatorCategory";
+import { getLNWallets, getOCWallets } from '../database/database';
+import {WalletChoice} from "./walletChoice";
 
 export default function TransactionForm({addNewTransaction}){
 
     const [dateOpen, setDateOpen] = useState(false);
     const [date, setDate] = useState(new Date());
     const [categoryOpen, setCategoryOpen] = useState(false);
-    const [category, setCategory] = useState(0);
-    const [isExpenses, setIsExpenses] = useState(true);
+    const [walletOpen, setWalletOpen] = useState(false);
+    const [walletList, setWalletList] = useState([]);
+    const [selectedWalletName, setSelectedWalletName] = useState('No wallet selected..');
+    const [walletType, setWalletType] = useState('OC');
 
-    console.log(date);
+    const loadWallets = async (type) => {
+        try {
+            const fetchedWallets = type === 'LN' ? 
+                await getLNWallets() : 
+                await getOCWallets();
+                setWalletList(fetchedWallets);
+            //setWalletOpen(true); // Open wallet selector after loading
+        } catch (error) {
+            console.error('Error loading wallets:', error);
+        }
+    };
+
+    
+    useEffect(() => {
+            loadWallets(walletType);
+    }, []);
 
     return(
         <View >
@@ -34,6 +53,8 @@ export default function TransactionForm({addNewTransaction}){
                     date: new Date(),
                     category: 'No category selected..',
                     isExpenses: true,
+                    walletId: 0,
+                    transactionType: walletType,
                 }}
                 onSubmit={(values)=>{
                     addNewTransaction(values);
@@ -73,6 +94,64 @@ export default function TransactionForm({addNewTransaction}){
                             />
                             
                         </View>                        
+
+                        {/* Transaction Type */}
+                        <View style={{...globalStyles.inputContainer, ...{justifyContent: 'space-between'}}}>
+                            <TouchableOpacity onPress={() => setWalletOpen(true)} style={styles.walletSelector}>
+                               
+                                    
+                                <MaterialIcons 
+                                    name={formikProps.values.transactionType === 'LN' ? 'bolt' : 'currency-bitcoin'} 
+                                    style={globalStyles.icons} />
+                                
+                                <Text style={globalStyles.infoText} >
+                                    {selectedWalletName}
+                                </Text>
+                                    
+                                <MaterialIcons name='arrow-forward-ios' style={styles.arrowIcon} />
+
+                              
+                            </TouchableOpacity> 
+                            <View style={styles.switchContainer}>
+                            <Switch
+                                style={[{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }]}
+                                value={formikProps.values.transactionType === 'LN'}
+                                onValueChange={(value) => {
+                                    const newType = value ? 'LN' : 'OC';
+                                    console.log(newType);
+                                    formikProps.setFieldValue('transactionType', newType);
+                                    formikProps.setFieldValue('walletId', 0); // Reset wallet selection
+                                    setSelectedWalletName('No wallet selected..');
+                                    setWalletType(newType);
+                                    loadWallets(newType);
+                                }}
+                                trackColor={{ false: '#ff4444', true: '#00C851' }}
+                                thumbColor={formikProps.values.transactionType === 'LN' ? '#00C851' : '#ff4444'}
+                            />
+                            </View>
+                        </View>
+
+                        {/* Wallet */}
+                        <Modal visible={walletOpen} animationType="slide">
+                            
+                            <TouchableWithoutFeedback onPress={() => setWalletOpen(false)}>
+                                <View style={globalStyles.modalOverlay}>  
+            
+                                        <View style={globalStyles.modalContent}>                        
+                                            
+                                            <WalletChoice 
+                                                walletList={walletList}
+                                                onPress={(walletId, type, name) => {
+                                                    formikProps.setFieldValue('walletId', walletId);
+                                                    setWalletOpen(false);
+                                                    setSelectedWalletName(name);
+                                                }}
+                                            />                                            
+                                        </View>
+                                </View>
+                            </TouchableWithoutFeedback>
+                                                        
+                        </Modal>    
 
                         {/* Place */}
                         <View style={globalStyles.inputContainer}>
@@ -134,7 +213,7 @@ export default function TransactionForm({addNewTransaction}){
                                                     console.log(item[1]);
                                                     formikProps.setFieldValue('category', item[1]); 
                                                     //setCategory(index);
-                                                    setIsExpenses(isExpenses);
+                                                    //setIsExpenses(isExpenses);
                                                     formikProps.setFieldValue('isExpenses', isExpenses);
                                                 }}
                                             />
@@ -165,6 +244,7 @@ export default function TransactionForm({addNewTransaction}){
                             </View>
                         </TouchableOpacity>               
 
+                        {/*Note*/}
                         <View style={globalStyles.inputContainer}>                      
 
                             <TextInput
@@ -190,3 +270,22 @@ export default function TransactionForm({addNewTransaction}){
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    arrowIcon: {
+        ...globalStyles.icons,
+        position: 'absolute',
+        right: 0
+    },
+    switchContainer: {
+        //position: 'absolute',
+        //right: 0,
+        paddingLeft: 16
+    },
+    walletSelector: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingRight: 20
+    },
+})

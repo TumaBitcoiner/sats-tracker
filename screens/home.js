@@ -2,50 +2,54 @@ import React, {useEffect} from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import Card from '../shared/card'
 import { useTransactions } from '../context/transactionContext'
+import { globalStyles } from '../styles/global';
 
 
 export default function Home(){
 
-    const { totalIncome, totalExpenses, totalFees, availableBalance, updateTotals } = useTransactions();
+    const { totalIncome, totalExpenses, totalFees, availableBalance, updateTotals } = useTransactions();    
 
     useEffect(() => {
         updateTotals();
     }, []);
 
     return(
-        <View>
-            <Card> 
-                <View style={styles.balanceContainer}>
-                    <Text style={styles.balanceTitle}>Your Balance</Text>
-                    <Text style={styles.balance}>{availableBalance} sats</Text>
-                </View>             
-            </Card>
-            <Card>
-                <View>
-                    <View style={styles.balanceContainer}>
-                        <Text style={styles.amountTitle}>Balance Info</Text>
-                    </View>
-                    <Card>   
-                        <View style={styles.amountContainer}>
-                            <Text style={styles.amount}>Income:</Text>
-                            <Text style={styles.amount}>{totalIncome}</Text>
-                        </View>            
-                    </Card>
-                    <Card>                   
-                        <View style={styles.amountContainer}>
-                            <Text style={styles.amount}>Expenses:</Text>
-                            <Text style={styles.amount}>{totalExpenses}</Text>
-                        </View>                      
-                    </Card>
-                    <Card>  
-                        <View style={styles.amountContainer}>
-                            <Text style={styles.amount}>Fees Paid:</Text>
-                            <Text style={styles.amount}>{totalFees}</Text>
-                        </View>          
-                    </Card>
-                </View>
-            </Card>
+        <View style={globalStyles.container}>
+
             
+            <View>
+                <Card> 
+                    <View style={styles.balanceContainer}>
+                        <Text style={styles.balanceTitle}>Your Balance</Text>
+                        <Text style={styles.balance}>{availableBalance} sats</Text>
+                    </View>             
+                </Card>
+                <Card>
+                    <View>
+                        <View style={styles.balanceContainer}>
+                            <Text style={styles.amountTitle}>Balance Info</Text>
+                        </View>
+                        <Card>   
+                            <View style={styles.amountContainer}>
+                                <Text style={styles.amount}>Income:</Text>
+                                <Text style={styles.amount}>{totalIncome}</Text>
+                            </View>            
+                        </Card>
+                        <Card>                   
+                            <View style={styles.amountContainer}>
+                                <Text style={styles.amount}>Expenses:</Text>
+                                <Text style={styles.amount}>{totalExpenses}</Text>
+                            </View>                      
+                        </Card>
+                        <Card>  
+                            <View style={styles.amountContainer}>
+                                <Text style={styles.amount}>Fees Paid:</Text>
+                                <Text style={styles.amount}>{totalFees}</Text>
+                            </View>          
+                        </Card>
+                    </View>
+                </Card>
+            </View>            
         </View>
     )    
 }
