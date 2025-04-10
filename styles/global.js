@@ -79,6 +79,22 @@ export const globalStyles = StyleSheet.create({
     },
     listContainer: {
         paddingBottom: 80 // Add space for the button
+    },    
+    errorText:{
+        color: 'crimson',
+        fontWeight: 'bold',
+        marginBottom: 10,
+        marginTop: 6,
+        textAlign: 'center'
+    },
+    errorContainer: {
+        marginVertical: 8,
+        alignItems: 'center'
+    },
+    errorAndButtonContainer: {
+        paddingHorizontal: 16,
+        paddingBottom: 96,
+        backgroundColor: 'white', // Match your modal background
     },
 
 });

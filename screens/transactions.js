@@ -100,8 +100,7 @@ export default function Transactions(){
                     <View style={globalStyles.modalOverlay}>  
 
                             <View style={globalStyles.modalContent}>                        
-                                <TransactionForm addNewTransaction={handleAddTransaction}/>
-                                <ButtonCircular onPress={() => setModalOpen(false)} icon='close'/>
+                                <TransactionForm addNewTransaction={handleAddTransaction} onPress={() => setModalOpen(false)}/>
                             </View>
                     </View>
                 </TouchableWithoutFeedback>

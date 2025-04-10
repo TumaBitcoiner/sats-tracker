@@ -22,7 +22,7 @@ export function CardWallet({onPress, type, name, balance}){
                             
                         </View>
                         <View style={globalStyles.transactionCard}>
-                        <Text style={globalStyles.transactionAmountIncome}>
+                            <Text style={globalStyles.transactionAmountIncome}>
                                 {balance}
                             </Text>
                         </View>
