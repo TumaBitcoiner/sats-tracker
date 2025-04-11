@@ -115,8 +115,7 @@ export default function Wallets(){
                     <View style={globalStyles.modalOverlay}>  
 
                             <View style={globalStyles.modalContent}>                        
-                                <WalletForm addNewWallet={handleAddWallet}/>
-                                <ButtonCircular onPress={() => setModalOpen(false)} icon='close'/>
+                                <WalletForm addNewWallet={handleAddWallet} onPress={() => setModalOpen(false)}/>
                             </View>
                     </View>
                 </TouchableWithoutFeedback>
