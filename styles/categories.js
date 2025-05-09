@@ -17,6 +17,7 @@ export const categories = {
         ['savings', 'Initial Balance'],
         ['attach-money', 'Salary'],
         ['bolt', 'Zap Received'],
+        ['currency-exchange', 'Exchange']
     ]
 }
 
@@ -41,6 +42,7 @@ export const categoryArray = {
         'Initial Balance': ['savings', 'Initial Balance'],
         'Salary': ['attach-money', 'Salary'],
         'Zap Received': ['bolt', 'Zap Received'],
+        'Exchange': ['currency-exchange', 'Exchange']
     }
 }
 
