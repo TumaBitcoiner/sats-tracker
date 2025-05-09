@@ -22,7 +22,7 @@ const reviewSchema = yup.object({
         .positive()
         .integer(),
     transactionFee: yup.number()
-        .positive()
+        .min(0)
         .integer(),
     walletId: yup.number()
         .required()
