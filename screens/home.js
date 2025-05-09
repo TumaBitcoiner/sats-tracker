@@ -19,14 +19,14 @@ export default function Home(){
             
             <View>
                 <Card> 
-                    <View style={styles.balanceContainer}>
-                        <Text style={styles.balanceTitle}>Your Balance</Text>
+                    <View style={globalStyles.cardContainer}>
+                        <Text style={globalStyles.cardTitle}>Your Balance</Text>
                         <Text style={styles.balance}>{availableBalance} sats</Text>
                     </View>             
                 </Card>
                 <Card>
                     <View>
-                        <View style={styles.balanceContainer}>
+                        <View style={globalStyles.cardContainer}>
                             <Text style={styles.amountTitle}>Balance Info</Text>
                         </View>
                         <Card>   
@@ -56,16 +56,6 @@ export default function Home(){
 
 const styles = StyleSheet.create({
 
-    balanceContainer:{
-        alignContent: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    balanceTitle:{
-        
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
     balance:{
         fontSize: 24,
         color: 'green',

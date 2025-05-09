@@ -2,7 +2,7 @@ import * as SQLite from 'expo-sqlite';
 import DatePicker from 'react-native-date-picker';
 
 // Open the database
-const db = SQLite.openDatabaseAsync('sats-tracker-13.db');
+const db = SQLite.openDatabaseAsync('sats-tracker.db');
 
 export const initializeDB = async () => {
 

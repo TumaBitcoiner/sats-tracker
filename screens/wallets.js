@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { View, Text, TouchableWithoutFeedback, Modal, Keyboard, FlatList } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, Modal, Keyboard, FlatList, StyleSheet } from 'react-native'
 import ButtonCircular from '../shared/buttonCircular';
 import WalletForm from '../modals/walletForm';
 import { globalStyles } from '../styles/global';
@@ -124,7 +124,9 @@ export default function Wallets(){
             <View>
                 <Card>
                     <View>
-                        <Text> OC Wallets</Text>
+                        <View style={globalStyles.cardContainer}>
+                            <Text style={globalStyles.cardTitle}> OC Wallets</Text>
+                        </View>
                         <FlatList 
                             data={walletsOC}
                             contentContainerStyle={globalStyles.listContainer} 
@@ -144,7 +146,9 @@ export default function Wallets(){
             <View>
                 <Card>
                     <View>
-                        <Text> LN Wallets</Text>
+                    <View style={globalStyles.cardContainer}>
+                            <Text style={globalStyles.cardTitle}> LN Wallets</Text>
+                        </View>
                         <FlatList 
                             data={walletsLN}
                             contentContainerStyle={globalStyles.listContainer} 

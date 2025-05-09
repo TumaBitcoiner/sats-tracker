@@ -17,17 +17,12 @@ export function TransactionProvider({ children }) {
                 getTotalFees()
             ]);
 
-            console.log('Total Income:', income);
-            console.log('Total Expenses:', expenses);
-            console.log('Total Fees:', fees);
-
             setTotalIncome(income);
             setTotalExpenses(expenses);
             setTotalFees(fees);
 
             setAvailableBalance(income - expenses - fees);
-            console.log('Available Balance:', availableBalance);
-
+            
         } catch (error) {
             console.error('Error updating totals:', error);
         }

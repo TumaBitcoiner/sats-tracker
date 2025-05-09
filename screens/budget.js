@@ -12,7 +12,7 @@ export default function Budget(){
         <View>
             <TouchableOpacity onPress={()=> navigation.navigate('BudgetDetails')}>
                 <Card>
-                    <Text>Budget Screen</Text>
+                    <Text>Wait for it ;)</Text>
                 </Card>                
             </TouchableOpacity>
         </View>

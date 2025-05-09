@@ -96,5 +96,14 @@ export const globalStyles = StyleSheet.create({
         paddingBottom: 96,
         backgroundColor: 'white', // Match your modal background
     },
+    cardContainer:{
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    cardTitle:{        
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
 
 });

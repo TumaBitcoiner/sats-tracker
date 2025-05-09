@@ -8,7 +8,7 @@ import { TransactionProvider } from './context/transactionContext';
 export default function App() {
 
   return (
-    <SQLiteProvider databaseName='sats-tracker-9.db' onInit={initializeDB}>
+    <SQLiteProvider databaseName='sats-tracker.db' onInit={initializeDB}>
       <TransactionProvider>
         <Navigator/>
       </TransactionProvider>
