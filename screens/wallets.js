@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import { View, Text, TouchableWithoutFeedback, Modal, Keyboard, FlatList, StyleSheet } from 'react-native'
+import { View, Text, TouchableWithoutFeedback,
+     Modal, Keyboard, FlatList, 
+     SectionList, ScrollView, StyleSheet } from 'react-native'
 import ButtonCircular from '../shared/buttonCircular';
 import WalletForm from '../modals/walletForm';
 import { globalStyles } from '../styles/global';
@@ -78,17 +80,14 @@ export default function Wallets(){
             console.log('Adding new wallet with ID:', id);
             console.log('Wallet type:', wallet.type);
 
+            
             if (wallet.type === 'LN') {
                 
-                setWalletsLN(currentWallets => {
-                    const newWallet = [currentWallets, { ...wallet, id }];
-                })
+                setWalletsLN(currentWallets => [...currentWallets, { ...wallet, id }]);
             }
             else if (wallet.type === 'OC') {
 
-                setWalletsOC(currentWallets => {
-                    const newWallet = [currentWallets, { ...wallet, id }];
-                })
+                setWalletsOC(currentWallets => [...currentWallets, { ...wallet, id }]);
             }
 
             // Refetch all wallets to ensure sync
@@ -107,6 +106,17 @@ export default function Wallets(){
         }
     };
 
+    const sections = [
+        {
+            title: 'OC Wallets',
+            data: walletsOC
+        },
+        {
+            title: 'LN Wallets',
+            data: walletsLN
+        }
+    ];
+
     return(
         <View style={globalStyles.container}>
            
@@ -121,6 +131,29 @@ export default function Wallets(){
                 </TouchableWithoutFeedback>
             </Modal>
 
+            <SectionList
+                sections={sections}
+                style={styles.scrollContainer}
+                contentContainerStyle={globalStyles.listContainer}
+                renderSectionHeader={({ section }) => (
+                    <Card>
+                        <View style={globalStyles.cardContainer}>
+                            <Text style={globalStyles.cardTitle}>{section.title}</Text>
+                        </View>
+                    </Card>
+                )}
+                renderItem={({ item }) => (
+                    <CardWallet
+                        onPress={() => console.log('BRAVO')}
+                        name={item.name}
+                        type={item.type}
+                        balance={item.balance}
+                    />
+                )}
+                stickySectionHeadersEnabled={false}
+            />
+
+            {/* <ScrollView style={styles.scrollContainer}>
             <View>
                 <Card>
                     <View>
@@ -164,8 +197,16 @@ export default function Wallets(){
                     </View>
                 </Card>
             </View>
+            </ScrollView> */}
 
             <ButtonCircular onPress={() => setModalOpen(true)} icon='add'/>
         </View>
     )    
 }
+
+const styles = StyleSheet.create({
+    scrollContainer: {
+        flex: 1,
+        width: '100%'
+    }
+});
