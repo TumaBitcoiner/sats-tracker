@@ -1,11 +1,37 @@
-import React from "react";
+import {useState, useEffect} from "react";
 import {StyleSheet, View, Text, Image} from 'react-native';
 import Card from "../shared/card";
 import { globalStyles } from "../styles/global";
 import { MaterialIcons } from "@expo/vector-icons";
 import { categoryArray, walletsArray } from "../styles/categories";
+import { getWallets } from "../database/database";
+import { useNavigation } from "@react-navigation/native";
 
 export default function TransactionDetails({route}){
+
+    const [wallets, setWallets] = useState([]);
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        const fetchWallets = async () => {
+            try{
+                const fetchedWallets = await getWallets();
+                setWallets(fetchedWallets);
+
+            }catch(error){
+                console.error('Error fetching wallets:', error);
+            }
+        };
+
+        fetchWallets();
+        // Set up focus listener to refresh transactions when screen is focused
+        const unsubscribe = navigation.addListener('focus', () => {
+            fetchWallets();
+        });
+
+        // Cleanup subscription
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <Card>
@@ -37,7 +63,7 @@ export default function TransactionDetails({route}){
             </View>
             <View style={globalStyles.info}>
                 <MaterialIcons name={walletsArray.type[route.params.transactionType][0]} style={globalStyles.icons} />
-                <Text style={globalStyles.infoText}>Wallet</Text>
+                <Text style={globalStyles.infoText}>{wallets.find(wallet => wallet.id === route.params.walletId)?.name || 'Loading...'}</Text>
             </View>
             <View style={globalStyles.info}>
                 <MaterialIcons name='calendar-month' style={globalStyles.icons} />
