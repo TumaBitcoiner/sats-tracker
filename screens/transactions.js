@@ -68,21 +68,11 @@ export default function Transactions(){
             const id = await insertTransaction(transaction); 
             console.log('Transaction added with ID:', id);
 
-            // setTransactions(currentTransactions => [
-            //     { ...transaction, id },
-            //     ...currentTransactions
-            // ]);
-
             setTransactions(currentTransactions => {
                 // Add new transaction
                 const newTransactions = [...currentTransactions, { ...transaction, id }];
                 
-                // Sort by date in descending order (newest first)
-                return newTransactions.sort((a, b) => {
-                    const dateA = new Date(a.date);
-                    const dateB = new Date(b.date);
-                    return dateB - dateA;
-                });
+                return newTransactions;
             });
               
             await updateTotals();
