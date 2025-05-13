@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, View, Text, TouchableOpacity, FlatList, Modal, TouchableWithoutFeedback, Keyboard} from 'react-native'
+import { StyleSheet, View, Text, Modal,
+     TouchableWithoutFeedback, Keyboard, SectionList} from 'react-native'
 import { useNavigation } from "@react-navigation/native";
 import Card from '../shared/card'
 import { globalStyles } from '../styles/global';
@@ -10,6 +11,8 @@ import ButtonCircular from '../shared/buttonCircular';
 import { initializeDB, insertTransaction, getTransactions } from '../database/database'; // Import the createTable function
 import { useTransactions } from '../context/transactionContext';
 import { CardTransaction } from '../cards/cardTransaction';
+import { groupTransactionsByDate } from '../shared/utils';
+
 
 export default function Transactions(){
 
@@ -93,6 +96,14 @@ export default function Transactions(){
         
     };
 
+    const renderSectionHeader = ({section}) => (
+        <View style={globalStyles.sectionHeader}>
+            <Text style={globalStyles.sectionHeaderText}>
+                {new Date(section.date).toLocaleDateString()}
+            </Text>
+        </View>
+    );
+    
     return(
         <View style={globalStyles.container}>
 
@@ -107,7 +118,7 @@ export default function Transactions(){
                 </TouchableWithoutFeedback>
             </Modal>
             
-            <FlatList 
+            {/* <FlatList 
                 data={transactions}
                 contentContainerStyle={globalStyles.listContainer} // Add padding at bottom
                 //keyExtractor={(item) => item.id.toString()} // Use the database ID as the key
@@ -117,6 +128,18 @@ export default function Transactions(){
                         onPress={()=> navigation.navigate('TransactionDetails', item)}                    
                     />
                 )}
+            /> */}
+
+            <SectionList 
+                sections={groupTransactionsByDate(transactions)}
+                contentContainerStyle={globalStyles.listContainer}
+                renderItem={({ item }) => (
+                    <CardTransaction
+                        item={item}
+                        onPress={() => navigation.navigate('TransactionDetails', item)}
+                    />
+                )}
+                renderSectionHeader={renderSectionHeader}
             />
             <ButtonCircular onPress={() => setModalOpen(true)} icon='add'/>
         </View>
@@ -133,4 +156,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 20,
     },
+    
 })

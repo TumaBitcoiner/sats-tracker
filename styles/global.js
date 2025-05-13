@@ -105,5 +105,15 @@ export const globalStyles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
     },
+    sectionHeader: {
+        backgroundColor: '#f4f4f4',
+        padding: 10,
+        marginVertical: 5,
+    },
+    sectionHeaderText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
 
 });
