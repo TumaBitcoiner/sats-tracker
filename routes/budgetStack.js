@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //import { createStaticNavigation } from '@react-navigation/native';
 import Budget from '../screens/budget';
 import BudgetDetails from '../screens/budgetDetails';
+import Header from '../shared/header';
 
 const BudgetStack = createNativeStackNavigator({
     screens : {
@@ -10,7 +11,7 @@ const BudgetStack = createNativeStackNavigator({
             screen: Budget,
             options: ({navigation}) => {
                 return{
-                    headerTitle: 'Budget'
+                    headerTitle: () => <Header title='Budgets'/>
                 }
             }
         },

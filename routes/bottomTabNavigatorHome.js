@@ -5,6 +5,7 @@ import Home from '../screens/home';
 import TransactionStack from './transactionStack';
 import Wallets from '../screens/wallets';
 import BudgetStack from './budgetStack';
+import Header from '../shared/header';
 
 
   const BottomTabNavigatorHome = createBottomTabNavigator({
@@ -15,8 +16,9 @@ import BudgetStack from './budgetStack';
             options:{
                 tabBarIcon:({ color, size }) =>           
                     <MaterialIcons name='home' color={color} size={size}/>,
-                title:'Home',
-                headerTitleAlign: 'center', 
+                headerTitle: () => <Header title="Home" />,
+                headerTitleAlign: 'center',
+                title: 'Home'
             }
         },
         
@@ -25,7 +27,8 @@ import BudgetStack from './budgetStack';
             options:{
                 tabBarIcon:({ color, size }) =>
                     <MaterialIcons name='account-balance-wallet' color={color} size={size} />,
-                
+                headerTitle: () => <Header title="Wallets" />,
+                headerTitleAlign: 'center',
                 //headerShown: false, 
                 title:'Wallets',
             }
@@ -48,9 +51,8 @@ import BudgetStack from './budgetStack';
             options:{
                 tabBarIcon:({ color, size }) =>
                     <MaterialIcons name='savings' color={color} size={size}/>,
-                
-                headerShown: false, 
-                title:'Budget', 
+                headerShown: false,
+                title:'Budgets', 
             },
         },
     },
