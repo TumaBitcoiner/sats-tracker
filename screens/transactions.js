@@ -9,6 +9,7 @@ import TransactionForm from '../modals/transactionForm';
 import ButtonCircular from '../shared/buttonCircular';
 import { initializeDB, insertTransaction, getTransactions } from '../database/database'; // Import the createTable function
 import { useTransactions } from '../context/transactionContext';
+import { CardTransaction } from '../cards/cardTransaction';
 
 export default function Transactions(){
 
@@ -111,34 +112,38 @@ export default function Transactions(){
                 contentContainerStyle={globalStyles.listContainer} // Add padding at bottom
                 //keyExtractor={(item) => item.id.toString()} // Use the database ID as the key
                 renderItem={( {item} ) => (
-                    <TouchableOpacity onPress={()=> navigation.navigate('TransactionDetails', item)}>
-                        <Card>
-                            <View style={globalStyles.transactionCard}>
-                                <View style={globalStyles.transactionCard}>
-                                    <MaterialIcons 
-                                        name={item.isExpenses
-                                            ? categoryArray.expenses[item.category][0]
-                                            : categoryArray.income[item.category][0]} 
-                                        style={globalStyles.icons} />
-                                    <Text style={globalStyles.transactionCategoryText}>
-                                        {item.isExpenses
-                                            ? categoryArray.expenses[item.category][1]
-                                            : categoryArray.income[item.category][1]}
-                                    </Text>
-                                </View>
-                                <View style={globalStyles.transactionCard}>
-                                    <Text style={item.isExpenses 
-                                        ? globalStyles.transactionAmountExpense 
-                                        : globalStyles.transactionAmountIncome}>
-                                        {item.amount}
-                                    </Text>
-                                    <MaterialIcons 
-                                        name={walletsArray.type[item.transactionType][0]}
-                                        style={globalStyles.icons} />
-                                </View>
-                            </View>
-                        </Card>
-                    </TouchableOpacity>
+                    <CardTransaction
+                        item={item}
+                        onPress={()=> navigation.navigate('TransactionDetails', item)}                    
+                    />
+                    // <TouchableOpacity onPress={()=> navigation.navigate('TransactionDetails', item)}>
+                    //     <Card>
+                    //         <View style={globalStyles.transactionCard}>
+                    //             <View style={globalStyles.transactionCard}>
+                    //                 <MaterialIcons 
+                    //                     name={item.isExpenses
+                    //                         ? categoryArray.expenses[item.category][0]
+                    //                         : categoryArray.income[item.category][0]} 
+                    //                     style={globalStyles.icons} />
+                    //                 <Text style={globalStyles.transactionCategoryText}>
+                    //                     {item.isExpenses
+                    //                         ? categoryArray.expenses[item.category][1]
+                    //                         : categoryArray.income[item.category][1]}
+                    //                 </Text>
+                    //             </View>
+                    //             <View style={globalStyles.transactionCard}>
+                    //                 <Text style={item.isExpenses 
+                    //                     ? globalStyles.transactionAmountExpense 
+                    //                     : globalStyles.transactionAmountIncome}>
+                    //                     {item.amount}
+                    //                 </Text>
+                    //                 <MaterialIcons 
+                    //                     name={walletsArray.type[item.transactionType][0]}
+                    //                     style={globalStyles.icons} />
+                    //             </View>
+                    //         </View>
+                    //     </Card>
+                    // </TouchableOpacity>
                 )}
             />
             <ButtonCircular onPress={() => setModalOpen(true)} icon='add'/>
