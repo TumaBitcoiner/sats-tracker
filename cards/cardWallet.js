@@ -4,6 +4,8 @@ import { globalStyles } from '../styles/global';
 import { walletsArray } from '../styles/categories';
 import Card from '../shared/card';
 import { MaterialIcons } from '@expo/vector-icons';
+import { formatNumber } from '../shared/utils';
+
 
 export function CardWallet({onPress, type, name, balance}){
 
@@ -23,7 +25,7 @@ export function CardWallet({onPress, type, name, balance}){
                         </View>
                         <View style={globalStyles.transactionCard}>
                             <Text style={globalStyles.transactionAmountIncome}>
-                                {balance}
+                                {formatNumber(balance)} sats
                             </Text>
                         </View>
                     </View>

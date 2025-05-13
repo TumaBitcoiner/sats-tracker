@@ -3,6 +3,7 @@ import { globalStyles } from '../styles/global';
 import { categoryArray, walletsArray } from '../styles/categories';
 import Card from '../shared/card';
 import { MaterialIcons } from '@expo/vector-icons';
+import { formatNumber } from '../shared/utils';
 
 export function CardTransaction({onPress, item}){
 
@@ -27,7 +28,7 @@ export function CardTransaction({onPress, item}){
                             <Text style={item.isExpenses 
                                 ? globalStyles.transactionAmountExpense 
                                 : globalStyles.transactionAmountIncome}>
-                                {item.amount}
+                                {formatNumber(item.amount)} sats
                             </Text>
                             <MaterialIcons 
                                 name={walletsArray.type[item.transactionType][0]}

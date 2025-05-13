@@ -3,6 +3,8 @@ import { StyleSheet, View, Text } from 'react-native'
 import Card from '../shared/card'
 import { useTransactions } from '../context/transactionContext'
 import { globalStyles } from '../styles/global';
+import { formatNumber } from '../shared/utils';
+
 
 
 export default function Home(){
@@ -21,7 +23,7 @@ export default function Home(){
                 <Card> 
                     <View style={globalStyles.cardContainer}>
                         <Text style={globalStyles.cardTitle}>Your Balance</Text>
-                        <Text style={styles.balance}>{availableBalance} sats</Text>
+                        <Text style={styles.balance}>{formatNumber(availableBalance)} sats</Text>
                     </View>             
                 </Card>
                 <Card>
@@ -32,19 +34,19 @@ export default function Home(){
                         <Card>   
                             <View style={styles.amountContainer}>
                                 <Text style={styles.amount}>Income:</Text>
-                                <Text style={styles.amount}>{totalIncome}</Text>
+                                <Text style={styles.amount}>{formatNumber(totalIncome)}</Text>
                             </View>            
                         </Card>
                         <Card>                   
                             <View style={styles.amountContainer}>
                                 <Text style={styles.amount}>Expenses:</Text>
-                                <Text style={styles.amount}>{totalExpenses}</Text>
+                                <Text style={styles.amount}>{formatNumber(totalExpenses)}</Text>
                             </View>                      
                         </Card>
                         <Card>  
                             <View style={styles.amountContainer}>
                                 <Text style={styles.amount}>Fees Paid:</Text>
-                                <Text style={styles.amount}>{totalFees}</Text>
+                                <Text style={styles.amount}>{formatNumber(totalFees)}</Text>
                             </View>          
                         </Card>
                     </View>
