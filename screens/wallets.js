@@ -136,11 +136,11 @@ export default function Wallets(){
                 style={styles.scrollContainer}
                 contentContainerStyle={globalStyles.listContainer}
                 renderSectionHeader={({ section }) => (
-                    <Card>
-                        <View style={globalStyles.cardContainer}>
-                            <Text style={globalStyles.cardTitle}>{section.title}</Text>
-                        </View>
-                    </Card>
+                    <View style={globalStyles.sectionHeader}>
+                                <Text style={globalStyles.sectionHeaderText}>
+                                    {section.title}
+                                </Text>
+                    </View>
                 )}
                 renderItem={({ item }) => (
                     <CardWallet
@@ -152,52 +152,6 @@ export default function Wallets(){
                 )}
                 stickySectionHeadersEnabled={false}
             />
-
-            {/* <ScrollView style={styles.scrollContainer}>
-            <View>
-                <Card>
-                    <View>
-                        <View style={globalStyles.cardContainer}>
-                            <Text style={globalStyles.cardTitle}> OC Wallets</Text>
-                        </View>
-                        <FlatList 
-                            data={walletsOC}
-                            contentContainerStyle={globalStyles.listContainer} 
-                            renderItem={( {item} ) => (
-                                <CardWallet
-                                    onPress={() => console.log('BRAVO')}
-                                    name={item.name}
-                                    type={item.type}
-                                    balance={item.balance}
-                                />
-                            )}
-                        />
-                    </View>
-                </Card>
-            </View>
-
-            <View>
-                <Card>
-                    <View>
-                    <View style={globalStyles.cardContainer}>
-                            <Text style={globalStyles.cardTitle}> LN Wallets</Text>
-                        </View>
-                        <FlatList 
-                            data={walletsLN}
-                            contentContainerStyle={globalStyles.listContainer} 
-                            renderItem={( {item} ) => (
-                                <CardWallet
-                                    onPress={() => console.log('BRAVO')}
-                                    name={item.name}
-                                    type={item.type}                                    
-                                    balance={item.balance}
-                                />
-                            )}
-                        />
-                    </View>
-                </Card>
-            </View>
-            </ScrollView> */}
 
             <ButtonCircular onPress={() => setModalOpen(true)} icon='add'/>
         </View>
