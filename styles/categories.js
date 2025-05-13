@@ -12,6 +12,8 @@ export const categories = {
         ['home', 'Housing'],
         ['directions-bus', 'Public Transport'], 
         ['local-parking', 'Parking'],
+        ['sim-card', 'eSIM'],
+        ['phone', 'Phone Bill'],
     ],
     income:[
         ['savings', 'Initial Balance'],
@@ -37,6 +39,8 @@ export const categoryArray = {
         'Housing': ['home', 'Housing'],
         'Public Transport': ['directions-bus', 'Public Transport'],
         'Parking': ['local-parking', 'Parking'],
+        'eSIM': ['sim-card', 'eSIM'],
+        'Phone Bill': ['phone', 'Phone Bill'],
     },
     income:{
         'Initial Balance': ['savings', 'Initial Balance'],
