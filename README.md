@@ -1,6 +1,8 @@
 # Sats Tracker: The budgetting app for people living the *Bitcoin Standard*
+![sats-tracker-icon](https://github.com/user-attachments/assets/ccfa2cd6-a48d-4568-84b5-301f2b0d0a20)
 
 Are you a fan of budgetting apps? Do you like to keep track of every transaction you do? Do you also live in the Bitcoin standard and have no fiat left?
+
 
 Then, Sats Tracker is what you need!
 
