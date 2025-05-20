@@ -10,7 +10,7 @@ function CategoryChoice({categoryType, onPress, isExpenses}) {
 
     return(
         <FlatList 
-            data={categoryType}
+            data={categoryType.slice(1)}
             renderItem={( {item} ) => (
                 <TouchableOpacity 
                     onPress={() => onPress(item, isExpenses)}>
@@ -22,7 +22,6 @@ function CategoryChoice({categoryType, onPress, isExpenses}) {
                     </Card>
                 </TouchableOpacity>
             )}
-            //keyExtractor={(_, index) => index.toString()}
         />
     )
 }
