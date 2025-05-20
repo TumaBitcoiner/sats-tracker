@@ -298,7 +298,7 @@ export default function TransactionForm({addNewTransaction, onPress}){
 
                             </View>
 
-                            <ButtonFlat title='Add Expense' onPress={formikProps.handleSubmit}/>
+                            <ButtonFlat title='Add Transaction' onPress={formikProps.handleSubmit}/>
                         </View>
                         
                         <ButtonCircular onPress={onPress} icon='close'/>
