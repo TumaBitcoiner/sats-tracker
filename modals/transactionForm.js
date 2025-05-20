@@ -184,7 +184,6 @@ export default function TransactionForm({addNewTransaction, onPress}){
                                     onChangeText={formikProps.handleChange('place')}
                                     value={formikProps.values.place}
                                     onBlur={formikProps.handleBlur('place')}
-                                    keyboardType="numeric"
                                 />
                                 
                             </View>
