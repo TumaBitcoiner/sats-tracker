@@ -16,7 +16,8 @@ export function WalletChoice({onPress, walletList}) {
                 <CardWallet
                     onPress={() => onPress(item.id, item.type, item.name)}
                     name={item.name}
-                    type={item.type}
+                    type={item.type}                    
+                    balance={item.balance}
                 />
             )}
             keyExtractor={item => item.id.toString()}
