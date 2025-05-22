@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View, Text, TouchableWithoutFeedback, Modal} from 'react-native';
 import Card from "../shared/card";
 import { globalStyles } from "../styles/global";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -7,11 +7,14 @@ import { categoryArray, walletsArray } from "../styles/categories";
 import { getWallets } from "../database/database";
 import { useNavigation } from "@react-navigation/native";
 import ButtonFlatIcon  from "../shared/buttonFlatIcon";
+import ConfirmationPopUp from "../modals/confirmationPopUp";
 
 export default function TransactionDetails({route}){
 
     const [wallets, setWallets] = useState([]);
     const navigation = useNavigation();
+
+    const [popupOpen, setPopupOpen] = useState(false);
 
     useEffect(() => {
         const fetchWallets = async () => {
@@ -48,7 +51,25 @@ export default function TransactionDetails({route}){
     };
 
     return (
+
         <View style={globalStyles.container}>
+
+            <Modal visible={popupOpen} animationType="slide">
+               <TouchableWithoutFeedback onPress={() => setPopupOpen(false)}>
+                    <View style={globalStyles.modalOverlay}>  
+
+                            <View style={globalStyles.modalPopupContent}>                        
+                                <ConfirmationPopUp
+                                    title='Delete Transaction' 
+                                    text='Are you sure you want to delete this transaction? This action cannot be undone.' 
+                                    onCancel={() => setPopupOpen(false)}
+                                    onConfirm={handleDelete}
+                                />
+                            </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
+
             <Card>
                 <View style={globalStyles.transactionCard}>
                         
@@ -94,7 +115,7 @@ export default function TransactionDetails({route}){
                 <ButtonFlatIcon                    
                     title='Delete'
                     icon='delete'
-                    onPress={handleDelete}
+                    onPress={() => setPopupOpen(true)}
                 />
                 <ButtonFlatIcon
                     title='Edit'

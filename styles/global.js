@@ -62,6 +62,17 @@ export const globalStyles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 5,
     },
+    modalPopupContent: {
+        width: '90%', // 80% of the screen width
+        height:'40%',
+        backgroundColor: 'white', // Modal background color
+        borderRadius: 20, // Rounded corners
+        padding: 20, // Padding inside the modal
+        elevation: 5, // Shadow for Android
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+    },
     inputContainer:{
         flexDirection:'row',
         padding: 10,

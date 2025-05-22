@@ -76,19 +76,11 @@ export default function Transactions(){
             });
               
             await updateTotals();
-
+            
         } catch (error) {
             console.error('Error adding transaction:', error);
         }
     };
-
-    const renderSectionHeader = ({section}) => (
-        <View style={globalStyles.sectionHeader}>
-            <Text style={globalStyles.sectionHeaderText}>
-                {new Date(section.date).toLocaleDateString()}
-            </Text>
-        </View>
-    );
     
     const handleDeleteTransaction = async (id) => {
         try {
@@ -102,6 +94,15 @@ export default function Transactions(){
             console.error('Error deleting transaction:', error);
         }
     };
+    
+    const renderSectionHeader = ({section}) => (
+        <View style={globalStyles.sectionHeader}>
+            <Text style={globalStyles.sectionHeaderText}>
+                {new Date(section.date).toLocaleDateString()}
+            </Text>
+        </View>
+    );
+    
 
     return(
         <View style={globalStyles.container}>
