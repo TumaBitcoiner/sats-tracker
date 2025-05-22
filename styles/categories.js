@@ -3,6 +3,7 @@ export const categories = {
         ['question-mark', 'No category selected..'],
         ['bolt', 'Zap'],
         ['local-grocery-store', 'Groceries'],
+        ['coffee', 'Coffee'],
         ['directions-car', 'Transportation'],
         ['restaurant', 'Dining Out'],
         ['delivery-dining', 'Take Out'],
@@ -14,12 +15,14 @@ export const categories = {
         ['local-parking', 'Parking'],
         ['sim-card', 'eSIM'],
         ['phone', 'Phone Bill'],
+        ['card-giftcard', 'Gift Card'],
     ],
     income:[
         ['savings', 'Initial Balance'],
         ['attach-money', 'Salary'],
         ['bolt', 'Zap Received'],
-        ['currency-exchange', 'Exchange']
+        ['currency-exchange', 'Exchange'],
+        ['sell', 'Product Sell']
     ]
 }
 
@@ -30,6 +33,7 @@ export const categoryArray = {
         'No category selected..': ['question-mark', 'No category selected..'],
         'Zap': ['bolt', 'Zap'],
         'Groceries': ['local-grocery-store', 'Groceries'],
+        'Coffee': ['coffee', 'Coffee'],
         'Transportation': ['directions-car', 'Transportation'],
         'Dining Out': ['restaurant', 'Dining Out'],
         'Take Out': ['delivery-dining', 'Take Out'],
@@ -41,12 +45,14 @@ export const categoryArray = {
         'Parking': ['local-parking', 'Parking'],
         'eSIM': ['sim-card', 'eSIM'],
         'Phone Bill': ['phone', 'Phone Bill'],
+        'Gift Card': ['card-giftcard', 'Gift Card'],
     },
     income:{
         'Initial Balance': ['savings', 'Initial Balance'],
         'Salary': ['attach-money', 'Salary'],
         'Zap Received': ['bolt', 'Zap Received'],
-        'Exchange': ['currency-exchange', 'Exchange']
+        'Exchange': ['currency-exchange', 'Exchange'],
+        'Product Sell': ['sell', 'Product Sell'],
     }
 }
 
