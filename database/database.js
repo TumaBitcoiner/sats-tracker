@@ -83,7 +83,34 @@ export const initializeDB = async () => {
     }
 
 
-}
+};
+
+// Retrieve all transactions from the database
+export const getTransaction = async (id) => {
+
+    const database = await db;
+    console.log('Fetching transaction with id:', id);
+
+    try {
+        const result = await database.getAllAsync('SELECT * FROM transactions WHERE id = ?;',
+            [id]
+        );
+        
+        if (result.length === 0) {
+            return null; // Return null if no transaction found
+        }
+
+        // Convert SQLite date string to Date object and return the first (and only) result
+        return {
+            ...result[0],
+            date: new Date(result[0].date + 'T00:00:00')
+        };
+
+    } catch (error) {
+        console.error('Error fetching transactions:', error);
+        throw error;
+    }
+};
 
 // Retrieve all transactions from the database
 export const getTransactions = async () => {
@@ -160,25 +187,38 @@ export const getTotalFees = async () => {
 };
 
 // Delete a transaction by ID
-export const deleteTransaction = (id) => {
-    return dbPromise.then(db => {
-        return new Promise((resolve, reject) => {
-            db.transaction(tx => {
-                tx.executeSql(
-                    `DELETE FROM transactions WHERE id = ?;`,
-                    [id],
-                    () => {
-                        console.log(`Transaction with ID ${id} deleted successfully`);
-                        resolve();
-                    },
-                    (error) => {
-                        console.error('Error deleting transaction:', error);
-                        reject(error);
-                    }
-                );
-            });
-        });
-    });
+export const deleteTransaction = async (id) => {
+
+    const database = await db;
+    console.log('Deleting transaction...');
+
+    try {
+
+        transaction = await getTransaction(id);
+        console.log('Transaction FOUND:', transaction);
+        if (transaction){
+
+            const result = await database.runAsync(
+                `DELETE FROM transactions WHERE id = ?;`,
+                [id]
+            );
+        }
+        else {
+            console.log('Transaction not found');
+            return;
+        }
+
+        // Update wallet balance
+        await updateWalletBalance(
+            transaction.walletId, 
+            transaction.amount, 
+            !transaction.isExpenses
+        );
+
+    } catch (error){
+        console.error('Error deleting a transaction in database:', error);
+        throw error;
+    }
 };
 
 // Update a transaction by ID
