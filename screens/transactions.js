@@ -8,7 +8,7 @@ import { categoryArray, walletsArray } from '../styles/categories';
 import { MaterialIcons } from '@expo/vector-icons';
 import TransactionForm from '../modals/transactionForm';
 import ButtonCircular from '../shared/buttonCircular';
-import { initializeDB, insertTransaction, getTransactions } from '../database/database'; // Import the createTable function
+import { initializeDB, insertTransaction, getTransactions, deleteTransaction } from '../database/database'; // Import the createTable function
 import { useTransactions } from '../context/transactionContext';
 import { CardTransaction } from '../cards/cardTransaction';
 import { groupTransactionsByDate } from '../shared/utils';
@@ -80,10 +80,6 @@ export default function Transactions(){
         } catch (error) {
             console.error('Error adding transaction:', error);
         }
-
-        //dispatch(saveTransaction(transaction));
-        //const transactionKey = useSelector(state => state.transactions);
-        
     };
 
     const renderSectionHeader = ({section}) => (
@@ -94,6 +90,19 @@ export default function Transactions(){
         </View>
     );
     
+    const handleDeleteTransaction = async (id) => {
+        try {
+            await deleteTransaction(id);
+            // Update local state by filtering out the deleted transaction
+            setTransactions(currentTransactions => 
+                currentTransactions.filter(transaction => transaction.id !== id)
+            );
+            await updateTotals();
+        } catch (error) {
+            console.error('Error deleting transaction:', error);
+        }
+    };
+
     return(
         <View style={globalStyles.container}>
 
@@ -108,25 +117,17 @@ export default function Transactions(){
                 </TouchableWithoutFeedback>
             </Modal>
             
-            {/* <FlatList 
-                data={transactions}
-                contentContainerStyle={globalStyles.listContainer} // Add padding at bottom
-                //keyExtractor={(item) => item.id.toString()} // Use the database ID as the key
-                renderItem={( {item} ) => (
-                    <CardTransaction
-                        item={item}
-                        onPress={()=> navigation.navigate('TransactionDetails', item)}                    
-                    />
-                )}
-            /> */}
-
             <SectionList 
                 sections={groupTransactionsByDate(transactions)}
                 contentContainerStyle={globalStyles.listContainer}
                 renderItem={({ item }) => (
                     <CardTransaction
                         item={item}
-                        onPress={() => navigation.navigate('TransactionDetails', item)}
+                        onPress={() => navigation.navigate(
+                            'TransactionDetails',
+                             {...item,
+                             onDelete: handleDeleteTransaction}
+                        )}
                     />
                 )}
                 renderSectionHeader={renderSectionHeader}

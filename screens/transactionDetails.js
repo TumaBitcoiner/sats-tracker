@@ -6,6 +6,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { categoryArray, walletsArray } from "../styles/categories";
 import { getWallets } from "../database/database";
 import { useNavigation } from "@react-navigation/native";
+import ButtonFlatIcon  from "../shared/buttonFlatIcon";
 
 export default function TransactionDetails({route}){
 
@@ -33,48 +34,75 @@ export default function TransactionDetails({route}){
         return unsubscribe;
     }, [navigation]);
 
+    const handleDelete = async () => {
+        
+        console.log("Delete transaction with ID:", route.params.id);
+       
+        try{
+            await route.params.onDelete(route.params.id);                       
+            navigation.goBack();
+
+        } catch (error) {
+            console.error('Error adding transaction:', error);
+        }
+    };
+
     return (
-        <Card>
-            <View style={globalStyles.transactionCard}>
-                    
-                <View style={styles.category}>
-                    <MaterialIcons 
-                        name={route.params.isExpenses
-                                ? categoryArray.expenses[route.params.category][0]
-                                : categoryArray.income[route.params.category][0]} 
-                        style={globalStyles.icons}
-                    />
-                    <Text style={{...globalStyles.transactionCategoryText, ...styles.category}}>
-                        {route.params.isExpenses
-                            ? categoryArray.expenses[route.params.category][1]
-                            : categoryArray.income[route.params.category][1]}
+        <View style={globalStyles.container}>
+            <Card>
+                <View style={globalStyles.transactionCard}>
+                        
+                    <View style={styles.category}>
+                        <MaterialIcons 
+                            name={route.params.isExpenses
+                                    ? categoryArray.expenses[route.params.category][0]
+                                    : categoryArray.income[route.params.category][0]} 
+                            style={globalStyles.icons}
+                        />
+                        <Text style={{...globalStyles.transactionCategoryText, ...styles.category}}>
+                            {route.params.isExpenses
+                                ? categoryArray.expenses[route.params.category][1]
+                                : categoryArray.income[route.params.category][1]}
+                            </Text>
+                    </View>
+                    <View>
+                        <Text 
+                            style={route.params.isExpenses 
+                                ? globalStyles.transactionAmountExpense 
+                                : globalStyles.transactionAmountIncome}
+                        >
+                            {route.params.amount} sats
                         </Text>
+                        <Text style={{...globalStyles.transactionAmountExpense, ...styles.feeText}}>{route.params.transactionFee} sats</Text>
+                    </View>
                 </View>
-                <View>
-                    <Text 
-                        style={route.params.isExpenses 
-                            ? globalStyles.transactionAmountExpense 
-                            : globalStyles.transactionAmountIncome}
-                    >
-                        {route.params.amount} sats
-                    </Text>
-                    <Text style={{...globalStyles.transactionAmountExpense, ...styles.feeText}}>{route.params.transactionFee} sats</Text>
+                <View style={globalStyles.info}>
+                    <MaterialIcons name={walletsArray.type[route.params.transactionType][0]} style={globalStyles.icons} />
+                    <Text style={globalStyles.infoText}>{wallets.find(wallet => wallet.id === route.params.walletId)?.name || 'Loading...'}</Text>
                 </View>
+                <View style={globalStyles.info}>
+                    <MaterialIcons name='calendar-month' style={globalStyles.icons} />
+                    <Text style={globalStyles.infoText}>{new Date(route.params.date).toLocaleDateString()}</Text>
+                </View>
+                <View style={globalStyles.info}>
+                    <MaterialIcons name='place' style={globalStyles.icons} />
+                    <Text style={globalStyles.infoText}>{route.params.place}</Text>
+                </View>
+                <Text style={globalStyles.info}>{route.params.note}</Text>
+            </Card>
+            <View style={globalStyles.buttonContainer}>
+                <ButtonFlatIcon                    
+                    title='Delete'
+                    icon='delete'
+                    onPress={handleDelete}
+                />
+                <ButtonFlatIcon
+                    title='Edit'
+                    icon='edit'
+                    onPress={() => console.log('Edit transaction')}
+                />
             </View>
-            <View style={globalStyles.info}>
-                <MaterialIcons name={walletsArray.type[route.params.transactionType][0]} style={globalStyles.icons} />
-                <Text style={globalStyles.infoText}>{wallets.find(wallet => wallet.id === route.params.walletId)?.name || 'Loading...'}</Text>
-            </View>
-            <View style={globalStyles.info}>
-                <MaterialIcons name='calendar-month' style={globalStyles.icons} />
-                <Text style={globalStyles.infoText}>{new Date(route.params.date).toLocaleDateString()}</Text>
-            </View>
-            <View style={globalStyles.info}>
-                <MaterialIcons name='place' style={globalStyles.icons} />
-                <Text style={globalStyles.infoText}>{route.params.place}</Text>
-            </View>
-            <Text style={globalStyles.info}>{route.params.note}</Text>
-        </Card>
+        </View>
     )
 }
 
