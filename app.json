@@ -2,7 +2,7 @@
   "expo": {
     "name": "SatsTracker",
     "slug": "sats-tracker",
-    "version": "0.1.0-a1",
+    "version": "0.1.0-a2",
     "orientation": "portrait",
     "icon": "./assets/sats-tracker-icon.png",
     "userInterfaceStyle": "light",
@@ -13,7 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "android": {
-      "versionCode": 3,
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/sats-tracker-icon.png",
         "backgroundColor": "#ffffff"
