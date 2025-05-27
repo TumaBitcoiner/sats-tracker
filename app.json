@@ -2,7 +2,7 @@
   "expo": {
     "name": "SatsTracker",
     "slug": "sats-tracker",
-    "version": "0.1.0-a2",
+    "version": "0.1.0-rc1",
     "orientation": "portrait",
     "icon": "./assets/sats-tracker-icon.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,7 @@
         "foregroundImage": "./assets/sats-tracker-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.satstracker"
+      "package": "com.tuma.satstracker"
     },
     "web": {
       "favicon": "./assets/favicon.png"
