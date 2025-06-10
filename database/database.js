@@ -71,6 +71,7 @@ export const initializeDB = async () => {
         await updateWalletBalance(
             transaction.walletId, 
             transaction.amount, 
+            transaction.transactionFee,
             transaction.isExpenses
         );
 
@@ -299,13 +300,13 @@ export const createWallet = async (wallet) => {
 };
 
 // Update wallet balance
-export const updateWalletBalance = async (walletId, amount, isExpense) => {
+export const updateWalletBalance = async (walletId, amount, fee, isExpense) => {
     const database = await db;
     
     try {
         await database.runAsync(
             `UPDATE wallets 
-             SET balance = balance + ? 
+             SET balance = balance + ?
              WHERE id = ?;`,
             [isExpense ? -amount : amount, walletId]
         );
