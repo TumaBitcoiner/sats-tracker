@@ -306,9 +306,9 @@ export const updateWalletBalance = async (walletId, amount, fee, isExpense) => {
     try {
         await database.runAsync(
             `UPDATE wallets 
-             SET balance = balance + ?
+             SET balance = balance + ? - ?
              WHERE id = ?;`,
-            [isExpense ? -amount : amount, walletId]
+            [isExpense ? -amount : amount, fee, walletId]
         );
     } catch (error) {
         console.error('Error updating wallet balance:', error);
