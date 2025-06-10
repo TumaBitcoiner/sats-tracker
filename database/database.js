@@ -213,6 +213,7 @@ export const deleteTransaction = async (id) => {
         await updateWalletBalance(
             transaction.walletId, 
             transaction.amount, 
+            -transaction.transactionFee,
             !transaction.isExpenses
         );
 
