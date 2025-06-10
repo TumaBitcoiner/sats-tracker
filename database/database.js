@@ -316,6 +316,40 @@ export const updateWalletBalance = async (walletId, amount, fee, isExpense) => {
     }
 };
 
+// At startup, check all wallets and update their balances
+export const reevaluateAllWalletsBalance = async () => {
+
+    const database = await db;
+    console.log('Reevaluating all wallet balances...');
+
+    try {
+        // First, set all wallet balances to 0
+        await database.runAsync('UPDATE wallets SET balance = 0;');
+
+        // Get all transactions ordered by date
+        const transactions = await database.getAllAsync(`
+            SELECT walletId, amount, transactionFee, isExpenses 
+            FROM transactions 
+            ORDER BY date ASC;
+        `);
+
+        // Process each transaction and update wallet balances
+        for (const transaction of transactions) {
+            await updateWalletBalance(
+                transaction.walletId,
+                transaction.amount,
+                transaction.transactionFee,
+                transaction.isExpenses
+            );
+        }
+
+        console.log('Wallet balances reevaluated successfully');
+    } catch (error) {
+        console.error('Error reevaluating wallet balances:', error);
+        throw error;
+    }
+}
+
 // Get all wallets
 export const getWallets = async () => {
     const database = await db;
