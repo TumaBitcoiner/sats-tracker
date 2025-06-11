@@ -8,7 +8,7 @@ import { categoryArray, walletsArray } from '../styles/categories';
 import { MaterialIcons } from '@expo/vector-icons';
 import TransactionForm from '../modals/transactionForm';
 import ButtonCircular from '../shared/buttonCircular';
-import { initializeDB, insertTransaction, getTransactions, deleteTransaction } from '../database/database'; // Import the createTable function
+import { initializeDB, insertTransaction, getTransactions, deleteTransaction, editTransaction } from '../database/database'; // Import the createTable function
 import { useTransactions } from '../context/transactionContext';
 import { CardTransaction } from '../cards/cardTransaction';
 import { groupTransactionsByDate } from '../shared/utils';
@@ -94,6 +94,24 @@ export default function Transactions(){
             console.error('Error deleting transaction:', error);
         }
     };
+
+    const handleEditTransaction = async (id, updatedTransaction) => {
+        try {
+            console.log('Editing transaction with ID:', id);
+            console.log('Updated transaction:', updatedTransaction);
+            await editTransaction(id, updatedTransaction);
+
+            // Update local state by filtering out the deleted transaction
+            setTransactions(currentTransactions => 
+                currentTransactions.map(transaction => 
+                    transaction.id === id ? {...transaction, ...updatedTransaction} : transaction
+                )
+            );
+            await updateTotals();
+        } catch (error) {
+            console.error('Error Editing transaction:', error);
+        }
+    };
     
     const renderSectionHeader = ({section}) => (
         <View style={globalStyles.sectionHeader}>
@@ -126,8 +144,11 @@ export default function Transactions(){
                         item={item}
                         onPress={() => navigation.navigate(
                             'TransactionDetails',
-                             {...item,
-                             onDelete: handleDeleteTransaction}
+                            {  
+                                ...item,
+                                onDelete: handleDeleteTransaction,
+                                onEdit: handleEditTransaction
+                            }
                         )}
                     />
                 )}

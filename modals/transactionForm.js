@@ -32,15 +32,20 @@ const reviewSchema = yup.object({
         .notOneOf(['No category selected..'], 'Please select a category'),
 })
 
-export default function TransactionForm({addNewTransaction, onPress}){
+export default function TransactionForm({addNewTransaction, onPress, initialValues = null}){
 
     const [dateOpen, setDateOpen] = useState(false);
     const [date, setDate] = useState(new Date());
     const [categoryOpen, setCategoryOpen] = useState(false);
     const [walletOpen, setWalletOpen] = useState(false);
     const [walletList, setWalletList] = useState([]);
-    const [selectedWalletName, setSelectedWalletName] = useState('No wallet selected..');
     const [walletType, setWalletType] = useState('OC');
+    const [selectedWalletName, setSelectedWalletName] = useState('No wallet selected..');
+    // const [selectedWalletName, setSelectedWalletName] = useState(
+    //     initialValues?.walletId ? 
+    //     walletList.find(wallet => wallet.id === initialValues.walletId)?.name || 'No wallet selected..' 
+    //     : 'No wallet selected..'
+    // );
 
     const loadWallets = async (type) => {
         try {
@@ -54,16 +59,32 @@ export default function TransactionForm({addNewTransaction, onPress}){
         }
     };
 
-    
     useEffect(() => {
-            loadWallets(walletType);
-    }, []);
+        const initializeWallet = async () => {
+            await loadWallets(initialValues?.transactionType || walletType);
+            if (initialValues?.walletId) {
+                const wallets = initialValues.transactionType === 'LN' ? 
+                    await getLNWallets() : 
+                    await getOCWallets();
+                const wallet = wallets.find(w => w.id === initialValues.walletId);
+                if (wallet) {
+                    setSelectedWalletName(wallet.name);
+                }
+            }
+        };
+        
+        initializeWallet();
+    }, [initialValues]);
+
+    // useEffect(() => {
+    //         loadWallets(walletType);
+    // }, []);
 
     return(
         <View style={globalStyles.container}>
             <Formik
             
-                initialValues={{ 
+                initialValues={initialValues || { 
                     amount: 0,
                     transactionFee: 0,
                     note: '',
@@ -149,7 +170,7 @@ export default function TransactionForm({addNewTransaction, onPress}){
                                     style={globalStyles.input}
                                     placeholder="How much?"
                                     onChangeText={formikProps.handleChange('amount')}
-                                    value={formikProps.values.amount}
+                                    value={formikProps.values.amount.toString()}
                                     onBlur={formikProps.handleBlur('amount')}
                                     keyboardType="numeric"
                                 />
@@ -165,7 +186,7 @@ export default function TransactionForm({addNewTransaction, onPress}){
                                     style={globalStyles.input}
                                     placeholder="How much to miners?"
                                     onChangeText={formikProps.handleChange('transactionFee')}
-                                    value={formikProps.values.transactionFee}
+                                    value={formikProps.values.transactionFee.toString()}
                                     onBlur={formikProps.handleBlur('transactionFee')}
                                     keyboardType="numeric"
                                 />

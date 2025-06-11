@@ -1,5 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 import DatePicker from 'react-native-date-picker';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 // Open the database
 const db = SQLite.openDatabaseAsync('sats-tracker.db');
@@ -224,33 +225,52 @@ export const deleteTransaction = async (id) => {
 };
 
 // Update a transaction by ID
-export const updateTransaction = (id, updatedTransaction) => {
-    return dbPromise.then(db => {
-        return new Promise((resolve, reject) => {
-            db.runAsync(
-                    `UPDATE transactions SET date = ?, amount = ?, category = ?, transactionType = ?, transactionFee = ?, note = ?, place = ? WHERE id = ?;`,
-                    [
-                        updatedTransaction.date,
-                        updatedTransaction.amount,
-                        updatedTransaction.category,
-                        updatedTransaction.transactionType,
-                        updatedTransaction.transactionFee,
-                        updatedTransaction.note,
-                        updatedTransaction.place,
-                        id,
-                    ],
-                    () => {
-                        console.log(`Transaction with ID ${id} updated successfully`);
-                        resolve();
-                    },
-                    (error) => {
-                        console.error('Error updating transaction:', error);
-                        reject(error);
-                    }
-                );
-            });
-        });
+export const editTransaction = async (id, updatedTransaction) => {
+   
+    const database = await db;
+    console.log('Editing transaction...');
 
+    try {
+        
+        // Delete tx amount from wallet balance.
+        oldTransaction = await getTransaction(id);
+
+        await updateWalletBalance(
+            oldTransaction.walletId, 
+            oldTransaction.amount, 
+            -oldTransaction.transactionFee,
+            !oldTransaction.isExpenses
+        );
+
+        const sqliteDate = updatedTransaction.date.toISOString().split('T')[0];
+
+        // Update the tx in the db
+        await database.runAsync(
+            `UPDATE transactions SET date = ?, amount = ?, transactionFee = ?, category = ?, transactionType = ?, note = ?, place = ?, isExpenses = ?, walletId = ?  WHERE id = ?;`,
+            [
+                sqliteDate,
+                updatedTransaction.amount,
+                updatedTransaction.transactionFee,
+                updatedTransaction.category,
+                updatedTransaction.transactionType,
+                updatedTransaction.note,
+                updatedTransaction.place,
+                updatedTransaction.isExpenses,
+                updatedTransaction.walletId,
+                id
+            ]
+        ); 
+
+        await updateWalletBalance(
+            updatedTransaction.walletId, 
+            updatedTransaction.amount, 
+            updatedTransaction.transactionFee,
+            updatedTransaction.isExpenses
+        );
+    } catch (error) {
+        console.error('Error editing transaction:', error);
+        throw error;
+    }
 };
 /* ==================================================== */
 

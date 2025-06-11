@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {StyleSheet, View, Text, TouchableWithoutFeedback, Modal} from 'react-native';
+import {StyleSheet, View, Text, TouchableWithoutFeedback, Modal, Keyboard} from 'react-native';
 import Card from "../shared/card";
 import { globalStyles } from "../styles/global";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -8,6 +8,7 @@ import { getWallets } from "../database/database";
 import { useNavigation } from "@react-navigation/native";
 import ButtonFlatIcon  from "../shared/buttonFlatIcon";
 import ConfirmationPopUp from "../modals/confirmationPopUp";
+import TransactionForm from "../modals/transactionForm";
 
 export default function TransactionDetails({route}){
 
@@ -15,6 +16,7 @@ export default function TransactionDetails({route}){
     const navigation = useNavigation();
 
     const [popupOpen, setPopupOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
 
     useEffect(() => {
         const fetchWallets = async () => {
@@ -46,6 +48,19 @@ export default function TransactionDetails({route}){
             navigation.goBack();
 
         } catch (error) {
+            console.error('Error deleting transaction:', error);
+        }
+    };
+
+    const handleEdit = async (updatedTransaction) => {
+        
+        console.log("Edit transaction with ID:", route.params.id);
+       
+        try{
+            await route.params.onEdit(route.params.id, updatedTransaction);                       
+            navigation.goBack();
+
+        } catch (error) {
             console.error('Error adding transaction:', error);
         }
     };
@@ -64,6 +79,31 @@ export default function TransactionDetails({route}){
                                     text='Are you sure you want to delete this transaction? This action cannot be undone.' 
                                     onCancel={() => setPopupOpen(false)}
                                     onConfirm={handleDelete}
+                                />
+                            </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
+
+            <Modal visible={editOpen} animationType="slide">
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={globalStyles.modalOverlay}>  
+
+                            <View style={globalStyles.modalContent}>                        
+                                <TransactionForm 
+                                    addNewTransaction={handleEdit}
+                                    onPress={() => setEditOpen(false)}
+                                    initialValues={{
+                                        amount: route.params.amount,
+                                        transactionFee: route.params.transactionFee,
+                                        note: route.params.note,
+                                        place: route.params.place,
+                                        date: new Date(route.params.date),
+                                        category: route.params.category,
+                                        isExpenses: route.params.isExpenses,
+                                        walletId: route.params.walletId,
+                                        transactionType: route.params.transactionType
+                                    }}
                                 />
                             </View>
                     </View>
@@ -120,7 +160,7 @@ export default function TransactionDetails({route}){
                 <ButtonFlatIcon
                     title='Edit'
                     icon='edit'
-                    onPress={() => console.log('Edit transaction')}
+                    onPress={() => setEditOpen(true)}
                 />
             </View>
         </View>
