@@ -405,4 +405,27 @@ export const getOCWallets = async () => {
     }
 };
 
+export const getLNBalance = async () => {
+    const database = await db;
+    
+    try {
+        const result = await database.getAllAsync(`SELECT SUM(balance) as total FROM wallets WHERE type = 'LN';`);
+        return result[0]?.total || 0;
+    } catch (error) {
+        console.error('Error fetching LN wallets balance:', error);
+        throw error;
+    }
+};
+
+export const getOCBalance = async () => {
+    const database = await db;
+    
+    try {
+        const result = await database.getAllAsync(`SELECT SUM(balance) as total FROM wallets WHERE type = 'OC';`);
+        return result[0]?.total || 0;
+    } catch (error) {
+        console.error('Error fetching OC wallets balance:', error);
+        throw error;
+    }
+}
  /* =============================================== */
