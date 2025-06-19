@@ -10,15 +10,25 @@ import { PieChart, BarChart } from 'react-native-chart-kit';
 
 
 export default function Home(){
+    
+    const { totalIncome, totalExpenses, totalFees, 
+        availableBalance, LNBalance, OCBalance, 
+        totalMonthlyIncome, totalMonthlyExpenses, totalMonthlyFees, updateTotals } = useTransactions();    
+        
+    useEffect(() => {
+        updateTotals();
+    }, []);
 
-    const { totalIncome, totalExpenses, totalFees, availableBalance, LNBalance, OCBalance, updateTotals } = useTransactions();    
-
+    const currentDate = new Date();
     const barData = {
         labels: ["Income", "Expenses", "Fees"],
         datasets: [
             {
-                data: [totalIncome, totalExpenses, totalFees],
-                
+                data: [
+                    totalMonthlyIncome, 
+                    totalMonthlyExpenses, 
+                    totalMonthlyFees
+                ],                
             }
         ],
         colors: [
@@ -49,9 +59,6 @@ export default function Home(){
         // }
     ];
 
-    useEffect(() => {
-        updateTotals();
-    }, []);
 
     return(
         
@@ -87,7 +94,7 @@ export default function Home(){
                     </Card>
                     <Card>
                         <View style={globalStyles.cardContainer}>
-                            <Text style={styles.amountTitle}>Transaction Overview</Text>
+                            <Text style={styles.amountTitle}>{currentDate.getMonth() + 1}/{currentDate.getFullYear()}</Text>
                             <BarChart
                                 data={barData}
                                 width={Dimensions.get("window").width - 40}

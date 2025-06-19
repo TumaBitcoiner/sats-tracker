@@ -188,6 +188,43 @@ export const getTotalFees = async () => {
     }
 };
 
+// Get total amounts from a certain month
+export const getMonthlyTotals = async (month, year) => {
+    const database = await db;
+    console.log('Fetching totals for:', month, year);
+
+    try {
+        // Get start and end dates for the specified month
+        const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+        const lastDay = new Date(year, month, 0).getDate();
+        const endDate = `${year}-${String(month).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
+
+        console.log('Date range:', startDate, 'to', endDate);
+
+
+        const result = await database.getAllAsync(`
+            SELECT 
+                SUM(CASE WHEN isExpenses = 0 THEN amount ELSE 0 END) as totalIncome,
+                SUM(CASE WHEN isExpenses = 1 THEN amount ELSE 0 END) as totalExpenses,
+                SUM(transactionFee) as totalFees
+            FROM transactions 
+            WHERE date BETWEEN ? AND ?;`,
+            [startDate, endDate]
+        );
+
+        console.log('Monthly totals result:', result);
+        return {
+            totalIncome: result[0].totalIncome || 0,
+            totalExpenses: result[0].totalExpenses || 0,
+            totalFees: result[0].totalFees || 0
+        };
+
+    } catch (error) {
+        console.error('Error fetching monthly totals:', error);
+        throw error;
+    }
+};
+
 // Delete a transaction by ID
 export const deleteTransaction = async (id) => {
 
