@@ -1,18 +1,20 @@
 import React, {useEffect, useState} from 'react'
 import { View, Text, TouchableWithoutFeedback,
-     Modal, Keyboard, FlatList, 
-     SectionList, ScrollView, StyleSheet } from 'react-native'
+     Modal, Keyboard, SectionList, StyleSheet } from 'react-native'
 import ButtonCircular from '../shared/buttonCircular';
 import WalletForm from '../modals/walletForm';
 import { globalStyles } from '../styles/global';
-import Card from '../shared/card';
 import { initializeDB, getLNWallets, getOCWallets, createWallet } from '../database/database'; // Import the createTable function
 import { CardWallet } from '../cards/cardWallet';
 import { useNavigation } from "@react-navigation/native";
+import { useTransactions } from '../context/transactionContext';
+
 
 
 
 export default function Wallets(){
+
+    const { updateTotals } = useTransactions();
 
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -65,6 +67,7 @@ export default function Wallets(){
             const unsubscribe = navigation.addListener('focus', () => {
                 fetchWalletsLN();                    
                 fetchWalletsOC();
+                //updateTotals();
             });
     
             // Cleanup subscription
@@ -99,7 +102,7 @@ export default function Wallets(){
             setWalletsLN(newLNWallets);
             setWalletsOC(newOCWallets);
                 
-            //await updateTotals();
+            await updateTotals();
 
         } catch (error) {
             console.error('Error adding transaction:', error);

@@ -51,7 +51,7 @@ export default function Transactions(){
         // Set up focus listener to refresh transactions when screen is focused
         const unsubscribe = navigation.addListener('focus', () => {
             fetchTransactions();
-            updateTotals();
+            //updateTotals();
         });
 
         // Cleanup subscription

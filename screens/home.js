@@ -4,7 +4,7 @@ import Card from '../shared/card'
 import { useTransactions } from '../context/transactionContext'
 import { globalStyles } from '../styles/global';
 import { formatNumber } from '../shared/utils';
-//import { Dimensions } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 import { PieChart, BarChart } from 'react-native-chart-kit';
 
 
@@ -15,9 +15,16 @@ export default function Home(){
         availableBalance, LNBalance, OCBalance, 
         totalMonthlyIncome, totalMonthlyExpenses, totalMonthlyFees, updateTotals } = useTransactions();    
         
+    const navigation = useNavigation();
+    
     useEffect(() => {
-        updateTotals();
-    }, []);
+        const unsubscribe = navigation.addListener('focus', () => {
+            updateTotals();
+        });
+
+        // Cleanup subscription
+        return unsubscribe;
+    }, [navigation]);
 
     const currentDate = new Date();
     const barData = {
