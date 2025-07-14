@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {MaterialIcons} from '@expo/vector-icons'
 import Home from '../screens/home';
 import TransactionStack from './transactionStack';
+import WalletStack from './walletStack';
 import Wallets from '../screens/wallets';
 import BudgetStack from './budgetStack';
 import Header from '../shared/header';
@@ -22,18 +23,29 @@ import Header from '../shared/header';
             }
         },
         
-        Wallets: {
-            screen: Wallets,
+        // Wallets: {
+        //     screen: Wallets,
+        //     options:{
+        //         tabBarIcon:({ color, size }) =>
+        //             <MaterialIcons name='account-balance-wallet' color={color} size={size} />,
+        //         headerTitle: () => <Header title="Wallets" />,
+        //         headerTitleAlign: 'center',
+        //         //headerShown: false, 
+        //         title:'Wallets',
+        //     }
+        // }, 
+
+        WalletStack: {
+            screen: WalletStack,
             options:{
                 tabBarIcon:({ color, size }) =>
                     <MaterialIcons name='account-balance-wallet' color={color} size={size} />,
-                headerTitle: () => <Header title="Wallets" />,
-                headerTitleAlign: 'center',
-                //headerShown: false, 
+                
+                headerShown: false, 
                 title:'Wallets',
             }
-        }, 
-        
+        },
+
         TransactionStack: {
             screen: TransactionStack,
             options:{

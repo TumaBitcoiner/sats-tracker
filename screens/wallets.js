@@ -147,7 +147,14 @@ export default function Wallets(){
                 )}
                 renderItem={({ item }) => (
                     <CardWallet
-                        onPress={() => console.log('BRAVO')}
+                        onPress={() => navigation.navigate(
+                            'WalletDetails',
+                            {  
+                                item
+                                //onDelete: handleDeleteTransaction,
+                                //onEdit: handleEditTransaction
+                            }
+                        )}
                         name={item.name}
                         type={item.type}
                         balance={item.balance}
