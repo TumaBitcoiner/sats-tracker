@@ -135,5 +135,10 @@ export const globalStyles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
+    titleText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        padding: 10,
+    }
 
 });

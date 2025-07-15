@@ -56,6 +56,25 @@ export const categoryArray = {
     }
 }
 
+export const EXPENSES_RANK_COLORS = {
+    'No category selected..': '#808080',  // Gray
+    'Zap': '#FFD700',                     // Gold
+    'Groceries': '#4CAF50',               // Green
+    'Coffee': '#795548',                  // Brown
+    'Transportation': '#2196F3',          // Blue
+    'Dining Out': '#FF5722',              // Deep Orange
+    'Take Out': '#FF9800',                // Orange
+    'Entertainment': '#9C27B0',           // Purple
+    'Health': '#F44336',                  // Red
+    'Sports': '#00BCD4',                  // Cyan
+    'Housing': '#3F51B5',                 // Indigo
+    'Public Transport': '#03A9F4',        // Light Blue
+    'Parking': '#607D8B',                 // Blue Gray
+    'eSIM': '#E91E63',                    // Pink
+    'Phone Bill': '#009688',              // Teal
+    'Gift Card': '#8BC34A',               // Light Green
+}
+
 export const wallets = {
     type:[
         ['question-mark', 'No wallet type selected..'],
