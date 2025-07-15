@@ -465,4 +465,23 @@ export const getOCBalance = async () => {
         throw error;
     }
 }
+
+export const getCategoryTotalsByWallet = async (walletId) => {
+    const database = await db;
+    try {
+        const result = await database.getAllAsync(
+            `SELECT category, SUM(amount) as totalSpent
+             FROM transactions
+             WHERE walletId = ? AND isExpenses = 1
+             GROUP BY category
+             ORDER BY totalSpent DESC;`,
+            [walletId]
+        );
+        // Returns an array: [{ category: 'Food', totalSpent: 1234 }, ...]
+        return result;
+    } catch (error) {
+        console.error('Error fetching category totals by wallet:', error);
+        throw error;
+    }
+};
  /* =============================================== */

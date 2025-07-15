@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../styles/global';
-import { categoryArray, walletsArray } from '../styles/categories';
+import { categoryArray } from '../styles/categories';
 import Card from '../shared/card';
 import { MaterialIcons } from '@expo/vector-icons';
 import { formatNumber } from '../shared/utils';

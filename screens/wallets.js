@@ -150,7 +150,7 @@ export default function Wallets(){
                         onPress={() => navigation.navigate(
                             'WalletDetails',
                             {  
-                                item
+                                ...item
                                 //onDelete: handleDeleteTransaction,
                                 //onEdit: handleEditTransaction
                             }
