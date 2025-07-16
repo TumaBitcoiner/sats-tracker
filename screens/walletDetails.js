@@ -7,6 +7,7 @@ import { CardCategory } from '../cards/cardCategory';
 import { PieChart } from 'react-native-chart-kit';
 import Card from '../shared/card';
 import { EXPENSES_RANK_COLORS } from '../styles/categories';
+import HeaderWalletDetails from '../headers/headerWalletDetails';
 
 export default function WalletDetails({route}){
 
@@ -68,6 +69,7 @@ export default function WalletDetails({route}){
     return(
 
         <View style={globalStyles.container}>
+            <HeaderWalletDetails navigation={navigation}/>
             {/* <Text>{firstCat}</Text> */}
             <Card>
                 <View style={globalStyles.cardContainer}>
