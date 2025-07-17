@@ -420,6 +420,23 @@ export const getWallets = async () => {
     }
 };
 
+export const getWallet = async (id) => {
+    const database = await db;
+    
+    try {
+        const result =  await database.getAllAsync(`
+            SELECT * FROM wallets
+            WHERE id = ?;`,
+            [id]);
+        console.log('Wallet fetched:', result);
+        return result;
+    } catch (error) {
+        console.error('Error fetching wallet:', error);
+        throw error;
+    }
+};
+
+
 export const getLNWallets = async () => {
     const database = await db;
     

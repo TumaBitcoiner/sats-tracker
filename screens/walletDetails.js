@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {View, Text, FlatList, Dimensions, 
-    StyleSheet, Modal, TouchableWithoutFeedback } from 'react-native';
+    StyleSheet, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { globalStyles } from '../styles/global';
 import { getCategoryTotalsByWallet } from '../database/database'; // Import the function to get totals
 import { useNavigation } from "@react-navigation/native";
@@ -10,6 +10,7 @@ import Card from '../shared/card';
 import { EXPENSES_RANK_COLORS } from '../styles/categories';
 import HeaderWalletDetails from '../headers/headerWalletDetails';
 import WalletOptions from '../modals/walletOptions';
+import SwapFunds from '../modals/swapFunds';
 
 export default function WalletDetails({route}){
 
@@ -61,6 +62,8 @@ export default function WalletDetails({route}){
         switch(value) {
             case 'swap':
                 console.log('Swap');
+                setOpenSwapModal(true);
+                setOpenWalletOptions(false);
                 break;
             case 'consolidate':
                 console.log('Consolidate');
@@ -89,10 +92,18 @@ export default function WalletDetails({route}){
         };
     }, [navigation]);
 
+    const handleSwapTransaction = async (values) => {
+
+        console.log('Swap Transaction Values:', values);
+        setOpenSwapModal(false);
+
+    };
+
     return(
 
         <View style={globalStyles.container}>
 
+            {/* Options modal */}
             <Modal visible={openWalletOptions} animationType="none" transparent={true}>
                 <TouchableWithoutFeedback onPress={() => setOpenWalletOptions(false)}>
                     <View style={globalStyles.modalOverlay}>  
@@ -103,6 +114,19 @@ export default function WalletDetails({route}){
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>
+
+            {/* Swap funds modal */}
+            <Modal visible={openSwapModal} animationType="slide">
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={globalStyles.modalOverlay}>  
+
+                            <View style={globalStyles.modalContent}>                        
+                                <SwapFunds swapFunds={handleSwapTransaction} onPress={() => setOpenSwapModal(false)} outWalletId={route.params.id}/>
+                            </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>           
+
 
             <HeaderWalletDetails navigation={navigation} onOptionPress={() => setOpenWalletOptions(true)}/>
             <Card>

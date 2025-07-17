@@ -1,6 +1,7 @@
 export const categories = {
     expenses: [
         ['question-mark', 'No category selected..'],
+        ['swap-horiz', 'Swap Out'],
         ['bolt', 'Zap'],
         ['local-grocery-store', 'Groceries'],
         ['coffee', 'Coffee'],
@@ -19,6 +20,7 @@ export const categories = {
     ],
     income:[
         ['savings', 'Initial Balance'],
+        ['swap-horiz', 'Swap In'],
         ['attach-money', 'Salary'],
         ['bolt', 'Zap Received'],
         ['currency-exchange', 'Exchange'],
@@ -31,6 +33,7 @@ export const categoryArray = {
     expenses:{
 
         'No category selected..': ['question-mark', 'No category selected..'],
+        'Swap Out': ['swap-horiz', 'Swap Out'],
         'Zap': ['bolt', 'Zap'],
         'Groceries': ['local-grocery-store', 'Groceries'],
         'Coffee': ['coffee', 'Coffee'],
@@ -49,6 +52,7 @@ export const categoryArray = {
     },
     income:{
         'Initial Balance': ['savings', 'Initial Balance'],
+        'Swap In': ['swap-horiz', 'Swap In'],
         'Salary': ['attach-money', 'Salary'],
         'Zap Received': ['bolt', 'Zap Received'],
         'Exchange': ['currency-exchange', 'Exchange'],
@@ -57,7 +61,7 @@ export const categoryArray = {
 }
 
 export const EXPENSES_RANK_COLORS = {
-    'No category selected..': '#808080',  // Gray
+    //'No category selected..': '#808080',  // Gray
     'Zap': '#FFD700',                     // Gold
     'Groceries': '#4CAF50',               // Green
     'Coffee': '#795548',                  // Brown
