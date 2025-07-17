@@ -24,7 +24,7 @@ const reviewSchema = yup.object({
     transactionFee: yup.number()
         .min(0)
         .integer(),
-    walletId: yup.number()
+    walletIdIn: yup.number()
         .required()
         .min(1, 'Please select a wallet')
 })
@@ -88,7 +88,7 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                     categoryIn: 'Swap In',
                     categoryOut: 'Swap Out',
                     isExpensesOut: true,
-                    isExpensesIn: true,
+                    isExpensesIn: false,
                     walletIdIn: 0,
                     walletIdOut: outWalletId,
                     transactionTypeIn: walletType,
@@ -167,7 +167,7 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                                                 <WalletChoice 
                                                     walletList={walletList}
                                                     onPress={(walletId, type, name) => {
-                                                        formikProps.setFieldValue('walletId', walletId);
+                                                        formikProps.setFieldValue('walletIdIn', walletId);
                                                         setWalletOpen(false);
                                                         setSelectedWalletName(name);
                                                     }}
