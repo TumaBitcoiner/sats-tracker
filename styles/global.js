@@ -46,6 +46,7 @@ export const globalStyles = StyleSheet.create({
     },
     modalOverlay: {
         flex: 1,
+        //backgroundColor: 'none',
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
         justifyContent: 'center', // Center the modal vertically
         alignItems: 'center', // Center the modal horizontally
@@ -72,6 +73,20 @@ export const globalStyles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 5,
+    },
+    modalOptionsContent:{
+        width: '60%',
+        //height:'50%',
+        backgroundColor: 'white', // Modal background color
+        //borderRadius: 20, // Rounded corners
+        //padding: 5, // Padding inside the modal
+        elevation: 5, // Shadow for Android
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        position: 'absolute',
+        top: 10,
+        right: 10
     },
     inputContainer:{
         flexDirection:'row',

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import {View, Text, FlatList, Dimensions, StyleSheet } from 'react-native';
+import {View, Text, FlatList, Dimensions, 
+    StyleSheet, Modal, TouchableWithoutFeedback } from 'react-native';
 import { globalStyles } from '../styles/global';
 import { getCategoryTotalsByWallet } from '../database/database'; // Import the function to get totals
 import { useNavigation } from "@react-navigation/native";
@@ -8,12 +9,14 @@ import { PieChart } from 'react-native-chart-kit';
 import Card from '../shared/card';
 import { EXPENSES_RANK_COLORS } from '../styles/categories';
 import HeaderWalletDetails from '../headers/headerWalletDetails';
+import WalletOptions from '../modals/walletOptions';
 
 export default function WalletDetails({route}){
 
 
     const [walletExpenses, setWalletExpenses] = useState([]);
     const [pieData, setPieData] = useState([]);
+    const [openWalletOptions, setOpenWalletOptions] = useState(false);
 
     //const [walletIncome, setWalletIncome] = useState([]);
 
@@ -69,8 +72,19 @@ export default function WalletDetails({route}){
     return(
 
         <View style={globalStyles.container}>
-            <HeaderWalletDetails navigation={navigation}/>
-            {/* <Text>{firstCat}</Text> */}
+
+            <Modal visible={openWalletOptions} animationType="none" transparent={true}>
+                <TouchableWithoutFeedback onPress={() => setOpenWalletOptions(false)}>
+                    <View style={globalStyles.modalOverlay}>  
+
+                            <View style={globalStyles.modalOptionsContent}>                        
+                                <WalletOptions/>
+                            </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
+
+            <HeaderWalletDetails navigation={navigation} onOptionPress={() => setOpenWalletOptions(true)}/>
             <Card>
                 <View style={globalStyles.cardContainer}>
                     <Text style={globalStyles.titleText}>Expenses by Catergory</Text>
