@@ -16,7 +16,9 @@ export default function WalletDetails({route}){
 
     const [walletExpenses, setWalletExpenses] = useState([]);
     const [pieData, setPieData] = useState([]);
+
     const [openWalletOptions, setOpenWalletOptions] = useState(false);
+    const [openSwapModal, setOpenSwapModal] = useState(false);
 
     //const [walletIncome, setWalletIncome] = useState([]);
 
@@ -43,18 +45,37 @@ export default function WalletDetails({route}){
      const fetchTotalsOfCategoryByWallet = async () => {
             
         try {
-                //console.log("Wallet ID:", route.params.id);
                 const totals = await getCategoryTotalsByWallet(route.params.id);
                 
                 setWalletExpenses(totals);
                 setPieData(createPieChartData(totals));
-                //setFirstCat(totals[0].category);
                
                 console.log("Wallet Expenses:", totals);
             } catch (error) {
                 console.error('Error fetching wallet details:', error);
             }
     };
+
+    const manageWallet = (value) => {
+
+        switch(value) {
+            case 'swap':
+                console.log('Swap');
+                break;
+            case 'consolidate':
+                console.log('Consolidate');
+                break;  
+            case 'edit':
+                console.log('Edit');
+                break;
+            case 'delete':
+                console.log('Delete');
+                break;
+            default:
+                console.log('Unknown action');
+                break;
+        }
+    }
 
     useEffect(() => {
 
@@ -65,7 +86,6 @@ export default function WalletDetails({route}){
         // Cleanup subscription
         return () => {
             unsubscribe();
-            //setWalletExpenses([]);
         };
     }, [navigation]);
 
@@ -78,7 +98,7 @@ export default function WalletDetails({route}){
                     <View style={globalStyles.modalOverlay}>  
 
                             <View style={globalStyles.modalOptionsContent}>                        
-                                <WalletOptions/>
+                                <WalletOptions onPress={(value) => manageWallet(value)}/>
                             </View>
                     </View>
                 </TouchableWithoutFeedback>
