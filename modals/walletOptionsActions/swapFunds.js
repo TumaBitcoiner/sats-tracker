@@ -2,17 +2,17 @@ import React, {useState, useEffect} from "react";
 import {View, TextInput, Text, TouchableOpacity, 
     Modal, TouchableWithoutFeedback, Switch, StyleSheet, ScrollView
 } from 'react-native';
-import { globalStyles } from "../styles/global";
+import { globalStyles } from "../../styles/global";
 import {Formik} from 'formik'
 import { MaterialIcons } from "@expo/vector-icons";
-import ButtonFlat from "../shared/butttonFlat";
+import ButtonFlat from "../../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
-import {categoryArray} from "../styles/categories";
-import TopTabNavigatorCategories from "../routes/topTabNavigatorCategory";
-import { getLNWallets, getOCWallets, getWallet } from '../database/database';
-import {WalletChoice} from "./walletChoice";
+import {categoryArray} from "../../styles/categories";
+import TopTabNavigatorCategories from "../../routes/topTabNavigatorCategory";
+import { getLNWallets, getOCWallets, getWallet } from '../../database/database';
+import {WalletChoice} from "../walletChoice";
 import * as yup from 'yup';
-import ButtonCircular from '../shared/buttonCircular';
+import ButtonCircular from '../../shared/buttonCircular';
 
 
 const reviewSchema = yup.object({
