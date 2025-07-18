@@ -2,6 +2,7 @@ export const categories = {
     expenses: [
         ['question-mark', 'No category selected..'],
         ['swap-horiz', 'Swap Out'],
+        ['change-circle', 'Consolidation'],
         ['bolt', 'Zap'],
         ['local-grocery-store', 'Groceries'],
         ['coffee', 'Coffee'],
@@ -21,6 +22,7 @@ export const categories = {
     income:[
         ['savings', 'Initial Balance'],
         ['swap-horiz', 'Swap In'],
+        ['question-mark', 'Dummy'],
         ['attach-money', 'Salary'],
         ['bolt', 'Zap Received'],
         ['currency-exchange', 'Exchange'],
@@ -33,7 +35,8 @@ export const categoryArray = {
     expenses:{
 
         'No category selected..': ['question-mark', 'No category selected..'],
-        'Swap Out': ['swap-horiz', 'Swap Out'],
+        'Swap Out': ['swap-horiz', 'Swap Out'],        
+        'Consolidation': ['change-circle', 'Consolidation'],
         'Zap': ['bolt', 'Zap'],
         'Groceries': ['local-grocery-store', 'Groceries'],
         'Coffee': ['coffee', 'Coffee'],
@@ -53,6 +56,7 @@ export const categoryArray = {
     income:{
         'Initial Balance': ['savings', 'Initial Balance'],
         'Swap In': ['swap-horiz', 'Swap In'],
+        'Dummy': ['question-mark', 'Dummy'],
         'Salary': ['attach-money', 'Salary'],
         'Zap Received': ['bolt', 'Zap Received'],
         'Exchange': ['currency-exchange', 'Exchange'],

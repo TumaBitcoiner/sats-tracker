@@ -3,14 +3,14 @@ import {FlatList, View, Text, TouchableOpacity} from 'react-native';
 import { MaterialIcons } from "@expo/vector-icons";
 import Card from "../shared/card";
 import { globalStyles } from "../styles/global";
-import { categories, categoryArray } from "../styles/categories";
+import { categories } from "../styles/categories";
 
 
 function CategoryChoice({categoryType, onPress, isExpenses}) {
 
     return(
         <FlatList 
-            data={categoryType.slice(2)}
+            data={categoryType.slice(3)}
             renderItem={( {item} ) => (
                 <TouchableOpacity 
                     onPress={() => onPress(item, isExpenses)}>
