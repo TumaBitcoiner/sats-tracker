@@ -121,7 +121,7 @@ export default function WalletDetails({route}){
                     <View style={globalStyles.modalOverlay}>  
 
                             <View style={globalStyles.modalOptionsContent}>                        
-                                <WalletOptions onPress={(value) => manageWallet(value)}/>
+                                <WalletOptions onPress={(value) => manageWallet(value)} walletType={route.params.type}/>
                             </View>
                     </View>
                 </TouchableWithoutFeedback>

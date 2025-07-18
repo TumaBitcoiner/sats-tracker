@@ -1,7 +1,7 @@
 import {View} from 'react-native';
 import CardOption from '../cards/cardOption';
 
-export default function WalletOptions({onPress}){
+export default function WalletOptions({onPress, walletType}){
 
     return(
         <View>
@@ -10,11 +10,15 @@ export default function WalletOptions({onPress}){
                 cardTitle='Swap Funds'
                 onPress={() => onPress('swap')}
             />
-            <CardOption
-                cardIcon='change-circle'
-                cardTitle='Consolidate'
-                onPress={() => onPress('consolidate')}
-            />
+            { walletType === 'OC' ?
+
+                <CardOption
+                    cardIcon='change-circle'
+                    cardTitle='Consolidate'
+                    onPress={() => onPress('consolidate')}
+                />
+                : null
+            }
             <CardOption
                 cardIcon='edit'
                 cardTitle='Edit Wallet'
