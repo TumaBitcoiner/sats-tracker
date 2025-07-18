@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {View, Text, FlatList, Dimensions, 
     StyleSheet, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { globalStyles } from '../styles/global';
-import { getCategoryTotalsByWallet } from '../database/database'; // Import the function to get totals
+import { getCategoryTotalsByWallet, swapTransactions } from '../database/database'; // Import the function to get totals
 import { useNavigation } from "@react-navigation/native";
 import { CardCategory } from '../cards/cardCategory';
 import { PieChart } from 'react-native-chart-kit';
@@ -97,6 +97,14 @@ export default function WalletDetails({route}){
         console.log('Swap Transaction Values:', values);
         setOpenSwapModal(false);
 
+        try{
+            await swapTransactions(values); 
+        
+            
+        } catch (error) {
+            console.error('Error adding transaction:', error);
+        }
+
     };
 
     return(
@@ -114,7 +122,7 @@ export default function WalletDetails({route}){
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>
-
+        
             {/* Swap funds modal */}
             <Modal visible={openSwapModal} animationType="slide">
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

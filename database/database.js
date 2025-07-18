@@ -1,6 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import DatePicker from 'react-native-date-picker';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { date } from 'yup';
 
 // Open the database
 const db = SQLite.openDatabaseAsync('sats-tracker.db');
@@ -309,6 +310,42 @@ export const editTransaction = async (id, updatedTransaction) => {
         throw error;
     }
 };
+
+export const swapTransactions = async (values) => {
+
+    const outTransaction = {
+        date: values.date,
+        amount: values.amount,
+        transactionFee: values.transactionFee,
+        category: values.categoryOut,
+        transactionType: values.transactionTypeOut,
+        note: values.note,
+        place: values.place,
+        isExpenses: values.isExpensesOut,
+        walletId: values.walletIdOut
+    }
+
+    console.log('Out Transaction:', outTransaction);
+
+    await insertTransaction(outTransaction);
+
+    const inTransaction = {
+        date: values.date,
+        amount: values.amount,
+        transactionFee: 0,
+        category: values.categoryIn,
+        transactionType: values.transactionTypeIn,
+        note: values.note,
+        place: values.place,
+        isExpenses: values.isExpensesIn,
+        walletId: values.walletIdIn
+    }
+
+    console.log('In Transaction:', inTransaction);
+
+    await insertTransaction(inTransaction);
+    
+}
 /* ==================================================== */
 
  /* =================== Wallets =================== */
