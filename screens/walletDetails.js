@@ -10,7 +10,8 @@ import Card from '../shared/card';
 import { EXPENSES_RANK_COLORS } from '../styles/categories';
 import HeaderWalletDetails from '../headers/headerWalletDetails';
 import WalletOptions from '../modals/walletOptions';
-import SwapFunds from '../modals/swapFunds';
+import SwapFunds from '../modals/walletOptionsActions/swapFunds';
+import ConsolidateFunds from '../modals/walletOptionsActions/consolidateFunds';
 
 export default function WalletDetails({route}){
 
@@ -20,6 +21,7 @@ export default function WalletDetails({route}){
 
     const [openWalletOptions, setOpenWalletOptions] = useState(false);
     const [openSwapModal, setOpenSwapModal] = useState(false);
+    const [openConsolidationModal, setOpenConsolidationModal] = useState(false);
 
     //const [walletIncome, setWalletIncome] = useState([]);
 
@@ -38,7 +40,7 @@ export default function WalletDetails({route}){
     const renderItem = ({ item }) => (
         <CardCategory
             item={item}
-            onPress={() =>  navigation.goBack()}
+            onPress={() =>  console.log('Category pressed:', item.category)}
             isExpenses={true}
         />
     );
@@ -67,6 +69,8 @@ export default function WalletDetails({route}){
                 break;
             case 'consolidate':
                 console.log('Consolidate');
+                setOpenConsolidationModal(true);
+                setOpenWalletOptions(false);
                 break;  
             case 'edit':
                 console.log('Edit');
@@ -135,6 +139,17 @@ export default function WalletDetails({route}){
                 </TouchableWithoutFeedback>
             </Modal>           
 
+            {/* Consolidate funds modal */}
+            <Modal visible={openConsolidationModal} animationType="slide">
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={globalStyles.modalOverlay}>  
+
+                            <View style={globalStyles.modalContent}>                        
+                                <ConsolidateFunds swapFunds={() => setOpenConsolidationModal(false)} onPress={() => setOpenConsolidationModal(false)} outWalletId={route.params.id}/>
+                            </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>        
 
             <HeaderWalletDetails navigation={navigation} onOptionPress={() => setOpenWalletOptions(true)}/>
             <Card>

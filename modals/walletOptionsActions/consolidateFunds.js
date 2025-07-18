@@ -1,55 +1,31 @@
 import {useState, useEffect} from "react";
 import {View, TextInput, Text, TouchableOpacity, 
-    Modal, TouchableWithoutFeedback, Switch, StyleSheet, ScrollView
+    StyleSheet, ScrollView
 } from 'react-native';
 import { globalStyles } from "../../styles/global";
 import {Formik} from 'formik'
 import { MaterialIcons } from "@expo/vector-icons";
 import ButtonFlat from "../../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
-import { getLNWallets, getOCWallets, getWallet } from '../../database/database';
-import {WalletChoice} from "../walletChoice";
+import { getWallet } from '../../database/database';
 import * as yup from 'yup';
 import ButtonCircular from '../../shared/buttonCircular';
 
 
 const reviewSchema = yup.object({
 
-    amount: yup.number()
+    transactionFee: yup.number()
         .required()
         .positive()
         .integer(),
-    transactionFee: yup.number()
-        .min(0)
-        .integer(),
-    walletIdIn: yup.number()
-        .required()
-        .min(1, 'Please select a wallet')
 })
 
-export default function SwapFunds({swapFunds, onPress, outWalletId}){
+export default function ConsolidateFunds({consolidateFunds, onPress, outWalletId}){
 
     const [dateOpen, setDateOpen] = useState(false);
     const [date, setDate] = useState(new Date());
-    const [categoryOpen, setCategoryOpen] = useState(false);
-    const [walletOpen, setWalletOpen] = useState(false);
-    const [walletList, setWalletList] = useState([]);
-    const [walletType, setWalletType] = useState('OC');
-    const [selectedWalletName, setSelectedWalletName] = useState('No wallet selected..');
-    const [outWalletName, setOutWalletName] = useState('No wallet selected..');
+    const [outWalletName, setOutWalletName] = useState('OC');
     const [outWalletType, setOutWalletType] = useState('OC');
-
-    const loadWallets = async (type) => {
-        try {
-            const fetchedWallets = type === 'LN' ? 
-                await getLNWallets() : 
-                await getOCWallets();
-                setWalletList(fetchedWallets);
-            //setWalletOpen(true); // Open wallet selector after loading
-        } catch (error) {
-            console.error('Error loading wallets:', error);
-        }
-    };
 
     const getOutWallet = async (outWalletId) => {
         try {
@@ -63,18 +39,13 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
     }
 
     useEffect(() => {
-        const initializeWallet = async () => {
-            await loadWallets(walletType);
-        };
-
-        initializeWallet();        
+              
         getOutWallet(outWalletId)
     }, []);
 
     return(
         <View style={globalStyles.container}>
-
-            {/* <Text style={{...globalStyles.sectionHeaderText, ...{fontSize: 30, padding: 20}}}> Swap Funds</Text> */}
+ 
             <Formik
             
                 initialValues={{ 
@@ -83,18 +54,14 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                     note: '',
                     place: '',
                     date: new Date(),
-                    categoryIn: 'Swap In',
-                    categoryOut: 'Swap Out',
-                    isExpensesOut: true,
-                    isExpensesIn: false,
-                    walletIdIn: 0,
-                    walletIdOut: outWalletId,
-                    transactionTypeIn: walletType,
-                    transactionTypeOut: outWalletType,
+                    category: 'Consolidation',
+                    isExpenses: true,
+                    walletId: outWalletId,
+                    transactionType: outWalletType,
                 }}
                 validationSchema={reviewSchema}
                 onSubmit={(values)=>{
-                    swapFunds(values);
+                    consolidateFunds(values);
                 }}
             >
 
@@ -103,13 +70,13 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                         <ScrollView style={styles.scrollContent}>
                             {/* Transaction Type */}
 
-                            <Text style={{...globalStyles.sectionHeaderText, ...{padding: 5}}}> From:</Text>
+                            <Text style={{...globalStyles.sectionHeaderText, ...{padding: 5}}}> Consolidate:</Text>
                             <View style={{...globalStyles.inputContainer, ...{justifyContent: 'space-between'}}}>
                                 <View style={styles.walletSelector}>
                                 
                                         
                                     <MaterialIcons 
-                                        name={outWalletType === 'LN' ? 'bolt' : 'currency-bitcoin'} 
+                                        name={'currency-bitcoin'} 
                                         style={globalStyles.icons} />
                                     
                                     <Text style={globalStyles.infoText} >
@@ -118,80 +85,7 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                                 </View> 
                             </View>
 
-                            <Text style={{...globalStyles.sectionHeaderText, ...{padding: 5}}}> To:</Text>
-                            <View style={{...globalStyles.inputContainer, ...{justifyContent: 'space-between'}}}>
-                                <TouchableOpacity onPress={() => setWalletOpen(true)} style={styles.walletSelector}>
-                                
-                                        
-                                    <MaterialIcons 
-                                        name={formikProps.values.transactionTypeIn === 'LN' ? 'bolt' : 'currency-bitcoin'} 
-                                        style={globalStyles.icons} />
-                                    
-                                    <Text style={globalStyles.infoText} >
-                                        {selectedWalletName}
-                                    </Text>
-                                        
-                                    <MaterialIcons name='arrow-forward-ios' style={styles.arrowIcon} />
-
-                                
-                                </TouchableOpacity> 
-                                <View style={styles.switchContainer}>
-                                <Switch
-                                    style={[{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }]}
-                                    value={formikProps.values.transactionTypeIn === 'LN'}
-                                    onValueChange={(value) => {
-                                        const newType = value ? 'LN' : 'OC';
-                                        console.log(newType);
-                                        formikProps.setFieldValue('transactionTypeIn', newType);
-                                        formikProps.setFieldValue('walletIdIn', 0); // Reset wallet selection
-                                        setSelectedWalletName('No wallet selected..');
-                                        setWalletType(newType);
-                                        loadWallets(newType);
-                                    }}
-                                    trackColor={{ false: '#ff4444', true: '#00C851' }}
-                                    thumbColor={formikProps.values.transactionTypeIn === 'LN' ? '#00C851' : '#ff4444'}
-                                />
-                                </View>
-                            </View>
-
-                            {/* Wallet */}
-                            <Modal visible={walletOpen} animationType="slide">
-                                
-                                <TouchableWithoutFeedback onPress={() => setWalletOpen(false)}>
-                                    <View style={globalStyles.modalOverlay}>  
-                
-                                            <View style={globalStyles.modalContent}>                        
-                                                
-                                                <WalletChoice 
-                                                    walletList={walletList}
-                                                    onPress={(walletId, type, name) => {
-                                                        formikProps.setFieldValue('walletIdIn', walletId);
-                                                        setWalletOpen(false);
-                                                        setSelectedWalletName(name);
-                                                    }}
-                                                />                                            
-                                            </View>
-                                    </View>
-                                </TouchableWithoutFeedback>
-                                                            
-                            </Modal>    
-
-                            {/* Amount */}
-                            <View style={globalStyles.inputContainer}>
-                                <MaterialIcons name='money' style={globalStyles.icons} />
-                                
-                                <TextInput
-                                    style={globalStyles.input}
-                                    placeholder="Transaction Amount"
-                                    onChangeText={formikProps.handleChange('amount')}
-                                    value={formikProps.values.amount}
-                                    onBlur={formikProps.handleBlur('amount')}
-                                    keyboardType="numeric"
-                                />
-
-                                
-                            </View>                        
-
+                            
                             {/* Transaction Fee */}
                             <View style={globalStyles.inputContainer}>
                                 <MaterialIcons name='money' style={globalStyles.icons} />
@@ -257,7 +151,7 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
 
                             </View>
 
-                            <ButtonFlat title={'Swap Funds'} onPress={formikProps.handleSubmit}/>
+                            <ButtonFlat title={'Consolidate Funds'} onPress={formikProps.handleSubmit}/>
                         </View>
                         
                         <ButtonCircular onPress={onPress} icon='close'/>
