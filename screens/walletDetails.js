@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {View, Text, FlatList, Dimensions, 
     StyleSheet, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { globalStyles } from '../styles/global';
-import { getCategoryTotalsByWallet, swapTransactions } from '../database/database'; // Import the function to get totals
+import { getCategoryTotalsByWallet, swapTransactions, consolidationTransaction } from '../database/database'; // Import the function to get totals
 import { useNavigation } from "@react-navigation/native";
 import { CardCategory } from '../cards/cardCategory';
 import { PieChart } from 'react-native-chart-kit';
@@ -111,6 +111,17 @@ export default function WalletDetails({route}){
 
     };
 
+    const handleConsolidateFunds = async (values) => {
+        console.log('Consolidate Funds Values:', values);
+        setOpenConsolidationModal(false);
+
+        try {
+            await consolidationTransaction(values); 
+        } catch (error) {
+            console.error('Error consolidating funds:', error);
+        }
+    };
+
     return(
 
         <View style={globalStyles.container}>
@@ -145,7 +156,7 @@ export default function WalletDetails({route}){
                     <View style={globalStyles.modalOverlay}>  
 
                             <View style={globalStyles.modalContent}>                        
-                                <ConsolidateFunds swapFunds={() => setOpenConsolidationModal(false)} onPress={() => setOpenConsolidationModal(false)} outWalletId={route.params.id}/>
+                                <ConsolidateFunds consolidateFunds={handleConsolidateFunds} onPress={() => setOpenConsolidationModal(false)} outWalletId={route.params.id}/>
                             </View>
                     </View>
                 </TouchableWithoutFeedback>

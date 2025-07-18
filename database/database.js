@@ -346,6 +346,13 @@ export const swapTransactions = async (values) => {
     await insertTransaction(inTransaction);
     
 }
+
+export const consolidationTransaction = async (transaction) => {
+
+    console.log('Consolidation Transaction:', transaction);
+    
+    await insertTransaction(transaction);
+}
 /* ==================================================== */
 
  /* =================== Wallets =================== */
