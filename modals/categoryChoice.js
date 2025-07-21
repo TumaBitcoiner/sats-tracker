@@ -10,7 +10,7 @@ function CategoryChoice({categoryType, onPress, isExpenses}) {
 
     return(
         <FlatList 
-            data={categoryType.slice(3)}
+            data={categoryType.slice(4)}
             renderItem={( {item} ) => (
                 <TouchableOpacity 
                     onPress={() => onPress(item, isExpenses)}>
