@@ -401,6 +401,47 @@ export const createWallet = async (wallet) => {
 
 };
 
+export const editWallet = async (id, updatedWallet) => {
+
+    const database = await db;
+    console.log('Editing wallet...');
+
+    
+    
+    try { 
+        await database.runAsync(
+            `UPDATE wallets 
+            SET name = ?, type = ? 
+            WHERE id = ?;`,
+            [
+                updatedWallet.name,
+                updatedWallet.type,  
+                id
+            ]
+        );
+    } catch (error) {
+        console.error('Error editing wallet:', error);
+        throw error;
+    }
+    
+    const oldBalance = await getWalletBalance(id);
+    const walletDiff = updatedWallet.balance - oldBalance;
+
+    adjustmentTransaction = {
+        date: new Date(),
+        amount: Math.abs(walletDiff),
+        transactionFee: 0,
+        category: 'Adjust Balance',
+        transactionType: updatedWallet.type,
+        note: 'Adjusting wallet balance.',
+        place: '',
+        isExpenses: (walletDiff < 0) ? true : false,
+        walletId: id
+    }
+    
+    console.log('Adjustment Transaction:', adjustmentTransaction);
+    await insertTransaction(adjustmentTransaction);
+};
 // Update wallet balance
 export const updateWalletBalance = async (walletId, amount, fee, isExpense) => {
     const database = await db;
@@ -523,6 +564,17 @@ export const getOCBalance = async () => {
         return result[0]?.total || 0;
     } catch (error) {
         console.error('Error fetching OC wallets balance:', error);
+        throw error;
+    }
+}
+
+export const getWalletBalance = async (id) => {
+    const database = await db;  
+    try {
+        const result = await database.getAllAsync(`SELECT balance FROM wallets WHERE id = ?;`, [id]);
+        return result[0]?.balance || 0;
+    } catch (error) {
+        console.error('Error fetching wallet balance:', error);
         throw error;
     }
 }
