@@ -28,7 +28,7 @@ export function CardTransaction({onPress, item}){
                             <Text style={item.isExpenses 
                                 ? globalStyles.transactionAmountExpense 
                                 : globalStyles.transactionAmountIncome}>
-                                {formatNumber(item.amount)} sats
+                                {formatNumber(item.amount + item.transactionFee)} sats
                             </Text>
                             <MaterialIcons 
                                 name={walletsArray.type[item.transactionType][0]}
