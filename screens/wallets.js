@@ -4,7 +4,7 @@ import { View, Text, TouchableWithoutFeedback,
 import ButtonCircular from '../shared/buttonCircular';
 import WalletForm from '../modals/walletForm';
 import { globalStyles } from '../styles/global';
-import { initializeDB, getLNWallets, getOCWallets, createWallet, editWallet } from '../database/database'; // Import the createTable function
+import { initializeDB, getLNWallets, getOCWallets, createWallet, editWallet, deleteWallet } from '../database/database'; // Import the createTable function
 import { CardWallet } from '../cards/cardWallet';
 import { useNavigation } from "@react-navigation/native";
 import { useTransactions } from '../context/transactionContext';
@@ -115,7 +115,11 @@ export default function Wallets(){
     }
 
     const handleDeleteWallet = async (id) => {
-        console.log("Delete wallet with ID:", id);
+       
+        await deleteWallet(id);
+        // Update the state to remove the deleted wallet
+        setWalletsOC(currentWallets => currentWallets.filter(wallet => wallet.id !== id));
+        setWalletsLN(currentWallets => currentWallets.filter(wallet => wallet.id !== id));
     }
 
     const sections = [

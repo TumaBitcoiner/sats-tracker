@@ -135,6 +135,23 @@ export const getTransactions = async () => {
     }
 };
 
+// Retrieve all transactions by wallet ID
+export const getTransactionsByWallet = async (walletId) => {
+
+    const database = await db;
+    console.log('Fetching transactions...');
+
+    try {
+        const result = await database.getAllAsync(`SELECT id FROM transactions WHERE walletId = ?;`, [walletId]);
+        
+        return result;
+
+    } catch (error) {
+        console.error('Error fetching transactions:', error);
+        throw error;
+    }
+};
+
 // Get total income of trnasactions from the database
 export const getTotalIncome = async () => {
     const database = await db;
@@ -256,6 +273,25 @@ export const deleteTransaction = async (id) => {
             !transaction.isExpenses
         );
 
+    } catch (error){
+        console.error('Error deleting a transaction in database:', error);
+        throw error;
+    }
+};
+
+// Delete all transactions by wallet ID
+export const deleteTransactionByWallet = async (walletId) => {
+
+    const database = await db;
+    console.log('Deleting transaction...');
+
+    try {
+
+        await database.runAsync(
+            `DELETE FROM transactions WHERE walletId = ?;`,
+            [walletId]
+        );
+        
     } catch (error){
         console.error('Error deleting a transaction in database:', error);
         throw error;
@@ -401,6 +437,7 @@ export const createWallet = async (wallet) => {
 
 };
 
+// Edit a wallet
 export const editWallet = async (id, updatedWallet) => {
 
     const database = await db;
@@ -442,6 +479,30 @@ export const editWallet = async (id, updatedWallet) => {
     console.log('Adjustment Transaction:', adjustmentTransaction);
     await insertTransaction(adjustmentTransaction);
 };
+
+// Delete a wallet
+export const deleteWallet = async (id) => {
+
+    const database = await db;
+    console.log('Deleting wallet with ID:', id);
+
+    const result = await getTransactionsByWallet(id);
+    console.log('Transactions to delete:', result);
+    
+    await deleteTransactionByWallet(id);
+
+    try {
+        await database.runAsync(
+            `DELETE FROM wallets WHERE id = ?;`,
+            [id]
+        );
+        console.log('Wallet deleted successfully');
+    } catch (error) {
+        console.error('Error deleting wallet:', error);
+        throw error;
+    }
+};
+
 // Update wallet balance
 export const updateWalletBalance = async (walletId, amount, fee, isExpense) => {
     const database = await db;
