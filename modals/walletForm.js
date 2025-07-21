@@ -25,7 +25,7 @@ const reviewSchema = yup.object({
         value => value === null || value >= 0)
 })
 
-export default function WalletForm({addNewWallet, onPress}){
+export default function WalletForm({addNewWallet, onPress, initialValues = null}){
 
     const [walletType, setWalletTypeOpen] = useState(false);
 
@@ -35,7 +35,7 @@ export default function WalletForm({addNewWallet, onPress}){
             
             <Formik
             
-                initialValues={{ 
+                initialValues={initialValues ||{ 
                     name: '',
                     type: 'No wallet type selected..',
                     balance: 0,
@@ -50,7 +50,7 @@ export default function WalletForm({addNewWallet, onPress}){
                 {(formikProps) => (                    
                     <View style={styles.formContainer}>
                         <ScrollView style={styles.scrollContent}>
-                            {/* Amount */}
+                            {/* Name */}
                             <View style={globalStyles.inputContainer}>
                                 <MaterialIcons name='account-balance-wallet' style={globalStyles.icons} />
                                 
@@ -105,9 +105,9 @@ export default function WalletForm({addNewWallet, onPress}){
                                 
                                 <TextInput
                                     style={globalStyles.input}
-                                    placeholder="0"
+                                    placeholder="Initial Balance"
                                     onChangeText={formikProps.handleChange('balance')}
-                                    value={formikProps.values.balance}
+                                    value={initialValues ? formikProps.values.balance.toString(): formikProps.values.balance}
                                     onBlur={formikProps.handleBlur('balance')}
                                     keyboardType="numeric"
                                 />
@@ -148,7 +148,7 @@ export default function WalletForm({addNewWallet, onPress}){
 
                             </View>
 
-                            <ButtonFlat title='Add Wallet' onPress={formikProps.handleSubmit}/>
+                            <ButtonFlat title={initialValues ? 'Edit Wallet' : 'Add Wallet'} onPress={formikProps.handleSubmit}/>
                         </View>
 
                         <ButtonCircular onPress={onPress} icon='close'/>

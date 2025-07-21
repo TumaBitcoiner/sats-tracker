@@ -12,7 +12,7 @@ import HeaderWalletDetails from '../headers/headerWalletDetails';
 import WalletOptions from '../modals/walletOptions';
 import SwapFunds from '../modals/walletOptionsActions/swapFunds';
 import ConsolidateFunds from '../modals/walletOptionsActions/consolidateFunds';
-
+import WalletForm from '../modals/walletForm'; 
 export default function WalletDetails({route}){
 
 
@@ -22,6 +22,7 @@ export default function WalletDetails({route}){
     const [openWalletOptions, setOpenWalletOptions] = useState(false);
     const [openSwapModal, setOpenSwapModal] = useState(false);
     const [openConsolidationModal, setOpenConsolidationModal] = useState(false);
+    const [openEditWalletModal, setOpenEditWalletModal] = useState(false);
 
     //const [walletIncome, setWalletIncome] = useState([]);
 
@@ -74,6 +75,8 @@ export default function WalletDetails({route}){
                 break;  
             case 'edit':
                 console.log('Edit');
+                setOpenEditWalletModal(true);
+                setOpenWalletOptions(false);
                 break;
             case 'delete':
                 console.log('Delete');
@@ -112,7 +115,7 @@ export default function WalletDetails({route}){
     };
 
     const handleConsolidateFunds = async (values) => {
-        console.log('Consolidate Funds Values:', values);
+        
         setOpenConsolidationModal(false);
 
         try {
@@ -121,6 +124,12 @@ export default function WalletDetails({route}){
             console.error('Error consolidating funds:', error);
         }
     };
+
+    const handleEditWallet = async () => {
+        
+        setOpenEditWalletModal(false);
+        console.log('Edit Wallet Values');
+    }
 
     return(
 
@@ -161,6 +170,27 @@ export default function WalletDetails({route}){
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>        
+
+            {/* Edit wallet modal */}
+            <Modal visible={openEditWalletModal} animationType="slide">
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={globalStyles.modalOverlay}>  
+
+                            <View style={globalStyles.modalContent}>                        
+                                <WalletForm 
+                                    addNewWallet={handleEditWallet} 
+                                    onPress={() => setOpenEditWalletModal(false)}
+                                    initialValues={{
+                                        name: route.params.name,
+                                        type: route.params.type,
+                                        balance: route.params.balance,
+                                        note: '',
+                                    }}
+                                />
+                            </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
 
             <HeaderWalletDetails navigation={navigation} onOptionPress={() => setOpenWalletOptions(true)}/>
             <Card>
