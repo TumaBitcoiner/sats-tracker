@@ -170,7 +170,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                     style={globalStyles.input}
                                     placeholder="How much?"
                                     onChangeText={formikProps.handleChange('amount')}
-                                    value={formikProps.values.amount.toString()}
+                                    value={initialValues? formikProps.values.amount.toString(): formikProps.values.amount}
                                     onBlur={formikProps.handleBlur('amount')}
                                     keyboardType="numeric"
                                 />
@@ -186,7 +186,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                     style={globalStyles.input}
                                     placeholder="How much to miners?"
                                     onChangeText={formikProps.handleChange('transactionFee')}
-                                    value={formikProps.values.transactionFee.toString()}
+                                    value={initialValues? formikProps.transactionFee.amount.toString(): formikProps.values.transactionFee}
                                     onBlur={formikProps.handleBlur('transactionFee')}
                                     keyboardType="numeric"
                                 />
