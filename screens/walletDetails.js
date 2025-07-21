@@ -125,10 +125,17 @@ export default function WalletDetails({route}){
         }
     };
 
-    const handleEditWallet = async () => {
+    const handleEditWallet = async (updatedWallet) => {
         
         setOpenEditWalletModal(false);
         console.log('Edit Wallet Values');
+        try{
+            await route.params.onEdit(route.params.id, updatedWallet);                       
+            navigation.goBack();
+
+        } catch (error) {
+            console.error('Error editing wallet:', error);
+        }
     }
 
     return(

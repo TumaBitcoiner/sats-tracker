@@ -4,7 +4,7 @@ import { View, Text, TouchableWithoutFeedback,
 import ButtonCircular from '../shared/buttonCircular';
 import WalletForm from '../modals/walletForm';
 import { globalStyles } from '../styles/global';
-import { initializeDB, getLNWallets, getOCWallets, createWallet } from '../database/database'; // Import the createTable function
+import { initializeDB, getLNWallets, getOCWallets, createWallet, editWallet } from '../database/database'; // Import the createTable function
 import { CardWallet } from '../cards/cardWallet';
 import { useNavigation } from "@react-navigation/native";
 import { useTransactions } from '../context/transactionContext';
@@ -109,6 +109,11 @@ export default function Wallets(){
         }
     };
 
+    const handleEditWallet = async (id, updatedWallet) => {
+        console.log(updatedWallet);
+        await editWallet(id, updatedWallet);       
+    }
+
     const sections = [
         {
             title: 'OC Wallets',
@@ -150,9 +155,9 @@ export default function Wallets(){
                         onPress={() => navigation.navigate(
                             'WalletDetails',
                             {  
-                                ...item
+                                ...item,
                                 //onDelete: handleDeleteTransaction,
-                                //onEdit: handleEditTransaction
+                                onEdit: handleEditWallet
                             }
                         )}
                         name={item.name}
