@@ -2,10 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { StyleSheet, View, Text, Modal,
      TouchableWithoutFeedback, Keyboard, SectionList} from 'react-native'
 import { useNavigation } from "@react-navigation/native";
-import Card from '../shared/card'
 import { globalStyles } from '../styles/global';
-import { categoryArray, walletsArray } from '../styles/categories';
-import { MaterialIcons } from '@expo/vector-icons';
 import TransactionForm from '../modals/transactionForm';
 import ButtonCircular from '../shared/buttonCircular';
 import { initializeDB, insertTransaction, getTransactions, deleteTransaction, editTransaction } from '../database/database'; // Import the createTable function

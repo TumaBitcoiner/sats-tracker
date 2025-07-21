@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { StyleSheet, View, Text, Dimensions, ScrollView, TurboModuleRegistry } from 'react-native'
+import { StyleSheet, View, Text, Dimensions, ScrollView} from 'react-native'
 import Card from '../shared/card'
 import { useTransactions } from '../context/transactionContext'
 import { globalStyles } from '../styles/global';
