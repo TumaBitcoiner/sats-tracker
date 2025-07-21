@@ -13,6 +13,8 @@ import WalletOptions from '../modals/walletOptions';
 import SwapFunds from '../modals/walletOptionsActions/swapFunds';
 import ConsolidateFunds from '../modals/walletOptionsActions/consolidateFunds';
 import WalletForm from '../modals/walletForm'; 
+import ConfirmationPopUp from '../modals/confirmationPopUp';
+
 export default function WalletDetails({route}){
 
 
@@ -23,6 +25,7 @@ export default function WalletDetails({route}){
     const [openSwapModal, setOpenSwapModal] = useState(false);
     const [openConsolidationModal, setOpenConsolidationModal] = useState(false);
     const [openEditWalletModal, setOpenEditWalletModal] = useState(false);
+    const [openDeleteWalletModal, setOpenDeleteWalletModal] = useState(false);
 
     //const [walletIncome, setWalletIncome] = useState([]);
 
@@ -79,6 +82,8 @@ export default function WalletDetails({route}){
                 setOpenWalletOptions(false);
                 break;
             case 'delete':
+                setOpenDeleteWalletModal(true);
+                setOpenWalletOptions(false);
                 console.log('Delete');
                 break;
             default:
@@ -137,7 +142,13 @@ export default function WalletDetails({route}){
             console.error('Error editing wallet:', error);
         }
     }
+    const handleDeleteWallet = async () => {
 
+        setOpenDeleteWalletModal(false);
+        await route.params.onDelete(route.params.id);
+        navigation.goBack();   
+    }
+    
     return(
 
         <View style={globalStyles.container}>
@@ -193,6 +204,22 @@ export default function WalletDetails({route}){
                                         balance: route.params.balance,
                                         note: '',
                                     }}
+                                />
+                            </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
+            {/* Delete wallet modal */}
+            <Modal visible={openDeleteWalletModal} animationType="slide">
+                <TouchableWithoutFeedback onPress={() => setOpenDeleteWalletModal(false)}>
+                    <View style={globalStyles.modalOverlay}>  
+
+                            <View style={globalStyles.modalPopupContent}>                        
+                                <ConfirmationPopUp
+                                    title='Delete Wallet' 
+                                    text='Are you sure you want to delete this wallet? This action cannot be undone.' 
+                                    onCancel={() => setOpenDeleteWalletModal(false)}
+                                    onConfirm={handleDeleteWallet}
                                 />
                             </View>
                     </View>

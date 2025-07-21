@@ -114,6 +114,10 @@ export default function Wallets(){
         await editWallet(id, updatedWallet);       
     }
 
+    const handleDeleteWallet = async (id) => {
+        console.log("Delete wallet with ID:", id);
+    }
+
     const sections = [
         {
             title: 'OC Wallets',
@@ -156,7 +160,7 @@ export default function Wallets(){
                             'WalletDetails',
                             {  
                                 ...item,
-                                //onDelete: handleDeleteTransaction,
+                                onDelete: handleDeleteWallet,
                                 onEdit: handleEditWallet
                             }
                         )}
