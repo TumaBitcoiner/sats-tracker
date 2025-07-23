@@ -9,13 +9,13 @@ import ButtonFlat from "../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
 import {categoryArray} from "../styles/categories";
 import TopTabNavigatorCategories from "../routes/topTabNavigatorCategory";
-import { getLNWallets, getOCWallets } from '../database/database';
+import { getLNWallets, getOCWallets, getWalletBalance } from '../database/database';
 import {WalletChoice} from "./walletChoice";
 import * as yup from 'yup';
 import ButtonCircular from '../shared/buttonCircular';
 
 
-const reviewSchema = yup.object({
+const defaultReviewSchema = yup.object({
 
     amount: yup.number()
         .required()
@@ -41,11 +41,41 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
     const [walletList, setWalletList] = useState([]);
     const [walletType, setWalletType] = useState('OC');
     const [selectedWalletName, setSelectedWalletName] = useState('No wallet selected..');
-    // const [selectedWalletName, setSelectedWalletName] = useState(
-    //     initialValues?.walletId ? 
-    //     walletList.find(wallet => wallet.id === initialValues.walletId)?.name || 'No wallet selected..' 
-    //     : 'No wallet selected..'
-    // );
+    const [walletSelected, setWalletSelected] = useState(false);
+    const [walletBalance, setWalletBalance] = useState(0);
+    
+    const createValidationSchema = (fetchedBalance) => {
+
+        console.log('Creating validation schema with balance:', fetchedBalance);
+        return yup.object({
+            amount: yup.number()
+                .required('Amount is required')
+                .positive('Amount must be positive')
+                .max(fetchedBalance, `Amount cannot exceed wallet balance of ${fetchedBalance}`),
+            transactionFee: yup.number()
+                .min(0)
+                .integer(),
+            walletId: yup.number()
+                .required()
+                .min(1, 'Please select a wallet'),
+            category: yup.string()
+                .required()
+                .notOneOf(['No category selected..'], 'Please select a category'),
+        });
+    };
+
+    const fetchWalletBalance = async (walletId) => {
+        try {
+
+            const walletBalance = await getWalletBalance(walletId);
+            setWalletBalance(walletBalance);
+            console.log('Fetched wallet balance:', walletBalance);
+            return walletBalance || 0; // Return 0 if balance is not found
+        } catch (error) {
+            console.error('Error fetching wallet balance:', error);
+            return 0; // Return 0 if there's an error
+        }
+    };
 
     const loadWallets = async (type) => {
         try {
@@ -95,7 +125,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                     walletId: 0,
                     transactionType: walletType,
                 }}
-                validationSchema={reviewSchema}
+                validationSchema={walletSelected ? createValidationSchema(walletBalance) : defaultReviewSchema}
                 onSubmit={(values)=>{
                     addNewTransaction(values);
                 }}
@@ -152,6 +182,9 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                                     walletList={walletList}
                                                     onPress={(walletId, type, name) => {
                                                         formikProps.setFieldValue('walletId', walletId);
+                                                        fetchWalletBalance(walletId);
+                                                        //formikProps.validationSchema = createValidationSchema(walletBalance);
+                                                        setWalletSelected(true);
                                                         setWalletOpen(false);
                                                         setSelectedWalletName(name);
                                                     }}
