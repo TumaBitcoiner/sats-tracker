@@ -11,32 +11,38 @@ import { getWallet } from '../../database/database';
 import * as yup from 'yup';
 import ButtonCircular from '../../shared/buttonCircular';
 
-
-const reviewSchema = yup.object({
-
-    transactionFee: yup.number()
-        .required()
-        .positive()
-        .integer(),
-})
-
 export default function ConsolidateFunds({consolidateFunds, onPress, outWalletId}){
 
     const [dateOpen, setDateOpen] = useState(false);
     const [date, setDate] = useState(new Date());
     const [outWalletName, setOutWalletName] = useState('OC');
     const [outWalletType, setOutWalletType] = useState('OC');
+    const [outWalletBalance, setOutWalletBalance] = useState(0);
 
     const getOutWallet = async (outWalletId) => {
         try {
             const wallet = await getWallet(outWalletId);
             setOutWalletName(wallet[0].name);
             setOutWalletType(wallet[0].type);
+            setOutWalletBalance(wallet[0].balance);
             
         } catch (error) { 
             console.error('Error fetching wallet name:', error);
         }
     }
+
+    const createValidationSchema = () => {
+        
+        console.log('Creating validation schema with balance:', outWalletBalance);
+        return yup.object({
+            transactionFee: yup.number()
+                .min(0)
+                .integer()
+                .max(outWalletBalance, `Fee cannot exceed wallet balance of ${outWalletBalance}`)
+                .required('Transaction fee is required')
+            }
+        )
+    };
 
     useEffect(() => {
               
@@ -59,7 +65,7 @@ export default function ConsolidateFunds({consolidateFunds, onPress, outWalletId
                     walletId: outWalletId,
                     transactionType: outWalletType,
                 }}
-                validationSchema={reviewSchema}
+                validationSchema={createValidationSchema()}
                 onSubmit={(values)=>{
                     consolidateFunds(values);
                 }}
@@ -137,16 +143,8 @@ export default function ConsolidateFunds({consolidateFunds, onPress, outWalletId
 
                             {/* Update error display */}
                             <View style={globalStyles.errorContainer}>
-                                {formikProps.errors.amount && formikProps.touched.amount ? (
-                                    <Text style={globalStyles.errorText}>{formikProps.errors.amount}</Text>
-                                ) : null}
-                                
-                                {formikProps.errors.walletId && formikProps.touched.walletId ? (
-                                    <Text style={globalStyles.errorText}>{formikProps.errors.walletId}</Text>
-                                ) : null}
-                                
-                                {formikProps.errors.category && formikProps.touched.category ? (
-                                    <Text style={globalStyles.errorText}>{formikProps.errors.category}</Text>
+                                {formikProps.errors.transactionFee && formikProps.touched.transactionFee ? (
+                                    <Text style={globalStyles.errorText}>{formikProps.errors.transactionFee}</Text>
                                 ) : null}
 
                             </View>
