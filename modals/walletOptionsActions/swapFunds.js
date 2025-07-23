@@ -53,12 +53,10 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                     return totalSpend <= outWalletBalance;
                     }
                 ),
-            walletId: yup.number()
+            walletIdIn: yup.number()
                 .required()
                 .min(1, 'Please select a wallet'),
-            category: yup.string()
-                .required()
-                .notOneOf(['No category selected..'], 'Please select a category'),
+            
         });
     };
 
@@ -270,15 +268,15 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                                 {formikProps.errors.amount && formikProps.touched.amount ? (
                                     <Text style={globalStyles.errorText}>{formikProps.errors.amount}</Text>
                                 ) : null}
-                                
-                                {formikProps.errors.walletId && formikProps.touched.walletId ? (
-                                    <Text style={globalStyles.errorText}>{formikProps.errors.walletId}</Text>
-                                ) : null}
-                                
-                                {formikProps.errors.category && formikProps.touched.category ? (
-                                    <Text style={globalStyles.errorText}>{formikProps.errors.category}</Text>
-                                ) : null}
 
+                                {formikProps.errors.transactionFee && formikProps.touched.transactionFee ? (
+                                    <Text style={globalStyles.errorText}>{formikProps.errors.transactionFee}</Text>
+                                ) : null}
+                                
+                                {formikProps.errors.walletIdIn && formikProps.touched.walletIdIn ? (
+                                    <Text style={globalStyles.errorText}>{formikProps.errors.walletIdIn}</Text>
+                                ) : null}
+                                
                             </View>
 
                             <ButtonFlat title={'Swap Funds'} onPress={formikProps.handleSubmit}/>

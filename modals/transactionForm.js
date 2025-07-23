@@ -367,6 +367,10 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                 {formikProps.errors.amount && formikProps.touched.amount ? (
                                     <Text style={globalStyles.errorText}>{formikProps.errors.amount}</Text>
                                 ) : null}
+
+                                {formikProps.errors.transactionFee && formikProps.touched.transactionFee ? (
+                                    <Text style={globalStyles.errorText}>{formikProps.errors.transactionFee}</Text>
+                                ) : null}
                                 
                                 {formikProps.errors.walletId && formikProps.touched.walletId ? (
                                     <Text style={globalStyles.errorText}>{formikProps.errors.walletId}</Text>
