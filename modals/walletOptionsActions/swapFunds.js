@@ -38,6 +38,44 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
     const [selectedWalletName, setSelectedWalletName] = useState('No wallet selected..');
     const [outWalletName, setOutWalletName] = useState('No wallet selected..');
     const [outWalletType, setOutWalletType] = useState('OC');
+    const [outWalletBalance, setOutWalletBalance] = useState(0);
+
+    const createValidationSchema = () => {
+    
+        console.log('Creating validation schema with balance:', outWalletBalance);
+        return yup.object({
+            amount: yup.number()
+                .required('Amount is required')
+                .positive('Amount must be positive')
+                .test(
+                    'max-amount', 
+                    `Amount exceeds available wallet balance: ${outWalletBalance} sats`, 
+                    function(value) {
+                    const { transactionFee } = this.parent;
+                    const totalSpend = Number(value || 0) + Number(transactionFee || 0);
+                    return totalSpend <= outWalletBalance;
+                    }
+                ),
+            transactionFee: yup.number()
+                .min(0)
+                .integer()
+                .test(
+                    'max-transactionFee', 
+                    `Fee exceeds available wallet balance: ${outWalletBalance} sats`, 
+                    function(value) {
+                    const { amount } = this.parent;
+                    const totalSpend = Number(amount || 0) + Number(value || 0);
+                    return totalSpend <= outWalletBalance;
+                    }
+                ),
+            walletId: yup.number()
+                .required()
+                .min(1, 'Please select a wallet'),
+            category: yup.string()
+                .required()
+                .notOneOf(['No category selected..'], 'Please select a category'),
+        });
+    };
 
     const loadWallets = async (type) => {
         try {
@@ -56,6 +94,7 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
             const wallet = await getWallet(outWalletId);
             setOutWalletName(wallet[0].name);
             setOutWalletType(wallet[0].type);
+            setOutWalletBalance(wallet[0].balance);
             
         } catch (error) { 
             console.error('Error fetching wallet name:', error);
@@ -92,7 +131,7 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                     transactionTypeIn: walletType,
                     transactionTypeOut: outWalletType,
                 }}
-                validationSchema={reviewSchema}
+                validationSchema={createValidationSchema()}
                 onSubmit={(values)=>{
                     swapFunds(values);
                 }}
