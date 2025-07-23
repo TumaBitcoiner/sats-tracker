@@ -116,16 +116,14 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                 const wallet = wallets.find(w => w.id === initialValues.walletId);
                 if (wallet) {
                     setSelectedWalletName(wallet.name);
+                    setWalletSelected(true);
+                    setWalletBalance(wallet.balance);
                 }
             }
         };
         
         initializeWallet();
     }, [initialValues]);
-
-    // useEffect(() => {
-    //         loadWallets(walletType);
-    // }, []);
 
     return(
         <View style={globalStyles.container}>
@@ -236,7 +234,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                     style={globalStyles.input}
                                     placeholder="How much to miners?"
                                     onChangeText={formikProps.handleChange('transactionFee')}
-                                    value={initialValues? formikProps.transactionFee.amount.toString(): formikProps.values.transactionFee}
+                                    value={initialValues? formikProps.values.transactionFee.toString(): formikProps.values.transactionFee}
                                     onBlur={formikProps.handleBlur('transactionFee')}
                                     keyboardType="numeric"
                                 />
