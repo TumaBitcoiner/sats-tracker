@@ -51,10 +51,27 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
             amount: yup.number()
                 .required('Amount is required')
                 .positive('Amount must be positive')
-                .max(fetchedBalance, `Amount cannot exceed wallet balance of ${fetchedBalance}`),
+                .test(
+                    'max-amount', 
+                    `Amount exceeds available wallet balance: ${walletBalance} sats`, 
+                    function(value) {
+                    const { transactionFee } = this.parent;
+                    const totalSpend = Number(value || 0) + Number(transactionFee || 0);
+                    return totalSpend <= walletBalance;
+                    }
+                ),
             transactionFee: yup.number()
                 .min(0)
-                .integer(),
+                .integer()
+                .test(
+                    'max-transactionFee', 
+                    `Fee exceeds available wallet balance: ${walletBalance} sats`, 
+                    function(value) {
+                    const { amount } = this.parent;
+                    const totalSpend = Number(amount || 0) + Number(value || 0);
+                    return totalSpend <= walletBalance;
+                    }
+                ),
             walletId: yup.number()
                 .required()
                 .min(1, 'Please select a wallet'),
@@ -161,6 +178,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                         formikProps.setFieldValue('transactionType', newType);
                                         formikProps.setFieldValue('walletId', 0); // Reset wallet selection
                                         setSelectedWalletName('No wallet selected..');
+                                        setWalletSelected(false);
                                         setWalletType(newType);
                                         loadWallets(newType);
                                     }}
@@ -183,7 +201,6 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                                     onPress={(walletId, type, name) => {
                                                         formikProps.setFieldValue('walletId', walletId);
                                                         fetchWalletBalance(walletId);
-                                                        //formikProps.validationSchema = createValidationSchema(walletBalance);
                                                         setWalletSelected(true);
                                                         setWalletOpen(false);
                                                         setSelectedWalletName(name);
