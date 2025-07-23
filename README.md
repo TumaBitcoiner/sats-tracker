@@ -12,7 +12,9 @@ An offline budgetting app that allows you to track all your purchases and all yo
 
 View the most important information on your financial status.
 
-![image](https://github.com/user-attachments/assets/0c8a73d0-6f7e-45a7-bade-a22f42420e2a)
+<img width="247" height="501" alt="image" src="https://github.com/user-attachments/assets/2662ec96-0cc0-4393-a398-507a209948c0" />
+<img width="247" height="497" alt="image" src="https://github.com/user-attachments/assets/ee4d16ad-40c8-4e79-bd95-f85457547fb0" />
+
 
 
 
@@ -20,16 +22,29 @@ View the most important information on your financial status.
 
 You can add new wallets to your list. Choose the name, the wallet type (_on-chain_ or _lightining_), set the initial wallet balance.
 
-![image](https://github.com/user-attachments/assets/fe25b826-854c-4afe-a3a8-f15dc567b6dc) ![image](https://github.com/user-attachments/assets/2767090c-cd92-4ff9-872b-3cd504c20db1)
+<img width="247" height="499" alt="image" src="https://github.com/user-attachments/assets/c87e2f54-7216-4d02-b2e6-243919eb16ac" />
+<img width="240" height="427" alt="image" src="https://github.com/user-attachments/assets/eb2c2469-0ae2-42d7-af31-fad41d74fa09" />
 
+You can now see wallet details and manage your wallet:
+- Swap funds
+- Consolidate funds
+- Edit wallet
+- Delete wallet
+
+<img width="246" height="498" alt="image" src="https://github.com/user-attachments/assets/adbee3b6-b263-49e8-9bd2-71b60954aa11" />
+<img width="244" height="493" alt="image" src="https://github.com/user-attachments/assets/225257db-459e-401c-94b0-79fe7b7277c3" />
 
 
 ## Transactions
 
 Once you have created a wallet, you can start inserting your expenses and your income. 
-Choose the amount, the fee paid, where and when you made the transactiona and the type of expense? Is it food, zaps, car maintenance? We got you covered!
+Choose the amount, the fee paid, where and when you made the transaction and the type of expense? Is it food, zaps, car maintenance? We got you covered!
 
-![image](https://github.com/user-attachments/assets/f4e8e3f0-f092-4a01-be0c-87290e03426b) ![image](https://github.com/user-attachments/assets/e738740a-c429-473b-8dbd-e68f29c6a684) ![image](https://github.com/user-attachments/assets/c2f39ec6-ea72-457a-b2ef-e47f35f4d523)
+You can also edit and delete a transaction in case you made any mistake.
+
+<img width="246" height="500" alt="image" src="https://github.com/user-attachments/assets/ff6fc8aa-f21e-4f0f-841a-6e2b2f95a812" />
+<img width="246" height="496" alt="image" src="https://github.com/user-attachments/assets/e5ca6b9f-beb7-424a-9d60-339a6f83a1ae" />
+
 
 ## Budgets
 
