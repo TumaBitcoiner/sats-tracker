@@ -44,9 +44,9 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
     const [walletSelected, setWalletSelected] = useState(false);
     const [walletBalance, setWalletBalance] = useState(0);
     
-    const createValidationSchema = (fetchedBalance) => {
+    const createValidationSchema = () => {
 
-        console.log('Creating validation schema with balance:', fetchedBalance);
+        console.log('Creating validation schema with balance:', walletBalance);
         return yup.object({
             amount: yup.number()
                 .required('Amount is required')
@@ -151,7 +151,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                     walletId: 0,
                     transactionType: walletType,
                 }}
-                validationSchema={walletSelected ? createValidationSchema(walletBalance) : defaultReviewSchema}
+                validationSchema={walletSelected ? createValidationSchema() : defaultReviewSchema}
                 onSubmit={(values)=>{
                     addNewTransaction(values);
                 }}
