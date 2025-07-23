@@ -85,9 +85,20 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
         try {
 
             const walletBalance = await getWalletBalance(walletId);
-            setWalletBalance(walletBalance);
-            console.log('Fetched wallet balance:', walletBalance);
-            return walletBalance || 0; // Return 0 if balance is not found
+            
+            if (initialValues) {
+                // If initialValues are provided, adjust the balance based on existing transaction values
+                const adjustedBalance = walletBalance + (initialValues.amount || 0) + (initialValues.transactionFee || 0);
+                setWalletBalance(adjustedBalance);
+                console.log('Fetched adjusted wallet balance:', adjustedBalance);
+                return adjustedBalance || 0;
+            }
+            else {
+                setWalletBalance(walletBalance);
+                console.log('Fetched wallet balance:', walletBalance);
+                return walletBalance || 0; // Return 0 if balance is not found
+            }
+            
         } catch (error) {
             console.error('Error fetching wallet balance:', error);
             return 0; // Return 0 if there's an error
@@ -117,7 +128,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                 if (wallet) {
                     setSelectedWalletName(wallet.name);
                     setWalletSelected(true);
-                    setWalletBalance(wallet.balance);
+                    setWalletBalance(fetchWalletBalance(initialValues.walletId));
                 }
             }
         };
