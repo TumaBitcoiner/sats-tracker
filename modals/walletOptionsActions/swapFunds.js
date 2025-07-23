@@ -12,21 +12,6 @@ import {WalletChoice} from "../walletChoice";
 import * as yup from 'yup';
 import ButtonCircular from '../../shared/buttonCircular';
 
-
-const reviewSchema = yup.object({
-
-    amount: yup.number()
-        .required()
-        .positive()
-        .integer(),
-    transactionFee: yup.number()
-        .min(0)
-        .integer(),
-    walletIdIn: yup.number()
-        .required()
-        .min(1, 'Please select a wallet')
-})
-
 export default function SwapFunds({swapFunds, onPress, outWalletId}){
 
     const [dateOpen, setDateOpen] = useState(false);
