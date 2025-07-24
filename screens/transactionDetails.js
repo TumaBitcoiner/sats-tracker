@@ -9,6 +9,8 @@ import { useNavigation } from "@react-navigation/native";
 import ButtonFlatIcon  from "../shared/buttonFlatIcon";
 import ConfirmationPopUp from "../modals/confirmationPopUp";
 import TransactionForm from "../modals/transactionForm";
+import TransactionOptions from "../modals/transactionOptions";
+import HeaderWithOptions from "../headers/headerWithOptions";
 
 export default function TransactionDetails({route}){
 
@@ -17,6 +19,26 @@ export default function TransactionDetails({route}){
 
     const [popupOpen, setPopupOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
+    const [openTxOptions, setOpenTxOptions] = useState(false);
+
+    const manageTransaction = (value) => {
+
+        switch(value) {
+            case 'edit':
+                console.log('Edit');
+                setEditOpen(true);
+                setOpenTxOptions(false);
+                break;
+            case 'delete':
+                setPopupOpen(true);
+                setOpenTxOptions(false);
+                console.log('Delete');
+                break;
+            default:
+                console.log('Unknown action');
+                break;
+        }
+    };
 
     useEffect(() => {
         const fetchWallets = async () => {
@@ -69,6 +91,7 @@ export default function TransactionDetails({route}){
 
         <View style={globalStyles.container}>
 
+            {/* Delete transaction confirmation pop-up */}
             <Modal visible={popupOpen} animationType="slide">
                <TouchableWithoutFeedback onPress={() => setPopupOpen(false)}>
                     <View style={globalStyles.modalOverlay}>  
@@ -85,6 +108,7 @@ export default function TransactionDetails({route}){
                 </TouchableWithoutFeedback>
             </Modal>
 
+            {/* Edit transaction form pop-up */}
             <Modal visible={editOpen} animationType="slide">
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={globalStyles.modalOverlay}>  
@@ -110,6 +134,19 @@ export default function TransactionDetails({route}){
                 </TouchableWithoutFeedback>
             </Modal>
 
+            {/* Options modal */}
+            <Modal visible={openTxOptions} animationType="none" transparent={true}>
+                <TouchableWithoutFeedback onPress={() => setOpenTxOptions(false)}>
+                    <View style={globalStyles.modalOverlay}>  
+
+                            <View style={globalStyles.modalOptionsContent}>                        
+                                <TransactionOptions onPress={(value) => manageTransaction(value)}/>
+                            </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
+
+            <HeaderWithOptions headerTitle='Transaction Details' navigation={navigation} onOptionPress={() => setOpenTxOptions(true)}/>
             <Card>
                 <View style={globalStyles.transactionCard}>
                         
@@ -151,18 +188,6 @@ export default function TransactionDetails({route}){
                 </View>
                 <Text style={globalStyles.info}>{route.params.note}</Text>
             </Card>
-            <View style={globalStyles.buttonContainer}>
-                <ButtonFlatIcon                    
-                    title='Delete'
-                    icon='delete'
-                    onPress={() => setPopupOpen(true)}
-                />
-                <ButtonFlatIcon
-                    title='Edit'
-                    icon='edit'
-                    onPress={() => setEditOpen(true)}
-                />
-            </View>
         </View>
     )
 }

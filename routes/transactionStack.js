@@ -17,8 +17,8 @@ const TransactionStack = createNativeStackNavigator({
         },
         TransactionDetails:{            
             screen: TransactionDetails,
-            options:{
-                title: 'Transaction Details',
+            options: {
+                headerShown: false
             }
         }
     },
