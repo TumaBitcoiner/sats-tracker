@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Wallets from '../screens/wallets';
 import WalletDetails from '../screens/walletDetails';
 import Header from '../shared/header';
-import HeaderWalletDetails from '../headers/headerWalletDetails';
 
 const WalletStack = createNativeStackNavigator({
     screens : {

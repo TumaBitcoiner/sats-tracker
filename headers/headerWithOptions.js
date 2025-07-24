@@ -2,7 +2,7 @@ import React from "react";
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import {MaterialIcons, MaterialCommunityIcons} from '@expo/vector-icons'
 
-export default function HeaderWalletDetails({navigation, onOptionPress}) {
+export default function HeaderWithOptions({headerTitle, navigation, onOptionPress}) {
 
     return( 
         <View style={styles.header}>
@@ -11,7 +11,7 @@ export default function HeaderWalletDetails({navigation, onOptionPress}) {
                 <MaterialIcons name="arrow-back"  size={30} color="black" />
             </TouchableOpacity>
             <View style={styles.headerTextContainer}>
-                <Text style={styles.headerText}>Wallet Details</Text>
+                <Text style={styles.headerText}>{headerTitle}</Text>
             </View>
             <TouchableOpacity style={styles.headerIconRight} onPress={onOptionPress}>
                 <MaterialCommunityIcons name="dots-vertical"  size={30} color="black" />

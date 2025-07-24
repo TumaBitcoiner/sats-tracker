@@ -8,7 +8,7 @@ import { CardCategory } from '../cards/cardCategory';
 import { PieChart } from 'react-native-chart-kit';
 import Card from '../shared/card';
 import { EXPENSES_RANK_COLORS } from '../styles/categories';
-import HeaderWalletDetails from '../headers/headerWalletDetails';
+import HeaderWithOptions from '../headers/headerWithOptions';
 import WalletOptions from '../modals/walletOptions';
 import SwapFunds from '../modals/walletOptionsActions/swapFunds';
 import ConsolidateFunds from '../modals/walletOptionsActions/consolidateFunds';
@@ -226,7 +226,7 @@ export default function WalletDetails({route}){
                 </TouchableWithoutFeedback>
             </Modal>
 
-            <HeaderWalletDetails navigation={navigation} onOptionPress={() => setOpenWalletOptions(true)}/>
+            <HeaderWithOptions headerTitle='Wallet Details' navigation={navigation} onOptionPress={() => setOpenWalletOptions(true)}/>
             <Card>
                 <View style={globalStyles.cardContainer}>
                     <Text style={globalStyles.titleText}>Expenses by Catergory</Text>
