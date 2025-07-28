@@ -14,6 +14,7 @@ import SwapFunds from '../modals/walletOptionsActions/swapFunds';
 import ConsolidateFunds from '../modals/walletOptionsActions/consolidateFunds';
 import WalletForm from '../modals/walletForm'; 
 import ConfirmationPopUp from '../modals/confirmationPopUp';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function WalletDetails({route}){
 
@@ -227,25 +228,32 @@ export default function WalletDetails({route}){
             </Modal>
 
             <HeaderWithOptions headerTitle='Wallet Details' navigation={navigation} onOptionPress={() => setOpenWalletOptions(true)}/>
-            <Card>
-                <View style={globalStyles.cardContainer}>
-                    <Text style={globalStyles.titleText}>Expenses by Catergory</Text>
-                    <PieChart
-                        data={pieData}
-                        width={Dimensions.get("window").width - 40}
-                        height={220}
-                        chartConfig={{
-                            backgroundColor: "#ffffff",
-                            backgroundGradientFrom: "#ffffff",
-                            backgroundGradientTo: "#ffffff",
-                            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                        }}
-                        accessor="amount"
-                        backgroundColor="transparent"
-                        paddingLeft="15"
-                    />
+            { (walletExpenses.length === 0) ?
+                <View style={styles.emptyContainer}>
+                    <MaterialIcons name='info' style={styles.emptyIcon} />
+                    <Text style={styles.emptyText}>No expenses recorded for this wallet</Text>
                 </View>
-            </Card>
+                :
+                <Card>
+                    <View style={globalStyles.cardContainer}>
+                        <Text style={globalStyles.titleText}>Expenses by Catergory</Text>
+                        <PieChart
+                            data={pieData}
+                            width={Dimensions.get("window").width - 40}
+                            height={220}
+                            chartConfig={{
+                                backgroundColor: "#ffffff",
+                                backgroundGradientFrom: "#ffffff",
+                                backgroundGradientTo: "#ffffff",
+                                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                            }}
+                            accessor="amount"
+                            backgroundColor="transparent"
+                            paddingLeft="15"
+                        />
+                    </View>
+                </Card>
+            }
             <View style={styles.listSection}>
 
                 <FlatList 
@@ -269,5 +277,21 @@ const styles = StyleSheet.create({
     },
     listContent: {
         paddingBottom: 50
+    },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20
+    },
+    emptyIcon: {
+        fontSize: 48,
+        color: '#666',
+        marginBottom: 16
+    },
+    emptyText: {
+        fontSize: 16,
+        color: '#666',
+        textAlign: 'center'
     }
 });
