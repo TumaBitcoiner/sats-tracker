@@ -182,17 +182,29 @@ export default function TransactionDetails({route}){
                     <MaterialIcons name='calendar-month' style={globalStyles.icons} />
                     <Text style={globalStyles.infoText}>{new Date(route.params.date).toLocaleDateString()}</Text>
                 </View>
-                <View style={globalStyles.info}>
-                    <MaterialIcons name='place' style={globalStyles.icons} />
-                    <Text style={globalStyles.infoText}>{route.params.place}</Text>
-                </View>
-                <Text style={globalStyles.info}>{route.params.note}</Text>
+                { (route.params.place === '') ?
+                    null :
+                    <View style={globalStyles.info}>
+                        <MaterialIcons name='place' style={globalStyles.icons} />
+                        <Text style={globalStyles.infoText}>{route.params.place}</Text>
+                    </View>
+                }
+                { (route.params.note === '') ?
+                    null :
+                    <View style={globalStyles.info}>
+                        <MaterialIcons name='edit-note' style={globalStyles.icons} />
+                        <View style={globalStyles.noteContainer}>
+                            <Text style={globalStyles.noteText}>{route.params.note}</Text>
+                        </View>
+                    </View>
+                }
             </Card>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    
     note: {
         paddingTop: 16,
         marginTop: 16,

@@ -44,6 +44,18 @@ export const globalStyles = StyleSheet.create({
     infoText:{
         fontSize: 20,
     },
+    noteContainer:{
+        flex: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        paddingRight: 16,
+        paddingVertical: 8,
+        minHeight: 40,
+    },
+    noteText:{
+        fontSize: 16,
+        textAlign: 'center',
+    },
     modalOverlay: {
         flex: 1,
         //backgroundColor: 'none',
