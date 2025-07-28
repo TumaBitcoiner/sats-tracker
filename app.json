@@ -2,7 +2,7 @@
   "expo": {
     "name": "SatsTracker",
     "slug": "sats-tracker",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "orientation": "portrait",
     "icon": "./assets/sats-tracker-icon.png",
     "userInterfaceStyle": "light",
