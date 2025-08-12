@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import { StyleSheet, View, Text, Dimensions, ScrollView} from 'react-native'
 import Card from '../shared/card'
 import { useTransactions } from '../context/transactionContext'
@@ -6,6 +6,8 @@ import { globalStyles } from '../styles/global';
 import { formatNumber } from '../shared/utils';
 import { useNavigation } from "@react-navigation/native";
 import { PieChart, BarChart } from 'react-native-chart-kit';
+import { MaterialIcons } from '@expo/vector-icons';
+import ButtonIcon from '../shared/buttonIcon';
 
 
 
@@ -17,6 +19,10 @@ export default function Home(){
         
     const navigation = useNavigation();
     
+    const currentDate = new Date();
+    const [activeMonth, setActiveMonth] = useState(currentDate.getMonth() + 1);
+    const [activeYear, setActiveYear] = useState(currentDate.getFullYear());
+    
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             updateTotals();
@@ -26,7 +32,6 @@ export default function Home(){
         return unsubscribe;
     }, [navigation]);
 
-    const currentDate = new Date();
     const barData = {
         labels: ["Income", "Expenses", "Fees"],
         datasets: [
@@ -101,7 +106,11 @@ export default function Home(){
                     </Card>
                     <Card>
                         <View style={globalStyles.cardContainer}>
-                            <Text style={styles.amountTitle}>{currentDate.getMonth() + 1}/{currentDate.getFullYear()}</Text>
+                            <View style={styles.monthlyHeaderContainer}>
+                                <ButtonIcon icon='arrow-back-ios' onPress={() => setActiveMonth (activeMonth-1)}/>
+                                <Text style={styles.amountTitle}>{activeMonth}/{activeYear}</Text>
+                                <ButtonIcon icon='arrow-forward-ios' onPress={() => setActiveMonth (activeMonth+1)}/>
+                            </View>
                             <BarChart
                                 data={barData}
                                 width={Dimensions.get("window").width - 40}
@@ -190,5 +199,11 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         paddingBottom: 20,
     },
+    monthlyHeaderContainer:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+    }
 
 })
