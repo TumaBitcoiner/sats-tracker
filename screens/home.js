@@ -23,14 +23,31 @@ export default function Home(){
     const [activeMonth, setActiveMonth] = useState(currentDate.getMonth() + 1);
     const [activeYear, setActiveYear] = useState(currentDate.getFullYear());
     
+    const updateActiveDate = (newMonth) => {
+        if (newMonth < 1) {
+            setActiveMonth(12);
+            setActiveYear(activeYear - 1);
+        } else if (newMonth > 12) {
+            setActiveMonth(1);
+            setActiveYear(activeYear + 1);
+        } else {
+            setActiveMonth(newMonth);
+        }
+    }
+    
     useEffect(() => {
+
+        console.log('Active Month:', activeMonth);
+        console.log('Updating totals for month:', activeMonth, 'and year:', activeYear);
+        updateTotals(activeMonth, activeYear);
+
         const unsubscribe = navigation.addListener('focus', () => {
-            updateTotals();
+            updateTotals(activeMonth, activeYear);
         });
 
         // Cleanup subscription
         return unsubscribe;
-    }, [navigation]);
+    }, [navigation, activeMonth]);
 
     const barData = {
         labels: ["Income", "Expenses", "Fees"],
@@ -107,9 +124,9 @@ export default function Home(){
                     <Card>
                         <View style={globalStyles.cardContainer}>
                             <View style={styles.monthlyHeaderContainer}>
-                                <ButtonIcon icon='arrow-back-ios' onPress={() => setActiveMonth (activeMonth-1)}/>
+                                <ButtonIcon icon='arrow-back-ios' onPress={() => updateActiveDate(activeMonth-1)}/>
                                 <Text style={styles.amountTitle}>{activeMonth}/{activeYear}</Text>
-                                <ButtonIcon icon='arrow-forward-ios' onPress={() => setActiveMonth (activeMonth+1)}/>
+                                <ButtonIcon icon='arrow-forward-ios' onPress={() => updateActiveDate(activeMonth+1)}/>
                             </View>
                             <BarChart
                                 data={barData}
