@@ -15,16 +15,16 @@ export function TransactionProvider({ children }) {
     const [totalMonthlyExpenses, setTotalMonthlyExpenses] = useState(0);
     const [totalMonthlyFees, setTotaMonthlylFees] = useState(0);
 
-    const currentDate = new Date();
-    const month = currentDate.getMonth() + 1; // JavaScript months are 0-based
-    const year = currentDate.getFullYear();
+    // const currentDate = new Date();
+    // const month = currentDate.getMonth() + 1; // JavaScript months are 0-based
+    // const year = currentDate.getFullYear();
 
 
-    const updateTotals = async () => {
+    const updateTotals = async (activeMonth, activeYear) => {
 
-        const currentDate = new Date();
-        const month = currentDate.getMonth() + 1; // JavaScript months are 0-based
-        const year = currentDate.getFullYear();
+        //const currentDate = new Date();
+        const month = activeMonth; // JavaScript months are 0-based
+        const year = activeYear;
 
         try {
             const [income, expenses, fees, ln, oc, monthlyTotals] = await Promise.all([
