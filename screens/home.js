@@ -36,17 +36,20 @@ export default function Home(){
     
     useEffect(() => {
 
-        console.log('Active Month:', activeMonth);
-        console.log('Updating totals for month:', activeMonth, 'and year:', activeYear);
-        updateTotals(activeMonth, activeYear);
-
-        const unsubscribe = navigation.addListener('focus', () => {
+        if (activeMonth && activeYear) {
+            console.log('Active Month:', activeMonth);
+            console.log('Updating totals for month:', activeMonth, 'and year:', activeYear);
             updateTotals(activeMonth, activeYear);
-        });
 
-        // Cleanup subscription
-        return unsubscribe;
-    }, [navigation, activeMonth]);
+            const unsubscribe = navigation.addListener('focus', () => {
+                console.log('Navigation focus - Updating totals for:', activeMonth, activeYear);
+                updateTotals(activeMonth, activeYear);
+            });
+
+            // Cleanup subscription
+            return unsubscribe;
+        }
+    }, [navigation, activeMonth, activeYear]);
 
     const barData = {
         labels: ["Income", "Expenses", "Fees"],

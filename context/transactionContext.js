@@ -57,10 +57,6 @@ export function TransactionProvider({ children }) {
         }
     };
 
-    useEffect(() => {
-        updateTotals();
-    }, []);
-
     return (
         <TransactionContext.Provider value={{
             totalIncome,
