@@ -51,27 +51,53 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
             amount: yup.number()
                 .required('Amount is required')
                 .positive('Amount must be positive')
-                .test(
-                    'max-amount', 
-                    `Amount exceeds available wallet balance: ${walletBalance} sats`, 
-                    function(value) {
-                    const { transactionFee } = this.parent;
-                    const totalSpend = Number(value || 0) + Number(transactionFee || 0);
-                    return totalSpend <= walletBalance;
-                    }
-                ),
+                .when('isExpenses', {
+                    is: true,
+                    then: (schema) => schema.test(
+                        'max-amount', 
+                        `Amount exceeds available wallet balance: ${walletBalance} sats`, 
+                        function(value) {
+                            const { transactionFee } = this.parent;
+                            const totalSpend = Number(value || 0) + Number(transactionFee || 0);
+                            return totalSpend <= walletBalance;
+                        }
+                    ),
+                    otherwise: (schema) => schema
+                }),
+                // .test(
+                //     'max-amount', 
+                //     `Amount exceeds available wallet balance: ${walletBalance} sats`, 
+                //     function(value) {
+                //     const { transactionFee } = this.parent;
+                //     const totalSpend = Number(value || 0) + Number(transactionFee || 0);
+                //     return totalSpend <= walletBalance;
+                //     }
+                // ),
             transactionFee: yup.number()
                 .min(0)
                 .integer()
-                .test(
-                    'max-transactionFee', 
-                    `Fee exceeds available wallet balance: ${walletBalance} sats`, 
-                    function(value) {
-                    const { amount } = this.parent;
-                    const totalSpend = Number(amount || 0) + Number(value || 0);
-                    return totalSpend <= walletBalance;
-                    }
-                ),
+                .when('isExpenses', {
+                    is: true,
+                    then: (schema) => schema.test(
+                        'max-transactionFee', 
+                        `Fee exceeds available wallet balance: ${walletBalance} sats`, 
+                        function(value) {
+                            const { amount } = this.parent;
+                            const totalSpend = Number(amount || 0) + Number(value || 0);
+                            return totalSpend <= walletBalance;
+                        }
+                    ),
+                    otherwise: (schema) => schema
+                }),
+                // .test(
+                //     'max-transactionFee', 
+                //     `Fee exceeds available wallet balance: ${walletBalance} sats`, 
+                //     function(value) {
+                //     const { amount } = this.parent;
+                //     const totalSpend = Number(amount || 0) + Number(value || 0);
+                //     return totalSpend <= walletBalance;
+                //     }
+                // ),
             walletId: yup.number()
                 .required()
                 .min(1, 'Please select a wallet'),
