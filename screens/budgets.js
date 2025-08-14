@@ -5,7 +5,7 @@ import ButtonCircular from '../shared/buttonCircular';
 import { globalStyles } from '../styles/global';
 
 
-export default function Budget(){
+export default function Budgets(){
 
     const navigation = useNavigation();
     
