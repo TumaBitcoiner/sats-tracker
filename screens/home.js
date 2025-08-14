@@ -118,7 +118,7 @@ export default function Home(){
                         <View style={globalStyles.cardContainer}>
                             <View style={styles.monthlyHeaderContainer}>
                                 <ButtonIcon icon='arrow-back-ios' onPress={() => updateActiveDate(activeMonth-1)}/>
-                                <Text style={styles.amountTitle}>{activeMonth}/{activeYear}</Text>
+                                <Text style={globalStyles.cardTitle}>{activeMonth}/{activeYear}</Text>
                                 <ButtonIcon icon='arrow-forward-ios' onPress={() => updateActiveDate(activeMonth+1)}/>
                             </View>
                             <View style={globalStyles.cardContainer}>
