@@ -6,7 +6,6 @@ import { globalStyles } from '../styles/global';
 import { formatNumber } from '../shared/utils';
 import { useNavigation } from "@react-navigation/native";
 import { PieChart, BarChart } from 'react-native-chart-kit';
-import { MaterialIcons } from '@expo/vector-icons';
 import ButtonIcon from '../shared/buttonIcon';
 
 
@@ -15,7 +14,7 @@ export default function Home(){
     
     const { totalIncome, totalExpenses, totalFees, 
         availableBalance, LNBalance, OCBalance, 
-        totalMonthlyIncome, totalMonthlyExpenses, totalMonthlyFees, updateTotals } = useTransactions();    
+        totalMonthlyIncome, totalMonthlyExpenses, totalMonthlyFees, totalMonthlyBudget, updateTotals } = useTransactions();    
         
     const navigation = useNavigation();
     
@@ -80,12 +79,6 @@ export default function Home(){
             color: "#F7931A",
             legendFontColor: "#7F7F7F",
         },
-        // {
-        //     name: "Fees",
-        //     amount: totalFees,
-        //     color: "#ffbb33",
-        //     legendFontColor: "#7F7F7F",
-        // }
     ];
 
 
@@ -128,6 +121,10 @@ export default function Home(){
                                 <Text style={styles.amountTitle}>{activeMonth}/{activeYear}</Text>
                                 <ButtonIcon icon='arrow-forward-ios' onPress={() => updateActiveDate(activeMonth+1)}/>
                             </View>
+                            <View style={globalStyles.cardContainer}>
+                                <Text style={styles.amountTitle}>Monthly Balance</Text>
+                                <Text style={totalMonthlyBudget > 0 ? styles.monthlyAmountTitlePositive : styles.monthlyAmountTitleNegative}>{totalMonthlyBudget} sats</Text>
+                            </View>
                             <BarChart
                                 data={barData}
                                 width={Dimensions.get("window").width - 40}
@@ -143,7 +140,6 @@ export default function Home(){
                                         borderRadius: 16
                                     },
                                     barPercentage: 0.5,
-                                    //useShadowColorFromDataset: true,
                                     fillShadowGradient: '#000000',
                                     fillShadowGradientOpacity: 1,
                                     propsForLabels: {
@@ -155,33 +151,27 @@ export default function Home(){
                                     marginVertical: 8,
                                     borderRadius: 16
                                 }}
-                                //showValuesOnTopOfBars={true}
                                 fromZero={true}
                                 horizontal={true}
                             />
                         </View>
-                    </Card>
-                    <Card>
                         <View>
-                            <View style={globalStyles.cardContainer}>
-                                <Text style={styles.amountTitle}>Balance Info</Text>
-                            </View>
                             <Card>   
                                 <View style={styles.amountContainer}>
                                     <Text style={styles.amount}>Income:</Text>
-                                    <Text style={styles.amount}>{formatNumber(totalIncome)}</Text>
+                                    <Text style={styles.amount}>{formatNumber(totalMonthlyIncome)}</Text>
                                 </View>            
                             </Card>
                             <Card>                   
                                 <View style={styles.amountContainer}>
                                     <Text style={styles.amount}>Expenses:</Text>
-                                    <Text style={styles.amount}>{formatNumber(totalExpenses)}</Text>
+                                    <Text style={styles.amount}>{formatNumber(totalMonthlyExpenses)}</Text>
                                 </View>                      
                             </Card>
                             <Card>  
                                 <View style={styles.amountContainer}>
                                     <Text style={styles.amount}>Fees Paid:</Text>
-                                    <Text style={styles.amount}>{formatNumber(totalFees)}</Text>
+                                    <Text style={styles.amount}>{formatNumber(totalMonthlyFees)}</Text>
                                 </View>          
                             </Card>
                         </View>
@@ -211,6 +201,16 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         padding: 10,
+    },
+    monthlyAmountTitlePositive:{
+        fontSize: 24,
+        color: 'green',
+        fontWeight: 'bold',
+    },
+    monthlyAmountTitleNegative:{
+        fontSize: 24,
+        color: 'red',
+        fontWeight: 'bold',
     },
     scrollContainer: {
         flexGrow: 1,

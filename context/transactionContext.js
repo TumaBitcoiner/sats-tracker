@@ -14,6 +14,8 @@ export function TransactionProvider({ children }) {
     const [totalMonthlyIncome, setTotalMonthlyIncome] = useState(0);
     const [totalMonthlyExpenses, setTotalMonthlyExpenses] = useState(0);
     const [totalMonthlyFees, setTotaMonthlylFees] = useState(0);
+    const [totalMonthlyBudget, setTotalMonthlyBudget] = useState(0);
+
 
     // const currentDate = new Date();
     // const month = currentDate.getMonth() + 1; // JavaScript months are 0-based
@@ -48,6 +50,8 @@ export function TransactionProvider({ children }) {
             setTotalMonthlyExpenses(monthlyTotals.totalExpenses);
             setTotaMonthlylFees(monthlyTotals.totalFees);
 
+            setTotalMonthlyBudget(monthlyTotals.totalIncome - monthlyTotals.totalExpenses - monthlyTotals.totalFees);
+
         } catch (error) {
             console.error('Error updating totals:', error);
         }
@@ -68,6 +72,7 @@ export function TransactionProvider({ children }) {
             totalMonthlyIncome,
             totalMonthlyExpenses,
             totalMonthlyFees,
+            totalMonthlyBudget,
             updateTotals
         }}>
             {children}
