@@ -100,25 +100,6 @@ export default function Home(){
                     </Card>
                     <Card>
                         <View style={globalStyles.cardContainer}>
-                            <Text style={styles.amountTitle}>Wallet Type Distribution</Text>
-                            <PieChart
-                                data={pieData}
-                                width={Dimensions.get("window").width - 40}
-                                height={220}
-                                chartConfig={{
-                                    backgroundColor: "#ffffff",
-                                    backgroundGradientFrom: "#ffffff",
-                                    backgroundGradientTo: "#ffffff",
-                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                }}
-                                accessor="amount"
-                                backgroundColor="transparent"
-                                paddingLeft="15"
-                            />
-                        </View>
-                    </Card>
-                    <Card>
-                        <View style={globalStyles.cardContainer}>
                             <View style={styles.monthlyHeaderContainer}>
                                 <ButtonIcon icon='arrow-back-ios' onPress={() => updateActiveDate(activeMonth-1)}/>
                                 <Text style={globalStyles.cardTitle}>{activeMonth}/{activeYear}</Text>
@@ -177,6 +158,25 @@ export default function Home(){
                                     <Text style={styles.amount}>{formatNumber(totalMonthlyFees)}</Text>
                                 </View>          
                             </Card>
+                        </View>
+                    </Card>
+                    <Card>
+                        <View style={globalStyles.cardContainer}>
+                            <Text style={styles.amountTitle}>Wallet Type Distribution</Text>
+                            <PieChart
+                                data={pieData}
+                                width={Dimensions.get("window").width - 40}
+                                height={220}
+                                chartConfig={{
+                                    backgroundColor: "#ffffff",
+                                    backgroundGradientFrom: "#ffffff",
+                                    backgroundGradientTo: "#ffffff",
+                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                }}
+                                accessor="amount"
+                                backgroundColor="transparent"
+                                paddingLeft="15"
+                            />
                         </View>
                     </Card>
                 </View>            
