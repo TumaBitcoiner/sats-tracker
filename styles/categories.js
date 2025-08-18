@@ -19,6 +19,8 @@ export const categories = {
         ['sim-card', 'eSIM'],
         ['phone', 'Phone Bill'],
         ['card-giftcard', 'Gift Card'],
+        ['assistant', 'AI Agent'],
+        ['sports-esports', 'Games']
     ],
     income:[
         ['savings', 'Initial Balance'],
@@ -55,6 +57,8 @@ export const categoryArray = {
         'eSIM': ['sim-card', 'eSIM'],
         'Phone Bill': ['phone', 'Phone Bill'],
         'Gift Card': ['card-giftcard', 'Gift Card'],
+        'AI Agent': ['assistant', 'AI Agent'],
+        'Games': ['sports-esports', 'Games'],
     },
     income:{
         'Initial Balance': ['savings', 'Initial Balance'],
@@ -85,6 +89,8 @@ export const EXPENSES_RANK_COLORS = {
     'eSIM': '#E91E63',                    // Pink
     'Phone Bill': '#009688',              // Teal
     'Gift Card': '#8BC34A',               // Light Green
+    'AI Agent': '#FFEB3B',                // Yellow
+    'Games': '#673AB7',                   // Deep Purple
 }
 
 export const wallets = {
