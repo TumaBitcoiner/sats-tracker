@@ -30,7 +30,8 @@ export const categories = {
         ['attach-money', 'Salary'],
         ['bolt', 'Zap Received'],
         ['currency-exchange', 'Exchange'],
-        ['sell', 'Product Sell']
+        ['sell', 'Product Sell'],
+        ['monetization-on', 'Cashback'],
     ]
 }
 
@@ -69,6 +70,7 @@ export const categoryArray = {
         'Zap Received': ['bolt', 'Zap Received'],
         'Exchange': ['currency-exchange', 'Exchange'],
         'Product Sell': ['sell', 'Product Sell'],
+        'Cashback': ['monetization-on', 'Cashback'],
     }
 }
 
