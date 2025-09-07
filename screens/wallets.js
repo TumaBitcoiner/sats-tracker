@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { View, Text, TouchableWithoutFeedback,
-     Modal, Keyboard, SectionList, StyleSheet } from 'react-native'
+     Modal, Keyboard, SectionList, StyleSheet } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 import ButtonCircular from '../shared/buttonCircular';
 import WalletForm from '../modals/walletForm';
 import { globalStyles } from '../styles/global';
@@ -147,35 +148,41 @@ export default function Wallets(){
                 </TouchableWithoutFeedback>
             </Modal>
 
-            <SectionList
-                sections={sections}
-                style={styles.scrollContainer}
-                contentContainerStyle={globalStyles.listContainer}
-                renderSectionHeader={({ section }) => (
-                    <View style={globalStyles.sectionHeader}>
-                                <Text style={globalStyles.sectionHeaderText}>
-                                    {section.title}
-                                </Text>
-                    </View>
-                )}
-                renderItem={({ item }) => (
-                    <CardWallet
-                        onPress={() => navigation.navigate(
-                            'WalletDetails',
-                            {  
-                                ...item,
-                                onDelete: handleDeleteWallet,
-                                onEdit: handleEditWallet
-                            }
-                        )}
-                        name={item.name}
-                        type={item.type}
-                        balance={item.balance}
-                    />
-                )}
-                stickySectionHeadersEnabled={false}
-            />
-
+            {(walletsOC.length === 0 && walletsLN.length === 0) ?
+                <View style={globalStyles.emptyContainer}>
+                    <MaterialIcons name='info' style={globalStyles.emptyIcon} />
+                    <Text style={globalStyles.emptyText}>No wallet recorded. Add one to start adding transactions.</Text>
+                </View>
+                :
+                <SectionList
+                    sections={sections}
+                    style={styles.scrollContainer}
+                    contentContainerStyle={globalStyles.listContainer}
+                    renderSectionHeader={({ section }) => (
+                        <View style={globalStyles.sectionHeader}>
+                                    <Text style={globalStyles.sectionHeaderText}>
+                                        {section.title}
+                                    </Text>
+                        </View>
+                    )}
+                    renderItem={({ item }) => (
+                        <CardWallet
+                            onPress={() => navigation.navigate(
+                                'WalletDetails',
+                                {  
+                                    ...item,
+                                    onDelete: handleDeleteWallet,
+                                    onEdit: handleEditWallet
+                                }
+                            )}
+                            name={item.name}
+                            type={item.type}
+                            balance={item.balance}
+                        />
+                    )}
+                    stickySectionHeadersEnabled={false}
+                />
+            }
             <ButtonCircular onPress={() => setModalOpen(true)} icon='add'/>
         </View>
     )    

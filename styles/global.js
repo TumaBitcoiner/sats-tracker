@@ -166,6 +166,21 @@ export const globalStyles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         padding: 10,
+    },
+    emptyContainer: {   
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20
+    },
+    emptyIcon: {
+        fontSize: 48,
+        color: '#666',
+        marginBottom: 16
+    },
+    emptyText: {
+        fontSize: 16,
+        color: '#666',
+        textAlign: 'center'
     }
-
 });
