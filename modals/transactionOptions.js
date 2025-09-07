@@ -7,12 +7,12 @@ export default function TransactionOptions({onPress}){
         <View>
             <CardOption
                 cardIcon='edit'
-                cardTitle='Edit Wallet'
+                cardTitle='Edit Transaction'
                 onPress={() => onPress('edit')}
             />
             <CardOption
                 cardIcon='delete'
-                cardTitle='Delete Wallet'
+                cardTitle='Delete Transaction'
                 onPress={() => onPress('delete')}
             />
         </View>
