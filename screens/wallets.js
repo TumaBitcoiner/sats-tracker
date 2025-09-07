@@ -1,16 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import { View, Text, TouchableWithoutFeedback,
-     Modal, Keyboard, SectionList, StyleSheet } from 'react-native';
+     Modal, Keyboard, StyleSheet } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
 import ButtonCircular from '../shared/buttonCircular';
 import WalletForm from '../modals/walletForm';
 import { globalStyles } from '../styles/global';
 import { initializeDB, getLNWallets, getOCWallets, createWallet, editWallet, deleteWallet } from '../database/database'; // Import the createTable function
-import { CardWallet } from '../cards/cardWallet';
-import { useNavigation } from "@react-navigation/native";
 import { useTransactions } from '../context/transactionContext';
+import { LNWallets } from './LNWallets';
+import { OCWallets } from './OCWallets';
 
-
+const Tab = createMaterialTopTabNavigator();
 
 
 export default function Wallets(){
@@ -68,7 +70,6 @@ export default function Wallets(){
             const unsubscribe = navigation.addListener('focus', () => {
                 fetchWalletsLN();                    
                 fetchWalletsOC();
-                //updateTotals();
             });
     
             // Cleanup subscription
@@ -123,17 +124,6 @@ export default function Wallets(){
         setWalletsLN(currentWallets => currentWallets.filter(wallet => wallet.id !== id));
     }
 
-    const sections = [
-        {
-            title: 'OC Wallets',
-            data: walletsOC
-        },
-        {
-            title: 'LN Wallets',
-            data: walletsLN
-        }
-    ];
-
     return(
         <View style={globalStyles.container}>
            
@@ -154,34 +144,70 @@ export default function Wallets(){
                     <Text style={globalStyles.emptyText}>No wallet recorded. Add one to start adding transactions.</Text>
                 </View>
                 :
-                <SectionList
-                    sections={sections}
-                    style={styles.scrollContainer}
-                    contentContainerStyle={globalStyles.listContainer}
-                    renderSectionHeader={({ section }) => (
-                        <View style={globalStyles.sectionHeader}>
-                                    <Text style={globalStyles.sectionHeaderText}>
-                                        {section.title}
-                                    </Text>
-                        </View>
-                    )}
-                    renderItem={({ item }) => (
-                        <CardWallet
-                            onPress={() => navigation.navigate(
-                                'WalletDetails',
-                                {  
-                                    ...item,
-                                    onDelete: handleDeleteWallet,
-                                    onEdit: handleEditWallet
-                                }
-                            )}
-                            name={item.name}
-                            type={item.type}
-                            balance={item.balance}
-                        />
-                    )}
-                    stickySectionHeadersEnabled={false}
-                />
+                <Tab.Navigator
+                    screenOptions={{
+                        tabBarStyle: { backgroundColor: '#fff' },
+                        tabBarIndicatorStyle: { backgroundColor: 'orange' },
+                        tabBarShowIcon: true,
+                        tabBarShowLabel: false
+                    }}
+                    >
+                    <Tab.Screen 
+                        name="OC" 
+                        children={() => (
+                            walletsOC.length === 0 ? (
+                                <View style={globalStyles.emptyContainer}>
+                                    <MaterialIcons name='info' style={globalStyles.emptyIcon} />
+                                    <Text style={globalStyles.emptyText}>No on-chain wallet recorded. Add one to start adding transactions.</Text>
+                                </View>
+                            ) : (
+                                <OCWallets 
+                                    wallets={walletsOC}
+                                    navigation={navigation}
+                                    handleDeleteWallet={handleDeleteWallet}
+                                    handleEditWallet={handleEditWallet}
+                                />                                
+                            )
+                        )}
+                        options={{
+                            tabBarIcon: ({ focused, color }) => (
+                                <MaterialIcons 
+                                    name="currency-bitcoin" 
+                                    size={30} 
+                                    color={focused ? 'orange' : 'black'}
+                                />
+                            )
+                         }}
+                    />
+                    <Tab.Screen 
+                        name="LN" 
+                        children={() => (
+                            walletsLN.length === 0 ? (
+                                <View style={globalStyles.emptyContainer}>
+                                    <MaterialIcons name='info' style={globalStyles.emptyIcon} />
+                                    <Text style={globalStyles.emptyText}>No lightning wallet recorded. Add one to start adding transactions.</Text>
+                                </View>
+                            ) : (
+                                <LNWallets 
+                                    wallets={walletsLN}
+                                    navigation={navigation}
+                                    handleDeleteWallet={handleDeleteWallet}
+                                    handleEditWallet={handleEditWallet}
+                                />                                
+                            )
+                        )}
+                        options={{
+                            tabBarIcon: ({ focused, color }) => (
+                                <MaterialIcons 
+                                    name="bolt" 
+                                    size={30} 
+                                    color={focused ? 'orange' : 'black'}
+                                />
+                            ),
+                            tabBarLabel: '' // Remove text if you want only icons
+                         }}
+                    />
+                </Tab.Navigator>
             }
             <ButtonCircular onPress={() => setModalOpen(true)} icon='add'/>
         </View>
