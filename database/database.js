@@ -219,11 +219,19 @@ export const getMonthlyTotals = async (month, year) => {
 
         console.log('Date range:', startDate, 'to', endDate);
 
-
+        // Retrieving all expenses and income excluding specific categories: Swap Out, Swap In, Consolidation, Adjust Balance
         const result = await database.getAllAsync(`
             SELECT 
                 SUM(CASE WHEN isExpenses = 0 THEN amount ELSE 0 END) as totalIncome,
-                SUM(CASE WHEN isExpenses = 1 THEN amount ELSE 0 END) as totalExpenses,
+                SUM(CASE WHEN isExpenses = 1 THEN amount ELSE 0 END) as totalExpenses
+            FROM transactions 
+            WHERE date BETWEEN ? AND ? AND category NOT IN ('Swap Out', 'Swap In', 'Consolidation', 'Adjust Balance');`,
+            [startDate, endDate]
+        );
+
+        // Retrieving total fees separately
+        const totalFees = await database.getAllAsync(`
+            SELECT 
                 SUM(transactionFee) as totalFees
             FROM transactions 
             WHERE date BETWEEN ? AND ?;`,
@@ -231,10 +239,12 @@ export const getMonthlyTotals = async (month, year) => {
         );
 
         console.log('Monthly totals result:', result);
+        console.log('Monthly fees result:', totalFees);
+
         return {
             totalIncome: result[0].totalIncome || 0,
             totalExpenses: result[0].totalExpenses || 0,
-            totalFees: result[0].totalFees || 0
+            totalFees: totalFees[0].totalFees || 0
         };
 
     } catch (error) {
