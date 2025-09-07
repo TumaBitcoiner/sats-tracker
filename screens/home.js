@@ -107,7 +107,7 @@ export default function Home(){
                             </View>
                             <View style={globalStyles.cardContainer}>
                                 <Text style={styles.amountTitle}>Monthly Balance</Text>
-                                <Text style={totalMonthlyBudget > 0 ? styles.monthlyAmountTitlePositive : styles.monthlyAmountTitleNegative}>{totalMonthlyBudget} sats</Text>
+                                <Text style={totalMonthlyBudget > 0 ? styles.monthlyAmountTitlePositive : styles.monthlyAmountTitleNegative}>{formatNumber(totalMonthlyBudget)} sats</Text>
                             </View>
                             <BarChart
                                 data={barData}
