@@ -650,16 +650,16 @@ export const getWalletBalance = async (id) => {
     }
 }
 
-export const getCategoryTotalsByWallet = async (walletId) => {
+export const getCategoryTotalsByWallet = async (walletId, isExpense) => {
     const database = await db;
     try {
         const result = await database.getAllAsync(
             `SELECT category, SUM(amount) as totalSpent
              FROM transactions
-             WHERE walletId = ? AND isExpenses = 1 AND category NOT IN ('Swap Out', 'Consolidation', 'Adjust Balance')
+             WHERE walletId = ? AND isExpenses = ? AND category NOT IN ('Swap Out', 'Swap In', 'Consolidation', 'Adjust Balance', 'Initial Balance')
              GROUP BY category
              ORDER BY totalSpent DESC;`,
-            [walletId]
+            [walletId, isExpense]
         );
         // Returns an array: [{ category: 'Food', totalSpent: 1234 }, ...]
         return result;
