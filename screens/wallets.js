@@ -151,7 +151,7 @@ export default function Wallets(){
                         tabBarShowIcon: true,
                         tabBarShowLabel: false
                     }}
-                    >
+                >
                     <Tab.Screen 
                         name="OC" 
                         children={() => (
@@ -170,7 +170,7 @@ export default function Wallets(){
                             )
                         )}
                         options={{
-                            tabBarIcon: ({ focused, color }) => (
+                            tabBarIcon: ({ focused }) => (
                                 <MaterialIcons 
                                     name="currency-bitcoin" 
                                     size={30} 
@@ -197,15 +197,14 @@ export default function Wallets(){
                             )
                         )}
                         options={{
-                            tabBarIcon: ({ focused, color }) => (
+                            tabBarIcon: ({ focused }) => (
                                 <MaterialIcons 
                                     name="bolt" 
                                     size={30} 
                                     color={focused ? 'orange' : 'black'}
                                 />
                             ),
-                            tabBarLabel: '' // Remove text if you want only icons
-                         }}
+                        }}
                     />
                 </Tab.Navigator>
             }
