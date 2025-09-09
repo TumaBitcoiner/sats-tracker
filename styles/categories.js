@@ -95,6 +95,17 @@ export const EXPENSES_RANK_COLORS = {
     'Games': '#673AB7',                   // Deep Purple
 }
 
+export const INCOME_RANK_COLORS = {
+    //'Initial Balance': '#808080',         // Gray
+    //'Swap In': '#4CAF50',                 // Green
+    //'Adjust Balance': '#2196F3',          // Blue
+    'Salary': '#FF9800',                  // Orange
+    'Zap Received': '#FFD700',            // Gold
+    'Exchange': '#9C27B0',                // Purple
+    'Product Sell': '#00BCD4',            // Cyan
+    'Cashback': '#FFEB3B',                // Yellow
+}
+
 export const wallets = {
     type:[
         ['question-mark', 'No wallet type selected..'],
