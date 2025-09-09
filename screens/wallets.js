@@ -9,8 +9,8 @@ import WalletForm from '../modals/walletForm';
 import { globalStyles } from '../styles/global';
 import { initializeDB, getLNWallets, getOCWallets, createWallet, editWallet, deleteWallet } from '../database/database'; // Import the createTable function
 import { useTransactions } from '../context/transactionContext';
-import { LNWallets } from './LNWallets';
-import { OCWallets } from './OCWallets';
+import { LNWallets } from './sub-screens/LNWallets';
+import { OCWallets } from './sub-screens/OCWallets';
 
 const Tab = createMaterialTopTabNavigator();
 
