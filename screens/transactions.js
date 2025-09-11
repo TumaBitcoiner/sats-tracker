@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { StyleSheet, View, Text, Modal,
      TouchableWithoutFeedback, Keyboard, SectionList} from 'react-native'
+import { MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from "@react-navigation/native";
 import { globalStyles } from '../styles/global';
 import TransactionForm from '../modals/transactionForm';
@@ -133,24 +134,31 @@ export default function Transactions(){
                 </TouchableWithoutFeedback>
             </Modal>
             
-            <SectionList 
-                sections={groupTransactionsByDate(transactions)}
-                contentContainerStyle={globalStyles.listContainer}
-                renderItem={({ item }) => (
-                    <CardTransaction
-                        item={item}
-                        onPress={() => navigation.navigate(
-                            'TransactionDetails',
-                            {  
-                                ...item,
-                                onDelete: handleDeleteTransaction,
-                                onEdit: handleEditTransaction
-                            }
-                        )}
-                    />
-                )}
-                renderSectionHeader={renderSectionHeader}
-            />
+            {(transactions.length === 0) ?
+                <View style={globalStyles.emptyContainer}>
+                        <MaterialIcons name='info' style={globalStyles.emptyIcon} />
+                        <Text style={globalStyles.emptyText}>No transactions recorded.</Text>
+                </View>
+                :
+                <SectionList 
+                    sections={groupTransactionsByDate(transactions)}
+                    contentContainerStyle={globalStyles.listContainer}
+                    renderItem={({ item }) => (
+                        <CardTransaction
+                            item={item}
+                            onPress={() => navigation.navigate(
+                                'TransactionDetails',
+                                {  
+                                    ...item,
+                                    onDelete: handleDeleteTransaction,
+                                    onEdit: handleEditTransaction
+                                }
+                            )}
+                        />
+                    )}
+                    renderSectionHeader={renderSectionHeader}
+                />
+            }
             <ButtonCircular onPress={() => setModalOpen(true)} icon='add'/>
         </View>
     )    
