@@ -26,7 +26,7 @@ export function WalletChoice({onPress, walletList}) {
                     name="OC" 
                     children={() => (
                         getWalletType('OC').length === 0 ? (
-                            <View style={globalStyles.emptyContainer}>
+                            <View style={{...globalStyles.emptyContainer, ...styles.listBackground}}>
                                 <MaterialIcons name='info' style={globalStyles.emptyIcon} />
                                 <Text style={globalStyles.emptyText}>No on-chain wallet recorded. Add one to start adding transactions.</Text>
                             </View>
@@ -61,7 +61,7 @@ export function WalletChoice({onPress, walletList}) {
                     name="LN" 
                     children={() => (
                         getWalletType('LN').length === 0 ? (
-                            <View style={globalStyles.emptyContainer}>
+                            <View style={{...globalStyles.emptyContainer, ...styles.listBackground}}>
                                 <MaterialIcons name='info' style={globalStyles.emptyIcon} />
                                 <Text style={globalStyles.emptyText}>No lightning wallet recorded. Add one to start adding transactions.</Text>
                             </View>
