@@ -113,11 +113,10 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
         }
     };
 
-    const loadWallets = async (type) => {
+    const loadWallets = async () => {
         try {
             const fetchedWallets = await getWallets();
-                setWalletList(fetchedWallets);
-            //setWalletOpen(true); // Open wallet selector after loading
+            setWalletList(fetchedWallets);
         } catch (error) {
             console.error('Error loading wallets:', error);
         }
@@ -125,17 +124,26 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
 
     useEffect(() => {
         const initializeWallet = async () => {
-            await loadWallets(initialValues?.transactionType || walletType);
-            if (initialValues?.walletId) {
-                const wallets = initialValues.transactionType === 'LN' ? 
-                    await getLNWallets() : 
-                    await getOCWallets();
-                const wallet = wallets.find(w => w.id === initialValues.walletId);
-                if (wallet) {
-                    setSelectedWalletName(wallet.name);
-                    setWalletSelected(true);
-                    setWalletBalance(fetchWalletBalance(initialValues.walletId));
+            //await loadWallets();
+            try {
+                const fetchedWallets = await getWallets();
+                setWalletList(fetchedWallets);
+                
+                if (initialValues?.walletId) {
+                    // const wallets = initialValues.transactionType === 'LN' ? 
+                    //     await getLNWallets() : 
+                    //     await getOCWallets();
+                    const wallet = fetchedWallets.find(w => w.id === initialValues.walletId);
+                    console.log('Initial wallet:', wallet);
+                    if (wallet) {
+                        setSelectedWalletName(wallet.name);
+                        setWalletSelected(true);
+                        setWalletBalance(fetchWalletBalance(initialValues.walletId));
+                        setWalletType(initialValues.transactionType);
+                    }
                 }
+            } catch (error) {
+                console.error('Error loading wallets:', error);
             }
         };
         
@@ -196,10 +204,12 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                                     walletList={walletList}
                                                     onPress={(walletId, type, name) => {
                                                         formikProps.setFieldValue('walletId', walletId);
+                                                        formikProps.setFieldValue('transactionType', type);
                                                         fetchWalletBalance(walletId);
                                                         setWalletSelected(true);
                                                         setWalletOpen(false);
                                                         setSelectedWalletName(name);
+                                                        setWalletType(type);
                                                     }}
                                                 />                                            
                                             </View>
