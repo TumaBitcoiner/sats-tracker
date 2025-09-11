@@ -187,10 +187,10 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                     <View style={styles.formContainer}>
                         <ScrollView style={styles.scrollContent}>
                             {/* Transaction Type */}
-                            <View style={{...globalStyles.inputContainer, ...{justifyContent: 'space-between'}}}>
-                                <TouchableOpacity onPress={() => setWalletOpen(true)} style={styles.walletSelector}>
-                                
-                                        
+                            <TouchableOpacity onPress={() => setWalletOpen(true)}>
+                                <View style={globalStyles.inputContainer}>
+                            
+                                    
                                     <MaterialIcons 
                                         name={formikProps.values.transactionType === 'LN' ? 'bolt' : 'currency-bitcoin'} 
                                         style={globalStyles.icons} />
@@ -201,27 +201,8 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                         
                                     <MaterialIcons name='arrow-forward-ios' style={styles.arrowIcon} />
 
-                                
-                                </TouchableOpacity> 
-                                <View style={styles.switchContainer}>
-                                <Switch
-                                    style={[{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }]}
-                                    value={formikProps.values.transactionType === 'LN'}
-                                    onValueChange={(value) => {
-                                        const newType = value ? 'LN' : 'OC';
-                                        console.log(newType);
-                                        formikProps.setFieldValue('transactionType', newType);
-                                        formikProps.setFieldValue('walletId', 0); // Reset wallet selection
-                                        setSelectedWalletName('No wallet selected..');
-                                        setWalletSelected(false);
-                                        setWalletType(newType);
-                                        loadWallets(newType);
-                                    }}
-                                    trackColor={{ false: '#ff4444', true: '#00C851' }}
-                                    thumbColor={formikProps.values.transactionType === 'LN' ? '#00C851' : '#ff4444'}
-                                />
                                 </View>
-                            </View>
+                            </TouchableOpacity> 
 
                             {/* Wallet */}
                             <Modal visible={walletOpen} animationType="slide">
