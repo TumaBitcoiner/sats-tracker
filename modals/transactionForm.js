@@ -9,7 +9,7 @@ import ButtonFlat from "../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
 import {categoryArray} from "../styles/categories";
 import TopTabNavigatorCategories from "../routes/topTabNavigatorCategory";
-import { getLNWallets, getOCWallets, getWalletBalance } from '../database/database';
+import { getWallets, getWalletBalance } from '../database/database';
 import {WalletChoice} from "./walletChoice";
 import * as yup from 'yup';
 import ButtonCircular from '../shared/buttonCircular';
@@ -64,15 +64,6 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                     ),
                     otherwise: (schema) => schema
                 }),
-                // .test(
-                //     'max-amount', 
-                //     `Amount exceeds available wallet balance: ${walletBalance} sats`, 
-                //     function(value) {
-                //     const { transactionFee } = this.parent;
-                //     const totalSpend = Number(value || 0) + Number(transactionFee || 0);
-                //     return totalSpend <= walletBalance;
-                //     }
-                // ),
             transactionFee: yup.number()
                 .min(0)
                 .integer()
@@ -89,15 +80,6 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                     ),
                     otherwise: (schema) => schema
                 }),
-                // .test(
-                //     'max-transactionFee', 
-                //     `Fee exceeds available wallet balance: ${walletBalance} sats`, 
-                //     function(value) {
-                //     const { amount } = this.parent;
-                //     const totalSpend = Number(amount || 0) + Number(value || 0);
-                //     return totalSpend <= walletBalance;
-                //     }
-                // ),
             walletId: yup.number()
                 .required()
                 .min(1, 'Please select a wallet'),
@@ -133,9 +115,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
 
     const loadWallets = async (type) => {
         try {
-            const fetchedWallets = type === 'LN' ? 
-                await getLNWallets() : 
-                await getOCWallets();
+            const fetchedWallets = await getWallets();
                 setWalletList(fetchedWallets);
             //setWalletOpen(true); // Open wallet selector after loading
         } catch (error) {
