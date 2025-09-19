@@ -71,7 +71,7 @@ import Header from '../shared/header';
     screenOptions:{
         tabBarInactiveTintColor: 'black',
         tabBarActiveTintColor: 'black',
-        tabBarInactiveBackgroundColor: 'orange',  
+        tabBarInactiveBackgroundColor: '#f7931a',  
     }
   })
   

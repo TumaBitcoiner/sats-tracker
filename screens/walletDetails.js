@@ -240,7 +240,7 @@ export default function WalletDetails({route}){
                 <Tab.Navigator
                     screenOptions={{
                         tabBarStyle: { backgroundColor: '#fff' },
-                        tabBarIndicatorStyle: { backgroundColor: 'orange' },
+                        tabBarIndicatorStyle: { backgroundColor: '#f7931a' },
                         tabBarLabelStyle: {
                             textTransform: 'none',
                             fontWeight: 'bold',

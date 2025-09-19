@@ -17,7 +17,7 @@ export function WalletChoice({onPress, walletList}) {
             <Tab.Navigator
                 screenOptions={{
                     tabBarStyle: { backgroundColor: '#fff' },
-                    tabBarIndicatorStyle: { backgroundColor: 'orange' },
+                    tabBarIndicatorStyle: { backgroundColor: '#f7931a' },
                     tabBarShowIcon: true,
                     tabBarShowLabel: false
                 }}
@@ -52,7 +52,7 @@ export function WalletChoice({onPress, walletList}) {
                             <MaterialIcons 
                                 name="currency-bitcoin" 
                                 size={30} 
-                                color={focused ? 'orange' : 'black'}
+                                color={focused ? '#f7931a' : 'black'}
                             />
                         )
                         }}
@@ -87,7 +87,7 @@ export function WalletChoice({onPress, walletList}) {
                             <MaterialIcons 
                                 name="bolt" 
                                 size={30} 
-                                color={focused ? 'orange' : 'black'}
+                                color={focused ? '#f7931a' : 'black'}
                             />
                         ),
                     }}

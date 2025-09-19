@@ -13,7 +13,7 @@ export default function TopTabNavigatorCategories({onPress}) {
                     screenOptions= {{
                         tabBarLabelStyle: { fontSize: 20, color: 'black' },
                         tabBarStyle: { 
-                            backgroundColor: 'orange',
+                            backgroundColor: '#f7931a',
                             borderTopLeftRadius:8,
                             borderTopRightRadius:8,
                         }  

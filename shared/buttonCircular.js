@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         alignSelf: 'center',
-        backgroundColor: 'orange',
+        backgroundColor: '#f7931a',
         borderRadius: 30,
         elevation: 5,
         shadowColor: '#000',
