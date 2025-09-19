@@ -239,7 +239,7 @@ export default function WalletDetails({route}){
                 :
                 <Tab.Navigator
                     screenOptions={{
-                        tabBarStyle: { backgroundColor: '#fff' },
+                        tabBarStyle:  globalStyles.tabBarNavigator,
                         tabBarIndicatorStyle: { backgroundColor: '#f7931a' },
                         tabBarLabelStyle: {
                             textTransform: 'none',

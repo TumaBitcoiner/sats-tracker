@@ -4,9 +4,7 @@ import {MaterialIcons} from '@expo/vector-icons'
 import Home from '../screens/home';
 import TransactionStack from './transactionStack';
 import WalletStack from './walletStack';
-import Wallets from '../screens/wallets';
 import BudgetStack from './budgetStack';
-import Header from '../shared/header';
 
 
   const BottomTabNavigatorHome = createBottomTabNavigator({
@@ -17,9 +15,10 @@ import Header from '../shared/header';
             options:{
                 tabBarIcon:({ color, size }) =>           
                     <MaterialIcons name='home' color={color} size={size}/>,
-                headerTitle: () => <Header title="Home" />,
-                headerTitleAlign: 'center',
-                title: 'Home'
+                headerShown: false,
+                // headerTitle: () => <Header title="Home" />,
+                // headerTitleAlign: 'center',
+                // title: 'Home'
             }
         },
         
@@ -72,6 +71,16 @@ import Header from '../shared/header';
         tabBarInactiveTintColor: 'black',
         tabBarActiveTintColor: 'black',
         tabBarInactiveBackgroundColor: '#f7931a',  
+        // tabBarStyle: {
+        //     elevation: 8,
+        //     shadowOffset: {
+        //         width: 0,
+        //         height: -4,
+        //     },
+        //     shadowOpacity: 0.1,
+        //     shadowRadius: 4,
+        //     borderTopWidth: 0,
+        // },
     }
   })
   

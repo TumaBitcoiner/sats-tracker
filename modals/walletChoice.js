@@ -16,7 +16,7 @@ export function WalletChoice({onPress, walletList}) {
         <View style={globalStyles.container}>
             <Tab.Navigator
                 screenOptions={{
-                    tabBarStyle: { backgroundColor: '#fff' },
+                    tabBarStyle:  globalStyles.tabBarNavigator,
                     tabBarIndicatorStyle: { backgroundColor: '#f7931a' },
                     tabBarShowIcon: true,
                     tabBarShowLabel: false

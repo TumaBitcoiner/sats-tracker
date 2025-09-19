@@ -11,6 +11,7 @@ import { initializeDB, getLNWallets, getOCWallets, createWallet, editWallet, del
 import { useTransactions } from '../context/transactionContext';
 import { LNWallets } from './sub-screens/LNWallets';
 import { OCWallets } from './sub-screens/OCWallets';
+import Header from '../headers/header';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -138,6 +139,7 @@ export default function Wallets(){
                 </TouchableWithoutFeedback>
             </Modal>
 
+            <Header title='Wallets'/>
             {(walletsOC.length === 0 && walletsLN.length === 0) ?
                 <View style={globalStyles.emptyContainer}>
                     <MaterialIcons name='info' style={globalStyles.emptyIcon} />
@@ -146,7 +148,7 @@ export default function Wallets(){
                 :
                 <Tab.Navigator
                     screenOptions={{
-                        tabBarStyle: { backgroundColor: '#fff' },
+                        tabBarStyle:  globalStyles.tabBarNavigator,
                         tabBarIndicatorStyle: { backgroundColor: '#f7931a' },
                         tabBarShowIcon: true,
                         tabBarShowLabel: false

@@ -10,6 +10,7 @@ import { initializeDB, insertTransaction, getTransactions, deleteTransaction, ed
 import { useTransactions } from '../context/transactionContext';
 import { CardTransaction } from '../cards/cardTransaction';
 import { groupTransactionsByDate } from '../shared/utils';
+import Header from '../headers/header';
 
 
 export default function Transactions(){
@@ -134,6 +135,7 @@ export default function Transactions(){
                 </TouchableWithoutFeedback>
             </Modal>
             
+            <Header title='Transactions'/>
             {(transactions.length === 0) ?
                 <View style={globalStyles.emptyContainer}>
                         <MaterialIcons name='info' style={globalStyles.emptyIcon} />

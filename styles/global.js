@@ -182,5 +182,13 @@ export const globalStyles = StyleSheet.create({
         fontSize: 16,
         color: '#666',
         textAlign: 'center'
+    },
+    tabBarNavigator: {
+        backgroundColor: '#fff',
+        marginHorizontal: 8,
+        marginTop: 8,
+        elevation: 4,          // Android elevation
+        borderRadius: 8,       // Rounded corners
+        overflow: 'hidden'     // En
     }
 });

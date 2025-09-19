@@ -17,15 +17,17 @@ export default function Header({title}) {
 const styles = StyleSheet.create({
     header:{
         width: '100%', 
-        height: '100%',
+        height: 60,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#f7931a',
+        //elevation: 8,
     },
     headerText:{
         fontWeight: 'bold',
         fontSize: 20,
-        color: '#333',
+        color: 'black',
         letterSpacing: 1
     },
     headerTitle:{

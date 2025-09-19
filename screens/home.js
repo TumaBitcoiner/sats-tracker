@@ -7,8 +7,7 @@ import { formatNumber } from '../shared/utils';
 import { useNavigation } from "@react-navigation/native";
 import { PieChart, BarChart } from 'react-native-chart-kit';
 import ButtonIcon from '../shared/buttonIcon';
-
-
+import Header from '../headers/header';
 
 export default function Home(){
     
@@ -87,10 +86,12 @@ export default function Home(){
 
     return(
         
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-        
-            <View style={globalStyles.container}>
 
+        <View style={globalStyles.container}>
+            
+            <Header title="Home" />
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+        
                 <View>
                     <Card> 
                         <View style={globalStyles.cardContainer}>
@@ -180,9 +181,9 @@ export default function Home(){
                         </View>
                     </Card>
                 </View>            
-            </View>
+            </ScrollView>
+        </View>
 
-        </ScrollView>
     )    
 }
 

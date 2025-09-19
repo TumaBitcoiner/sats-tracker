@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: '#f7931a',
+        //paddingBottom: 16
     },
     // headerIconContainer:{
     //     position: 'absolute',
@@ -50,10 +51,8 @@ const styles = StyleSheet.create({
     headerText:{
         fontWeight: 'bold',
         fontSize: 20,
-        color: '#333',
+        color: 'black',
         letterSpacing: 1,
-        //position: 'absolute',
-
     },
     headerTitle:{
         flexDirection: 'row'
