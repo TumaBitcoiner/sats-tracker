@@ -7,7 +7,7 @@ import {Formik} from 'formik'
 import { MaterialIcons } from "@expo/vector-icons";
 import ButtonFlat from "../../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
-import { getLNWallets, getOCWallets, getWallet } from '../../database/database';
+import { getWallets } from '../../database/database';
 import {WalletChoice} from "../walletChoice";
 import * as yup from 'yup';
 import ButtonCircular from '../../shared/buttonCircular';
@@ -60,38 +60,54 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
         });
     };
 
-    const loadWallets = async (type) => {
-        try {
-            const fetchedWallets = type === 'LN' ? 
-                await getLNWallets() : 
-                await getOCWallets();
-                setWalletList(fetchedWallets);
-            //setWalletOpen(true); // Open wallet selector after loading
-        } catch (error) {
-            console.error('Error loading wallets:', error);
-        }
-    };
+    // const loadWallets = async (type) => {
+    //     try {
+    //         const fetchedWallets = type === 'LN' ? 
+    //             await getLNWallets() : 
+    //             await getOCWallets();
+    //             setWalletList(fetchedWallets);
+    //         //setWalletOpen(true); // Open wallet selector after loading
+    //     } catch (error) {
+    //         console.error('Error loading wallets:', error);
+    //     }
+    // };
 
-    const getOutWallet = async (outWalletId) => {
-        try {
-            const wallet = await getWallet(outWalletId);
-            setOutWalletName(wallet[0].name);
-            setOutWalletType(wallet[0].type);
-            setOutWalletBalance(wallet[0].balance);
+    // const getOutWallet = async (outWalletId) => {
+    //     try {
+    //         const wallet = await getWallet(outWalletId);
+    //         setOutWalletName(wallet[0].name);
+    //         setOutWalletType(wallet[0].type);
+    //         setOutWalletBalance(wallet[0].balance);
             
-        } catch (error) { 
-            console.error('Error fetching wallet name:', error);
-        }
-    }
+    //     } catch (error) { 
+    //         console.error('Error fetching wallet name:', error);
+    //     }
+    // }
 
     useEffect(() => {
         const initializeWallet = async () => {
-            await loadWallets(walletType);
+            try {
+                const fetchedWallets = await getWallets();
+                setWalletList(fetchedWallets);
+
+                if (outWalletId) {
+                    
+                    const wallet = fetchedWallets.find(w => w.id === outWalletId);
+                    console.log('Out wallet:', wallet);
+                    if (wallet) {
+                        setOutWalletName(wallet.name);
+                        setOutWalletType(wallet.type);
+                        setOutWalletBalance(wallet.balance);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading wallets:', error);
+            }
         };
 
         initializeWallet();        
-        getOutWallet(outWalletId)
-    }, []);
+        //getOutWallet(outWalletId)
+    }, [outWalletId]);
 
     return(
         <View style={globalStyles.container}>
@@ -141,40 +157,21 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                             </View>
 
                             <Text style={{...globalStyles.sectionHeaderText, ...{padding: 5}}}> To:</Text>
-                            <View style={{...globalStyles.inputContainer, ...{justifyContent: 'space-between'}}}>
                                 <TouchableOpacity onPress={() => setWalletOpen(true)} style={styles.walletSelector}>
-                                
+                                    <View style={globalStyles.inputContainer}>
+                                  
+                                        <MaterialIcons 
+                                            name={formikProps.values.transactionType === 'LN' ? 'bolt' : 'currency-bitcoin'} 
+                                            style={globalStyles.icons} />
                                         
-                                    <MaterialIcons 
-                                        name={formikProps.values.transactionTypeIn === 'LN' ? 'bolt' : 'currency-bitcoin'} 
-                                        style={globalStyles.icons} />
-                                    
-                                    <Text style={globalStyles.infoText} >
-                                        {selectedWalletName}
-                                    </Text>
-                                        
-                                    <MaterialIcons name='arrow-forward-ios' style={styles.arrowIcon} />
-
-                                
+                                        <Text style={globalStyles.infoText} >
+                                            {selectedWalletName}
+                                        </Text>
+                                            
+                                        <MaterialIcons name='arrow-forward-ios' style={styles.arrowIcon} />
+    
+                                    </View>    
                                 </TouchableOpacity> 
-                                <View style={styles.switchContainer}>
-                                <Switch
-                                    style={[{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }]}
-                                    value={formikProps.values.transactionTypeIn === 'LN'}
-                                    onValueChange={(value) => {
-                                        const newType = value ? 'LN' : 'OC';
-                                        console.log(newType);
-                                        formikProps.setFieldValue('transactionTypeIn', newType);
-                                        formikProps.setFieldValue('walletIdIn', 0); // Reset wallet selection
-                                        setSelectedWalletName('No wallet selected..');
-                                        setWalletType(newType);
-                                        loadWallets(newType);
-                                    }}
-                                    trackColor={{ false: '#ff4444', true: '#00C851' }}
-                                    thumbColor={formikProps.values.transactionTypeIn === 'LN' ? '#00C851' : '#ff4444'}
-                                />
-                                </View>
-                            </View>
 
                             {/* Wallet */}
                             <Modal visible={walletOpen} animationType="slide">
@@ -188,8 +185,10 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                                                     walletList={walletList}
                                                     onPress={(walletId, type, name) => {
                                                         formikProps.setFieldValue('walletIdIn', walletId);
+                                                        formikProps.setFieldValue('transactionTypeIn', type);
                                                         setWalletOpen(false);
                                                         setSelectedWalletName(name);
+                                                        setWalletType(type);
                                                     }}
                                                 />                                            
                                             </View>
