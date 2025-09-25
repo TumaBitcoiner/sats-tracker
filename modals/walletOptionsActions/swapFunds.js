@@ -118,6 +118,7 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                 initialValues={{ 
                     amount: 0,
                     transactionFee: 0,
+                    swapFee: 0,
                     note: '',
                     place: '',
                     date: new Date(),
@@ -161,7 +162,7 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                                     <View style={globalStyles.inputContainer}>
                                   
                                         <MaterialIcons 
-                                            name={formikProps.values.transactionType === 'LN' ? 'bolt' : 'currency-bitcoin'} 
+                                            name={formikProps.values.transactionTypeIn === 'LN' ? 'bolt' : 'currency-bitcoin'} 
                                             style={globalStyles.icons} />
                                         
                                         <Text style={globalStyles.infoText} >
@@ -227,6 +228,25 @@ export default function SwapFunds({swapFunds, onPress, outWalletId}){
                                 />
                                 
                             </View>                        
+                            
+                            {/* Swap Fee */}
+                            { (outWalletType === 'OC' && walletType === 'LN') ?
+                                <View style={globalStyles.inputContainer}>
+                                    <MaterialIcons name='swap-horiz' style={globalStyles.icons} />
+                                    
+                                    <TextInput
+                                        style={globalStyles.input}
+                                        placeholder="Swap Fee"
+                                        onChangeText={formikProps.handleChange('swapFee')}
+                                        value={formikProps.values.swapFee}
+                                        onBlur={formikProps.handleBlur('swapFee')}
+                                        keyboardType="numeric"
+                                    />
+                                    
+                                </View>
+                                :
+                                null
+                            }
 
                             {/* Date */}
                             <DatePicker

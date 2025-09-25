@@ -378,7 +378,7 @@ export const swapTransactions = async (values) => {
     const inTransaction = {
         date: values.date,
         amount: values.amount,
-        transactionFee: 0,
+        transactionFee: values.swapFee,
         category: values.categoryIn,
         transactionType: values.transactionTypeIn,
         note: values.note,
