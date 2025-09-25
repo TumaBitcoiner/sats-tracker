@@ -1,6 +1,6 @@
 {
   "name": "sats-tracker",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "main": "index.js",
   "scripts": {
     "start": "expo start",
