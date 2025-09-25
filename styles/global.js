@@ -190,5 +190,9 @@ export const globalStyles = StyleSheet.create({
         elevation: 4,          // Android elevation
         borderRadius: 8,       // Rounded corners
         overflow: 'hidden'     // En
+    },
+    safeAreaContainer:{
+        //flex: 1,
+        backgroundColor: '#f7931a',
     }
 });

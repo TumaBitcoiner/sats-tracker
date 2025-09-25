@@ -1,10 +1,15 @@
 import React from "react";
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import {MaterialIcons, MaterialCommunityIcons} from '@expo/vector-icons'
+import { SafeAreaView } from 'react-native-safe-area-context'; // Assuming already installed and provider is at root
+import { globalStyles } from "../styles/global";
 
 export default function HeaderWithOptions({headerTitle, navigation, onOptionPress}) {
 
     return( 
+
+    <SafeAreaView style={globalStyles.safeAreaContainer}>
+
         <View style={styles.header}>
 
             <TouchableOpacity style={styles.headerIconLeft} onPress={() => navigation.goBack()}>
@@ -17,6 +22,8 @@ export default function HeaderWithOptions({headerTitle, navigation, onOptionPres
                 <MaterialCommunityIcons name="dots-vertical"  size={30} color="black" />
             </TouchableOpacity>
         </View>
+
+    </SafeAreaView>
         
     );
 }
@@ -56,6 +63,5 @@ const styles = StyleSheet.create({
     },
     headerTitle:{
         flexDirection: 'row'
-    }
-
+    },
 });

@@ -1,16 +1,19 @@
-import React from "react";
 import {StyleSheet, Text, View} from 'react-native'
-import {MaterialIcons} from '@expo/vector-icons'
+import { SafeAreaView } from 'react-native-safe-area-context'; // Assuming already installed and provider is at root
+import { globalStyles } from "../styles/global";
 
 export default function Header({title}) {
 
     return(  
-        <View>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>{title}</Text>
-                
+
+        <SafeAreaView style={globalStyles.safeAreaContainer}>
+            <View>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>{title}</Text>
+                    
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
 

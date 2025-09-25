@@ -86,7 +86,6 @@ export default function Home(){
 
     return(
         
-
         <View style={globalStyles.container}>
             
             <Header title="Home" />
