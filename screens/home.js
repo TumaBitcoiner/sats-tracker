@@ -141,9 +141,27 @@ export default function Home(){
                             />
                         </View>
                         <View>
-                            <CardMonthlyHome amount={totalMonthlyIncome} title='Income' onPress={() =>  console.log('Pressed')}/>
-                            <CardMonthlyHome amount={totalMonthlyExpenses} title='Expenses' onPress={() =>  console.log('Pressed')}/>
-                            <CardMonthlyHome amount={totalMonthlyFees} title='Fees' onPress={() =>  console.log('Pressed')}/>
+                            <CardMonthlyHome 
+                                amount={totalMonthlyIncome} 
+                                title='Income' 
+                                onPress={() =>  navigation.navigate(
+                                    'HomeTxDetails',)
+                                }
+                            />
+                            <CardMonthlyHome 
+                                amount={totalMonthlyExpenses} 
+                                title='Expenses' 
+                                onPress={() =>  navigation.navigate(
+                                    'HomeTxDetails',)
+                                }
+                            />
+                            <CardMonthlyHome 
+                                amount={totalMonthlyFees} 
+                                title='Fees' 
+                                onPress={() =>  navigation.navigate(
+                                    'HomeFeeDetails',)
+                                }
+                            />
                         </View>
                     </Card>
                     <Card>

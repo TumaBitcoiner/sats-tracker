@@ -5,34 +5,34 @@ import Home from '../screens/home';
 import TransactionStack from './transactionStack';
 import WalletStack from './walletStack';
 import BudgetStack from './budgetStack';
+import HomeStack from './homeStack';
 
 
   const BottomTabNavigatorHome = createBottomTabNavigator({
 
     screens:{
-        Home: {
-            screen: Home,
+        // Home: {
+        //     screen: Home,
+        //     options:{
+        //         tabBarIcon:({ color, size }) =>           
+        //             <MaterialIcons name='home' color={color} size={size}/>,
+        //         headerShown: false,
+        //         // headerTitle: () => <Header title="Home" />,
+        //         // headerTitleAlign: 'center',
+        //         // title: 'Home'
+        //     }
+        // },
+        
+        HomeStack: {
+            screen: HomeStack,
             options:{
-                tabBarIcon:({ color, size }) =>           
+                tabBarIcon:({ color, size }) =>
                     <MaterialIcons name='home' color={color} size={size}/>,
-                headerShown: false,
-                // headerTitle: () => <Header title="Home" />,
-                // headerTitleAlign: 'center',
-                // title: 'Home'
+                
+                headerShown: false, 
+                title:'Home',
             }
         },
-        
-        // Wallets: {
-        //     screen: Wallets,
-        //     options:{
-        //         tabBarIcon:({ color, size }) =>
-        //             <MaterialIcons name='account-balance-wallet' color={color} size={size} />,
-        //         headerTitle: () => <Header title="Wallets" />,
-        //         headerTitleAlign: 'center',
-        //         //headerShown: false, 
-        //         title:'Wallets',
-        //     }
-        // }, 
 
         WalletStack: {
             screen: WalletStack,
