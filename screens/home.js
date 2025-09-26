@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { PieChart, BarChart } from 'react-native-chart-kit';
 import ButtonIcon from '../shared/buttonIcon';
 import Header from '../headers/header';
+import CardMonthlyHome from '../cards/cardMonthlyHome';
 
 export default function Home(){
     
@@ -140,24 +141,9 @@ export default function Home(){
                             />
                         </View>
                         <View>
-                            <Card>   
-                                <View style={styles.amountContainer}>
-                                    <Text style={styles.amount}>Income:</Text>
-                                    <Text style={styles.amount}>{formatNumber(totalMonthlyIncome)}</Text>
-                                </View>            
-                            </Card>
-                            <Card>                   
-                                <View style={styles.amountContainer}>
-                                    <Text style={styles.amount}>Expenses:</Text>
-                                    <Text style={styles.amount}>{formatNumber(totalMonthlyExpenses)}</Text>
-                                </View>                      
-                            </Card>
-                            <Card>  
-                                <View style={styles.amountContainer}>
-                                    <Text style={styles.amount}>Fees Paid:</Text>
-                                    <Text style={styles.amount}>{formatNumber(totalMonthlyFees)}</Text>
-                                </View>          
-                            </Card>
+                            <CardMonthlyHome amount={totalMonthlyIncome} title='Income' onPress={() =>  console.log('Pressed')}/>
+                            <CardMonthlyHome amount={totalMonthlyExpenses} title='Expenses' onPress={() =>  console.log('Pressed')}/>
+                            <CardMonthlyHome amount={totalMonthlyFees} title='Fees' onPress={() =>  console.log('Pressed')}/>
                         </View>
                     </Card>
                     <Card>
