@@ -2,7 +2,7 @@ import {useEffect} from "react";
 import {StyleSheet, View, Text, Dimensions} from 'react-native';
 import { globalStyles } from "../styles/global";
 import Card from "../shared/card";
-import HeaderWithOptions from "../headers/headerWithOptions";
+import HeaderBack from "../headers/headerBack";
 import { MaterialIcons } from '@expo/vector-icons';
 import { PieChart } from 'react-native-chart-kit';
 import { useNavigation } from "@react-navigation/native";
@@ -52,7 +52,7 @@ export default function HomeFeeDetails({route}){
     
     return (
     <View style={globalStyles.container}>
-        <HeaderWithOptions headerTitle='Fee Details' navigation={navigation} onOptionPress={() => console.log*('BELLAA')}/>
+        <HeaderBack headerTitle='Fee Details' navigation={navigation} onOptionPress={() => console.log*('BELLAA')}/>
         
         { (totalMonthlyFees === 0) ?
             <View style={globalStyles.emptyContainer}>
