@@ -1,4 +1,4 @@
-import React from "react";
+import {useEffect} from "react";
 import {StyleSheet, View, Text, Dimensions} from 'react-native';
 import { globalStyles } from "../styles/global";
 import Card from "../shared/card";
@@ -7,24 +7,44 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { PieChart } from 'react-native-chart-kit';
 import { useNavigation } from "@react-navigation/native";
 import { formatNumber } from '../shared/utils';
-
+import { useTransactions } from '../context/transactionContext';
 
 export default function HomeFeeDetails({route}){
 
     const navigation = useNavigation();
-    const { lnFees, ocFees, totalMonthlyFees, activeMonth, activeYear} = route.params;
+    const {  totalMonthlyOCFees, totalMonthlyLNFees, 
+        totalMonthlyFees, updateTotals } = useTransactions();
+    
+    const { activeMonth, activeYear} = route.params;
 
+
+    useEffect(() => {
+
+        if (activeMonth && activeYear) {
+            console.log('Active Month:', activeMonth);
+            console.log('Updating totals for month:', activeMonth, 'and year:', activeYear);
+            updateTotals(activeMonth, activeYear);
+
+            const unsubscribe = navigation.addListener('focus', () => {
+                console.log('Navigation focus - Updating totals for:', activeMonth, activeYear);
+                updateTotals(activeMonth, activeYear);
+            });
+
+            // Cleanup subscription
+            return unsubscribe;
+        }
+    }, [navigation]);
 
     const pieData = [
         {
             name: "LN Fees",
-            amount: lnFees,
+            amount: totalMonthlyLNFees,
             color: "#FFEB3B",
             legendFontColor: "#7F7F7F",
         },
         {
             name: "OC Fees",
-            amount: ocFees,
+            amount: totalMonthlyOCFees,
             color: "#F7931A",
             legendFontColor: "#7F7F7F",
         },
@@ -64,6 +84,42 @@ export default function HomeFeeDetails({route}){
                             backgroundColor="transparent"
                             paddingLeft="15"
                         />
+                    </View>
+                </Card>
+                <Card>
+                    <View style={globalStyles.transactionCard}>
+                        <View style={globalStyles.transactionCard}>
+                            <MaterialIcons 
+                                name='currency-bitcoin'
+                                style={globalStyles.icons} />
+                            <Text style={globalStyles.transactionCategoryText}>
+                                OC Fees:
+                            </Text>
+                            
+                        </View>
+                        <View style={globalStyles.transactionCard}>
+                            <Text style={globalStyles.transactionAmountExpense}>
+                                {formatNumber(totalMonthlyOCFees)} sats
+                            </Text>
+                        </View>
+                    </View>
+                </Card>
+                <Card>
+                    <View style={globalStyles.transactionCard}>
+                        <View style={globalStyles.transactionCard}>
+                            <MaterialIcons 
+                                name='bolt'
+                                style={globalStyles.icons} />
+                            <Text style={globalStyles.transactionCategoryText}>
+                                LN Fees:
+                            </Text>
+                            
+                        </View>
+                        <View style={globalStyles.transactionCard}>
+                            <Text style={globalStyles.transactionAmountExpense}>
+                                {formatNumber(totalMonthlyLNFees)} sats
+                            </Text>
+                        </View>
                     </View>
                 </Card>
             </View>

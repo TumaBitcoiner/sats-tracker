@@ -163,9 +163,6 @@ export default function Home(){
                                 onPress={() =>  navigation.navigate(
                                     'HomeFeeDetails',
                                     {  
-                                        lnFees: totalMonthlyLNFees,
-                                        ocFees: totalMonthlyOCFees,
-                                        totalMonthlyFees: totalMonthlyFees,
                                         activeMonth: activeMonth,
                                         activeYear: activeYear
                                     })
