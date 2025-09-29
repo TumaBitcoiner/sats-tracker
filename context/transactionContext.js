@@ -13,7 +13,9 @@ export function TransactionProvider({ children }) {
     const [OCBalance, setOCBalance] = useState(0);
     const [totalMonthlyIncome, setTotalMonthlyIncome] = useState(0);
     const [totalMonthlyExpenses, setTotalMonthlyExpenses] = useState(0);
-    const [totalMonthlyFees, setTotaMonthlylFees] = useState(0);
+    const [totalMonthlyOCFees, setTotaMonthlyOCFees] = useState(0);
+    const [totalMonthlyLNFees, setTotaMonthlyLNFees] = useState(0);
+    const [totalMonthlyFees, setTotaMonthlyFees] = useState(0);
     const [totalMonthlyBudget, setTotalMonthlyBudget] = useState(0);
 
 
@@ -48,7 +50,9 @@ export function TransactionProvider({ children }) {
             
             setTotalMonthlyIncome(monthlyTotals.totalIncome);
             setTotalMonthlyExpenses(monthlyTotals.totalExpenses);
-            setTotaMonthlylFees(monthlyTotals.totalFees);
+            setTotaMonthlyOCFees(monthlyTotals.totalOCFees);
+            setTotaMonthlyLNFees(monthlyTotals.totalLNFees);
+            setTotaMonthlyFees(monthlyTotals.totalFees);
 
             setTotalMonthlyBudget(monthlyTotals.totalIncome - monthlyTotals.totalExpenses - monthlyTotals.totalFees);
 
@@ -67,6 +71,8 @@ export function TransactionProvider({ children }) {
             OCBalance,
             totalMonthlyIncome,
             totalMonthlyExpenses,
+            totalMonthlyOCFees,
+            totalMonthlyLNFees,
             totalMonthlyFees,
             totalMonthlyBudget,
             updateTotals

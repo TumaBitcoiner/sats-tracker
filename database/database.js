@@ -229,22 +229,34 @@ export const getMonthlyTotals = async (month, year) => {
             [startDate, endDate]
         );
 
-        // Retrieving total fees separately
-        const totalFees = await database.getAllAsync(`
+        // Retrieving total OC fees separately
+        const totalOCFees = await database.getAllAsync(`
             SELECT 
                 SUM(transactionFee) as totalFees
             FROM transactions 
-            WHERE date BETWEEN ? AND ?;`,
+            WHERE date BETWEEN ? AND ? AND transactionType = 'OC';`,
+            [startDate, endDate]
+        );
+
+        // Retrieving total LN fees separately
+        const totalLNFees = await database.getAllAsync(`
+            SELECT 
+                SUM(transactionFee) as totalFees
+            FROM transactions 
+            WHERE date BETWEEN ? AND ? AND transactionType = 'LN';`,
             [startDate, endDate]
         );
 
         console.log('Monthly totals result:', result);
-        console.log('Monthly fees result:', totalFees);
+        console.log('Monthly OC fees result:', totalOCFees);
+        console.log('Monthly LN fees result:', totalLNFees);
 
         return {
             totalIncome: result[0].totalIncome || 0,
             totalExpenses: result[0].totalExpenses || 0,
-            totalFees: totalFees[0].totalFees || 0
+            totalLNFees: totalLNFees[0].totalFees || 0,
+            totalOCFees: totalOCFees[0].totalFees || 0,
+            totalFees: (totalLNFees[0].totalFees + totalOCFees[0].totalFees) || 0
         };
 
     } catch (error) {

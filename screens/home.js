@@ -14,7 +14,9 @@ export default function Home(){
     
     const { totalIncome, totalExpenses, totalFees, 
         availableBalance, LNBalance, OCBalance, 
-        totalMonthlyIncome, totalMonthlyExpenses, totalMonthlyFees, totalMonthlyBudget, updateTotals } = useTransactions();    
+        totalMonthlyIncome, totalMonthlyExpenses,
+        totalMonthlyOCFees, totalMonthlyLNFees, 
+        totalMonthlyFees, totalMonthlyBudget, updateTotals } = useTransactions();    
         
     const navigation = useNavigation();
     
@@ -159,7 +161,14 @@ export default function Home(){
                                 amount={totalMonthlyFees} 
                                 title='Fees' 
                                 onPress={() =>  navigation.navigate(
-                                    'HomeFeeDetails',)
+                                    'HomeFeeDetails',
+                                    {  
+                                        lnFees: totalMonthlyLNFees,
+                                        ocFees: totalMonthlyOCFees,
+                                        totalMonthlyFees: totalMonthlyFees,
+                                        activeMonth: activeMonth,
+                                        activeYear: activeYear
+                                    })
                                 }
                             />
                         </View>
