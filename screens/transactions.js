@@ -23,12 +23,22 @@ export default function Transactions(){
     //const [date, setDate] = useState(new Date());
     
     const [transactions, setTransactions] = useState([]);
+    const [lastTransaction, setLastTransaction] = useState(null);
 
     // Function to fetch transactions
     const fetchTransactions = async () => {
         try {
             const fetchedTransactions = await getTransactions();
             setTransactions(fetchedTransactions);
+
+            // Set last transaction (most recent) or null if no transactions
+            const lastTx = fetchedTransactions.length > 0 
+                ? fetchedTransactions[0]  // Assuming transactions are ordered by date desc
+                : null;
+            setLastTransaction(lastTx);
+
+            console.log('Last Tx:', lastTx);
+        
         } catch (error) {
             console.error('Error fetching transactions:', error);
         }
@@ -73,7 +83,7 @@ export default function Transactions(){
                 
                 return newTransactions;
             });
-              
+            setLastTransaction(transaction);
             await updateTotals();
             
         } catch (error) {
@@ -129,7 +139,28 @@ export default function Transactions(){
                     <View style={globalStyles.modalOverlay}>  
 
                             <View style={globalStyles.modalContent}>                        
-                                <TransactionForm addNewTransaction={handleAddTransaction} onPress={() => setModalOpen(false)}/>
+                                { lastTransaction === null ?
+                                    <TransactionForm 
+                                        addNewTransaction={handleAddTransaction} 
+                                        onPress={() => setModalOpen(false)}
+                                    />
+                                    :
+                                    <TransactionForm 
+                                        addNewTransaction={handleAddTransaction} 
+                                        onPress={() => setModalOpen(false)}
+                                        initialValues={{
+                                            amount: 0,
+                                            transactionFee: 0,
+                                            note: '',
+                                            place: '',
+                                            date: new Date(lastTransaction.date),
+                                            category: lastTransaction.category,
+                                            isExpenses: lastTransaction.isExpenses,
+                                            walletId: lastTransaction.walletId,
+                                            transactionType: lastTransaction.transactionType
+                                        }}
+                                    />
+                                }
                             </View>
                     </View>
                 </TouchableWithoutFeedback>

@@ -32,7 +32,7 @@ const defaultReviewSchema = yup.object({
         .notOneOf(['No category selected..'], 'Please select a category'),
 })
 
-export default function TransactionForm({addNewTransaction, onPress, initialValues = null}){
+export default function TransactionForm({addNewTransaction, onPress, initialValues = null, newTx = true}){
 
     const [dateOpen, setDateOpen] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -94,7 +94,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
 
             const walletBalance = await getWalletBalance(walletId);
             
-            if (initialValues) {
+            if (!newTx && initialValues) {
                 // If initialValues are provided, adjust the balance based on existing transaction values
                 const adjustedBalance = walletBalance + (initialValues.amount || 0) + (initialValues.transactionFee || 0);
                 setWalletBalance(adjustedBalance);
@@ -226,7 +226,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                     style={globalStyles.input}
                                     placeholder="How much?"
                                     onChangeText={formikProps.handleChange('amount')}
-                                    value={initialValues? formikProps.values.amount.toString(): formikProps.values.amount}
+                                    value={newTx? formikProps.values.amount : formikProps.values.amount.toString()}
                                     onBlur={formikProps.handleBlur('amount')}
                                     keyboardType="numeric"
                                 />
@@ -242,7 +242,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                     style={globalStyles.input}
                                     placeholder="How much to miners?"
                                     onChangeText={formikProps.handleChange('transactionFee')}
-                                    value={initialValues? formikProps.values.transactionFee.toString(): formikProps.values.transactionFee}
+                                    value={newTx? formikProps.values.transactionFee : formikProps.values.transactionFee.toString()}
                                     onBlur={formikProps.handleBlur('transactionFee')}
                                     keyboardType="numeric"
                                 />
@@ -379,7 +379,7 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
 
                             </View>
 
-                            <ButtonFlat title={initialValues ? 'Edit Transaction' : 'Add Transaction'} onPress={formikProps.handleSubmit}/>
+                            <ButtonFlat title={newTx ? 'Add Transaction' : 'Edit Transaction'} onPress={formikProps.handleSubmit}/>
                         </View>
                         
                         <ButtonCircular onPress={onPress} icon='close'/>

@@ -128,6 +128,7 @@ export default function TransactionDetails({route}){
                                         walletId: route.params.walletId,
                                         transactionType: route.params.transactionType
                                     }}
+                                    newTx={false}
                                 />
                             </View>
                     </View>
