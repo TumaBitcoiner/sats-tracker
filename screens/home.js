@@ -147,14 +147,24 @@ export default function Home(){
                                 amount={totalMonthlyIncome} 
                                 title='Income' 
                                 onPress={() =>  navigation.navigate(
-                                    'HomeTxDetails',)
+                                    'HomeTxDetails',
+                                    {
+                                        activeMonth: activeMonth,
+                                        activeYear: activeYear,
+                                        isExpense: false
+                                    })
                                 }
                             />
                             <CardMonthlyHome 
                                 amount={totalMonthlyExpenses} 
                                 title='Expenses' 
                                 onPress={() =>  navigation.navigate(
-                                    'HomeTxDetails',)
+                                    'HomeTxDetails',
+                                    {
+                                        activeMonth: activeMonth,
+                                        activeYear: activeYear,
+                                        isExpense: true
+                                    })
                                 }
                             />
                             <CardMonthlyHome 

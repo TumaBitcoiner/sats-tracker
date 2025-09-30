@@ -265,6 +265,39 @@ export const getMonthlyTotals = async (month, year) => {
     }
 };
 
+export const getCategoryTotalsByMonth = async (month, year, isExpense) => {
+
+    const database = await db;
+    console.log('Fetching category totals for:', month, year);
+    console.log('Is Expense:', isExpense);
+
+    try {
+        // Get start and end dates for the specified month
+        const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+        const lastDay = new Date(year, month, 0).getDate();
+        const endDate = `${year}-${String(month).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
+
+        console.log('Date range:', startDate, 'to', endDate);
+
+        // Retrieving all expenses and income excluding specific categories: Swap Out, Swap In, Consolidation, Adjust Balance
+        const result = await database.getAllAsync(`
+            SELECT category, SUM(amount) as totalAmount
+            FROM transactions 
+            WHERE date BETWEEN ? AND ? AND isExpenses = ? AND category NOT IN ('Swap Out', 'Swap In', 'Consolidation', 'Adjust Balance')
+            GROUP BY category
+            ORDER BY totalAmount DESC;`,
+            [startDate, endDate, isExpense]
+        );
+
+        console.log('Category totals result:', result);
+        return result;
+        
+    } catch (error) {
+        console.error('Error fetching monthly totals by category:', error);
+        throw error;
+    }
+
+}
 // Delete a transaction by ID
 export const deleteTransaction = async (id) => {
 
@@ -666,14 +699,14 @@ export const getCategoryTotalsByWallet = async (walletId, isExpense) => {
     const database = await db;
     try {
         const result = await database.getAllAsync(
-            `SELECT category, SUM(amount) as totalSpent
+            `SELECT category, SUM(amount) as totalAmount
              FROM transactions
              WHERE walletId = ? AND isExpenses = ? AND category NOT IN ('Swap Out', 'Swap In', 'Consolidation', 'Adjust Balance', 'Initial Balance')
              GROUP BY category
-             ORDER BY totalSpent DESC;`,
+             ORDER BY totalAmount DESC;`,
             [walletId, isExpense]
         );
-        // Returns an array: [{ category: 'Food', totalSpent: 1234 }, ...]
+        // Returns an array: [{ category: 'Food', totalAmount: 1234 }, ...]
         return result;
     } catch (error) {
         console.error('Error fetching category totals by wallet:', error);
