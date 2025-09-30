@@ -42,7 +42,7 @@ export default function WalletDetails({route}){
 
         return transactionList.map(transaction => ({
             name: transaction.category,
-            amount: transaction.totalSpent,
+            amount: transaction.totalAmount,
             color: (isExpense ? EXPENSES_RANK_COLORS[transaction.category] : INCOME_RANK_COLORS[transaction.category]) || '#808080', // Random color
             legendFontColor: "#7F7F7F",
         }));
