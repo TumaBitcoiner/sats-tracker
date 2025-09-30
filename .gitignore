@@ -37,3 +37,6 @@ yarn-error.*
 
 # Android
 android
+
+# others
+images/
