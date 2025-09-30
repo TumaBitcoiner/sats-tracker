@@ -1,3 +1,4 @@
+import { EXPENSES_RANK_COLORS, INCOME_RANK_COLORS } from '../styles/categories';
 
 export const formatNumber = (num) => {
     return new Intl.NumberFormat('en-US').format(num);
@@ -20,4 +21,17 @@ export const groupTransactionsByDate = (transactions) => {
             date,
             data: groups[date]
         }));
+};
+
+// Transform wallet TXS into pie chart data
+export const createPieChartData = (transactionList, isExpense) => {
+
+    if (!transactionList || !Array.isArray(transactionList)) return [];
+
+    return transactionList.map(transaction => ({
+        name: transaction.category,
+        amount: transaction.totalAmount,
+        color: (isExpense ? EXPENSES_RANK_COLORS[transaction.category] : INCOME_RANK_COLORS[transaction.category]) || '#808080', // Random color
+        legendFontColor: "#7F7F7F",
+    }));
 };

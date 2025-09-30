@@ -4,7 +4,6 @@ import {View, Text, StyleSheet,
 import { globalStyles } from '../styles/global';
 import { getCategoryTotalsByWallet, swapTransactions, consolidationTransaction } from '../database/database'; // Import the function to get totals
 import { useNavigation } from "@react-navigation/native";
-import { EXPENSES_RANK_COLORS, INCOME_RANK_COLORS } from '../styles/categories';
 import HeaderWithOptions from '../headers/headerWithOptions';
 import WalletOptions from '../modals/walletOptions';
 import SwapFunds from '../modals/walletOptionsActions/swapFunds';
@@ -14,6 +13,7 @@ import ConfirmationPopUp from '../modals/confirmationPopUp';
 import { MaterialIcons } from '@expo/vector-icons';
 import SubWalletDetails from './sub-screens/subWalletDetails';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createPieChartData } from '../shared/utils';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -34,20 +34,7 @@ export default function WalletDetails({route}){
     const [openDeleteWalletModal, setOpenDeleteWalletModal] = useState(false);
 
     const navigation = useNavigation();
-    
-    // Transform wallet expenses into pie chart data
-    const createPieChartData = (transactionList, isExpense) => {
-
-        if (!transactionList || !Array.isArray(transactionList)) return [];
-
-        return transactionList.map(transaction => ({
-            name: transaction.category,
-            amount: transaction.totalAmount,
-            color: (isExpense ? EXPENSES_RANK_COLORS[transaction.category] : INCOME_RANK_COLORS[transaction.category]) || '#808080', // Random color
-            legendFontColor: "#7F7F7F",
-        }));
-    };
-  
+   
     const fetchTotalsOfCategoryByWallet = async () => {
             
         try {

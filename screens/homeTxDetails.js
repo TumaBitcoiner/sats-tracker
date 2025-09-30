@@ -6,11 +6,11 @@ import { useNavigation } from "@react-navigation/native";
 import { globalStyles } from "../styles/global";
 import { MaterialIcons } from '@expo/vector-icons';
 import { PieChart } from 'react-native-chart-kit';
-import { EXPENSES_RANK_COLORS, INCOME_RANK_COLORS } from '../styles/categories';
 import { getCategoryTotalsByMonth } from "../database/database";
 import { CardCategory } from "../cards/cardCategory";
 import { useTransactions } from '../context/transactionContext';
 import { formatNumber } from '../shared/utils';
+import { createPieChartData } from '../shared/utils';
 
 export default function HomeTxDetails({route}){
 
@@ -32,19 +32,6 @@ export default function HomeTxDetails({route}){
                 isExpenses={isExpense}
             />
         );
-    };
-
-    // Transform wallet expenses into pie chart data
-    const createPieChartData = (transactionList, isExpense) => {
-
-        if (!transactionList || !Array.isArray(transactionList)) return [];
-
-        return transactionList.map(transaction => ({
-            name: transaction.category,
-            amount: transaction.totalAmount,
-            color: (isExpense ? EXPENSES_RANK_COLORS[transaction.category] : INCOME_RANK_COLORS[transaction.category]) || '#808080', // Random color
-            legendFontColor: "#7F7F7F",
-        }));
     };
     
     const fetchTotalsOfCategoryByDate = async () => {
