@@ -4,6 +4,7 @@ import { SQLiteProvider } from 'expo-sqlite';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { initializeDB, reevaluateAllWalletsBalance } from './database/database';
 import { TransactionProvider } from './context/transactionContext';
+import { VisualizationProvider } from './context/visualizationContext';
 
 const initializeAppDB = async () => {
   try {
@@ -23,12 +24,14 @@ export default function App() {
 
       <SQLiteProvider databaseName='sats-tracker.db' onInit={initializeAppDB}>
         <TransactionProvider>
-          <StatusBar
-            translucent={true}
-            backgroundColor="transparent"
-            barStyle="light-content" // Adjust based on your app's theme
-          />
-          <Navigator/>
+          <VisualizationProvider>
+            <StatusBar
+              translucent={true}
+              backgroundColor="transparent"
+              barStyle="light-content" // Adjust based on your app's theme
+            />
+            <Navigator/>
+          </VisualizationProvider>
         </TransactionProvider>
       </SQLiteProvider>
     </SafeAreaProvider>
