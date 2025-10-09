@@ -2,12 +2,13 @@ import {useState, useEffect} from 'react'
 import { StyleSheet, View, Text, Dimensions, ScrollView} from 'react-native'
 import Card from '../shared/card'
 import { useTransactions } from '../context/transactionContext'
+import { useVisualizationContext } from '../context/visualizationContext'
 import { globalStyles } from '../styles/global';
 import { formatNumber } from '../shared/utils';
 import { useNavigation } from "@react-navigation/native";
 import { PieChart, BarChart } from 'react-native-chart-kit';
 import ButtonIcon from '../shared/buttonIcon';
-import Header from '../headers/header';
+import HeaderIcons from '../headers/headerIcons';
 import CardMonthlyHome from '../cards/cardMonthlyHome';
 
 export default function Home(){
@@ -17,6 +18,8 @@ export default function Home(){
         totalMonthlyIncome, totalMonthlyExpenses,
         totalMonthlyOCFees, totalMonthlyLNFees, 
         totalMonthlyFees, totalMonthlyBudget, updateTotals } = useTransactions();    
+
+    const { visualization, updateVisualization } = useVisualizationContext();
         
     const navigation = useNavigation();
     
@@ -91,7 +94,12 @@ export default function Home(){
         
         <View style={globalStyles.container}>
             
-            <Header title="Home" />
+            {/* <Header title="Home" /> */}
+            <HeaderIcons 
+                title ='Home' 
+                leftIconName = {visualization ? 'eye' : 'eye-off'}
+                onLeftIconPress={() => updateVisualization()}
+            />
             <ScrollView contentContainerStyle={styles.scrollContainer}>
         
                 <View>
