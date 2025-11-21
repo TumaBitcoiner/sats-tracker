@@ -2,20 +2,22 @@ import {useState, useEffect} from "react";
 import {StyleSheet, View, Text, TouchableWithoutFeedback, Modal, Keyboard} from 'react-native';
 import Card from "../shared/card";
 import { globalStyles } from "../styles/global";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { categoryArray, walletsArray } from "../styles/categories";
 import { getWallets } from "../database/database";
 import { useNavigation } from "@react-navigation/native";
-import ButtonFlatIcon  from "../shared/buttonFlatIcon";
 import ConfirmationPopUp from "../modals/confirmationPopUp";
 import TransactionForm from "../modals/transactionForm";
 import TransactionOptions from "../modals/transactionOptions";
 import HeaderWithOptions from "../headers/headerWithOptions";
+import { useVisualizationContext } from '../context/visualizationContext'
 
 export default function TransactionDetails({route}){
 
     const [wallets, setWallets] = useState([]);
     const navigation = useNavigation();
+
+    const { visualization } = useVisualizationContext();
 
     const [popupOpen, setPopupOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
@@ -148,58 +150,66 @@ export default function TransactionDetails({route}){
             </Modal>
 
             <HeaderWithOptions headerTitle='Transaction Details' navigation={navigation} onOptionPress={() => setOpenTxOptions(true)}/>
-            <Card>
-                <View style={globalStyles.transactionCard}>
-                        
-                    <View style={styles.category}>
-                        <MaterialIcons 
-                            name={route.params.isExpenses
-                                    ? categoryArray.expenses[route.params.category][0]
-                                    : categoryArray.income[route.params.category][0]} 
-                            style={globalStyles.icons}
-                        />
-                        <Text style={{...globalStyles.transactionCategoryText, ...styles.category}}>
-                            {route.params.isExpenses
-                                ? categoryArray.expenses[route.params.category][1]
-                                : categoryArray.income[route.params.category][1]}
+            { (visualization) ? (
+                <Card>
+                    <View style={globalStyles.transactionCard}>
+                            
+                        <View style={styles.category}>
+                            <MaterialIcons 
+                                name={route.params.isExpenses
+                                        ? categoryArray.expenses[route.params.category][0]
+                                        : categoryArray.income[route.params.category][0]} 
+                                style={globalStyles.icons}
+                            />
+                            <Text style={{...globalStyles.transactionCategoryText, ...styles.category}}>
+                                {route.params.isExpenses
+                                    ? categoryArray.expenses[route.params.category][1]
+                                    : categoryArray.income[route.params.category][1]}
+                                </Text>
+                        </View>
+                        <View>
+                            <Text 
+                                style={route.params.isExpenses 
+                                    ? globalStyles.transactionAmountExpense 
+                                    : globalStyles.transactionAmountIncome}
+                            >
+                                {route.params.amount} sats
                             </Text>
-                    </View>
-                    <View>
-                        <Text 
-                            style={route.params.isExpenses 
-                                ? globalStyles.transactionAmountExpense 
-                                : globalStyles.transactionAmountIncome}
-                        >
-                            {route.params.amount} sats
-                        </Text>
-                        <Text style={{...globalStyles.transactionAmountExpense, ...styles.feeText}}>{route.params.transactionFee} sats</Text>
-                    </View>
-                </View>
-                <View style={globalStyles.info}>
-                    <MaterialIcons name={walletsArray.type[route.params.transactionType][0]} style={globalStyles.icons} />
-                    <Text style={globalStyles.infoText}>{wallets.find(wallet => wallet.id === route.params.walletId)?.name || 'Loading...'}</Text>
-                </View>
-                <View style={globalStyles.info}>
-                    <MaterialIcons name='calendar-month' style={globalStyles.icons} />
-                    <Text style={globalStyles.infoText}>{new Date(route.params.date).toLocaleDateString()}</Text>
-                </View>
-                { (route.params.place === '') ?
-                    null :
-                    <View style={globalStyles.info}>
-                        <MaterialIcons name='place' style={globalStyles.icons} />
-                        <Text style={globalStyles.infoText}>{route.params.place}</Text>
-                    </View>
-                }
-                { (route.params.note === '') ?
-                    null :
-                    <View style={globalStyles.info}>
-                        <MaterialIcons name='edit-note' style={globalStyles.icons} />
-                        <View style={globalStyles.noteContainer}>
-                            <Text style={globalStyles.noteText}>{route.params.note}</Text>
+                            <Text style={{...globalStyles.transactionAmountExpense, ...styles.feeText}}>{route.params.transactionFee} sats</Text>
                         </View>
                     </View>
-                }
-            </Card>
+                    <View style={globalStyles.info}>
+                        <MaterialIcons name={walletsArray.type[route.params.transactionType][0]} style={globalStyles.icons} />
+                        <Text style={globalStyles.infoText}>{wallets.find(wallet => wallet.id === route.params.walletId)?.name || 'Loading...'}</Text>
+                    </View>
+                    <View style={globalStyles.info}>
+                        <MaterialIcons name='calendar-month' style={globalStyles.icons} />
+                        <Text style={globalStyles.infoText}>{new Date(route.params.date).toLocaleDateString()}</Text>
+                    </View>
+                    { (route.params.place === '') ?
+                        null :
+                        <View style={globalStyles.info}>
+                            <MaterialIcons name='place' style={globalStyles.icons} />
+                            <Text style={globalStyles.infoText}>{route.params.place}</Text>
+                        </View>
+                    }
+                    { (route.params.note === '') ?
+                        null :
+                        <View style={globalStyles.info}>
+                            <MaterialIcons name='edit-note' style={globalStyles.icons} />
+                            <View style={globalStyles.noteContainer}>
+                                <Text style={globalStyles.noteText}>{route.params.note}</Text>
+                            </View>
+                        </View>
+                    }
+                </Card>
+                ) : (
+                    <View style={globalStyles.emptyContainer}>
+                        <MaterialCommunityIcons name='eye-off' style={globalStyles.emptyIcon} />
+                        <Text style={globalStyles.emptyText}>Amount Hidden</Text>
+                    </View>
+                ) 
+            }
         </View>
     )
 }
