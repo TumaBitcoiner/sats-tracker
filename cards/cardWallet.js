@@ -5,9 +5,12 @@ import { walletsArray } from '../styles/categories';
 import Card from '../shared/card';
 import { MaterialIcons } from '@expo/vector-icons';
 import { formatNumber } from '../shared/utils';
+import { useVisualizationContext } from '../context/visualizationContext'
 
 
 export function CardWallet({onPress, type, name, balance}){
+
+    const { visualization } = useVisualizationContext();
 
     return(
         <View>
@@ -25,7 +28,7 @@ export function CardWallet({onPress, type, name, balance}){
                         </View>
                         <View style={globalStyles.transactionCard}>
                             <Text style={globalStyles.transactionAmountIncome}>
-                                {formatNumber(balance)} sats
+                                { visualization ? formatNumber(balance) : '***'} sats
                             </Text>
                         </View>
                     </View>

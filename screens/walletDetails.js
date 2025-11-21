@@ -10,22 +10,23 @@ import SwapFunds from '../modals/walletOptionsActions/swapFunds';
 import ConsolidateFunds from '../modals/walletOptionsActions/consolidateFunds';
 import WalletForm from '../modals/walletForm'; 
 import ConfirmationPopUp from '../modals/confirmationPopUp';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons} from '@expo/vector-icons';
 import SubWalletDetails from './sub-screens/subWalletDetails';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createPieChartData } from '../shared/utils';
+import { useVisualizationContext } from '../context/visualizationContext'
 
 const Tab = createMaterialTopTabNavigator();
 
 
 export default function WalletDetails({route}){
 
-
     const [walletExpenses, setWalletExpenses] = useState([]);
     const [walletIncome, setWalletIncome] = useState([]);
     const [pieDataExpenses, setPieDataExpenses] = useState([]);
     const [pieDataIncome, setPieDataIncome] = useState([]);
 
+    const { visualization } = useVisualizationContext();
 
     const [openWalletOptions, setOpenWalletOptions] = useState(false);
     const [openSwapModal, setOpenSwapModal] = useState(false);
@@ -218,52 +219,60 @@ export default function WalletDetails({route}){
             </Modal>
 
             <HeaderWithOptions headerTitle='Wallet Details' navigation={navigation} onOptionPress={() => setOpenWalletOptions(true)}/>
-            { (walletExpenses.length === 0 && walletIncome.length == 0) ?
+            { (!visualization) ? (
                 <View style={styles.emptyContainer}>
-                    <MaterialIcons name='info' style={styles.emptyIcon} />
-                    <Text style={styles.emptyText}>No transaction recorded for this wallet</Text>
+                    <MaterialCommunityIcons name='eye-off' style={styles.emptyIcon} />
+                    <Text style={styles.emptyText}>Amount Hidden</Text>
                 </View>
-                :
-                <Tab.Navigator
-                    screenOptions={{
-                        tabBarStyle:  globalStyles.tabBarNavigator,
-                        tabBarIndicatorStyle: { backgroundColor: '#f7931a' },
-                        tabBarLabelStyle: {
-                            textTransform: 'none',
-                            fontWeight: 'bold',
-                            fontSize: 18
-                        },
-                    }}
-                >
-                    <Tab.Screen 
-                        name="Expenses" 
-                        children={() => (
-                            walletExpenses.length === 0 ? (
-                                <View style={globalStyles.emptyContainer}>
-                                    <MaterialIcons name='info' style={globalStyles.emptyIcon} />
-                                    <Text style={globalStyles.emptyText}>No expense transaction added for this wallet.</Text>
-                                </View>
-                            ) : (
-                                <SubWalletDetails isExpense={true} walletTxs={walletExpenses} pieData={pieDataExpenses}/>
-                          
-                            )
-                        )}
-                    />
-                    <Tab.Screen 
-                        name="Income" 
-                        children={() => (
-                            walletIncome.length === 0 ? (
-                                <View style={globalStyles.emptyContainer}>
-                                    <MaterialIcons name='info' style={globalStyles.emptyIcon} />
-                                    <Text style={globalStyles.emptyText}>No income transaction added for this wallet.</Text>
-                                </View>
-                            ) : (
-                                <SubWalletDetails isExpense={false} walletTxs={walletIncome} pieData={pieDataIncome}/>
-                              
-                            )
-                        )}
-                    />
-                </Tab.Navigator>
+                ) : (
+                    (walletExpenses.length === 0 && walletIncome.length == 0) ? (
+                        <View style={styles.emptyContainer}>
+                            <MaterialIcons name='info' style={styles.emptyIcon} />
+                            <Text style={styles.emptyText}>No transaction recorded for this wallet</Text>
+                        </View>
+                        ) : (
+                        <Tab.Navigator
+                            screenOptions={{
+                                tabBarStyle:  globalStyles.tabBarNavigator,
+                                tabBarIndicatorStyle: { backgroundColor: '#f7931a' },
+                                tabBarLabelStyle: {
+                                    textTransform: 'none',
+                                    fontWeight: 'bold',
+                                    fontSize: 18
+                                },
+                            }}
+                        >
+                            <Tab.Screen 
+                                name="Expenses" 
+                                children={() => (
+                                    walletExpenses.length === 0 ? (
+                                        <View style={globalStyles.emptyContainer}>
+                                            <MaterialIcons name='info' style={globalStyles.emptyIcon} />
+                                            <Text style={globalStyles.emptyText}>No expense transaction added for this wallet.</Text>
+                                        </View>
+                                    ) : (
+                                        <SubWalletDetails isExpense={true} walletTxs={walletExpenses} pieData={pieDataExpenses}/>
+                                
+                                    )
+                                )}
+                            />
+                            <Tab.Screen 
+                                name="Income" 
+                                children={() => (
+                                    walletIncome.length === 0 ? (
+                                        <View style={globalStyles.emptyContainer}>
+                                            <MaterialIcons name='info' style={globalStyles.emptyIcon} />
+                                            <Text style={globalStyles.emptyText}>No income transaction added for this wallet.</Text>
+                                        </View>
+                                    ) : (
+                                        <SubWalletDetails isExpense={false} walletTxs={walletIncome} pieData={pieDataIncome}/>
+                                    
+                                    )
+                                )}
+                            />
+                        </Tab.Navigator>
+                        )
+                )
             }
         </View>
     )
