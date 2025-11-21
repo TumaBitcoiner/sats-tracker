@@ -13,10 +13,8 @@ import CardMonthlyHome from '../cards/cardMonthlyHome';
 
 export default function Home(){
     
-    const { totalIncome, totalExpenses, totalFees, 
-        availableBalance, LNBalance, OCBalance, 
+    const { availableBalance, LNBalance, OCBalance, 
         totalMonthlyIncome, totalMonthlyExpenses,
-        totalMonthlyOCFees, totalMonthlyLNFees, 
         totalMonthlyFees, totalMonthlyBudget, updateTotals } = useTransactions();    
 
     const { visualization, updateVisualization } = useVisualizationContext();
@@ -61,9 +59,9 @@ export default function Home(){
         datasets: [
             {
                 data: [
-                    totalMonthlyIncome, 
-                    totalMonthlyExpenses, 
-                    totalMonthlyFees
+                    (visualization ? totalMonthlyIncome : 0), 
+                    (visualization ? totalMonthlyExpenses : 0), 
+                    (visualization ? totalMonthlyFees : 0)
                 ],                
             }
         ],
@@ -106,7 +104,7 @@ export default function Home(){
                     <Card> 
                         <View style={globalStyles.cardContainer}>
                             <Text style={globalStyles.cardTitle}>Your Balance</Text>
-                            <Text style={styles.balance}>{formatNumber(availableBalance)} sats</Text>
+                            <Text style={styles.balance}>{ visualization ? formatNumber(availableBalance) : '***'} sats</Text>
                         </View>             
                     </Card>
                     <Card>
@@ -118,7 +116,7 @@ export default function Home(){
                             </View>
                             <View style={globalStyles.cardContainer}>
                                 <Text style={styles.amountTitle}>Monthly Balance</Text>
-                                <Text style={totalMonthlyBudget > 0 ? styles.monthlyAmountTitlePositive : styles.monthlyAmountTitleNegative}>{formatNumber(totalMonthlyBudget)} sats</Text>
+                                <Text style={totalMonthlyBudget > 0 ? styles.monthlyAmountTitlePositive : styles.monthlyAmountTitleNegative}>{visualization ? formatNumber(totalMonthlyBudget) : '***'} sats</Text>
                             </View>
                             <BarChart
                                 data={barData}
@@ -150,63 +148,71 @@ export default function Home(){
                                 horizontal={true}
                             />
                         </View>
-                        <View>
-                            <CardMonthlyHome 
-                                amount={totalMonthlyIncome} 
-                                title='Income' 
-                                onPress={() =>  navigation.navigate(
-                                    'HomeTxDetails',
-                                    {
-                                        activeMonth: activeMonth,
-                                        activeYear: activeYear,
-                                        isExpense: false
-                                    })
-                                }
-                            />
-                            <CardMonthlyHome 
-                                amount={totalMonthlyExpenses} 
-                                title='Expenses' 
-                                onPress={() =>  navigation.navigate(
-                                    'HomeTxDetails',
-                                    {
-                                        activeMonth: activeMonth,
-                                        activeYear: activeYear,
-                                        isExpense: true
-                                    })
-                                }
-                            />
-                            <CardMonthlyHome 
-                                amount={totalMonthlyFees} 
-                                title='Fees' 
-                                onPress={() =>  navigation.navigate(
-                                    'HomeFeeDetails',
-                                    {  
-                                        activeMonth: activeMonth,
-                                        activeYear: activeYear
-                                    })
-                                }
-                            />
-                        </View>
+                        {visualization ?
+                            <View>
+                                <CardMonthlyHome 
+                                    amount={totalMonthlyIncome} 
+                                    title='Income' 
+                                    onPress={() =>  navigation.navigate(
+                                        'HomeTxDetails',
+                                        {
+                                            activeMonth: activeMonth,
+                                            activeYear: activeYear,
+                                            isExpense: false
+                                        })
+                                    }
+                                />
+                                <CardMonthlyHome 
+                                    amount={totalMonthlyExpenses} 
+                                    title='Expenses' 
+                                    onPress={() =>  navigation.navigate(
+                                        'HomeTxDetails',
+                                        {
+                                            activeMonth: activeMonth,
+                                            activeYear: activeYear,
+                                            isExpense: true
+                                        })
+                                    }
+                                />
+                                <CardMonthlyHome 
+                                    amount={totalMonthlyFees} 
+                                    title='Fees' 
+                                    onPress={() =>  navigation.navigate(
+                                        'HomeFeeDetails',
+                                        {  
+                                            activeMonth: activeMonth,
+                                            activeYear: activeYear
+                                        })
+                                    }
+                                />
+                            </View>
+                        :
+                            null
+                        }
                     </Card>
-                    <Card>
-                        <View style={globalStyles.cardContainer}>
-                            <Text style={styles.amountTitle}>Wallet Type Distribution</Text>
-                            <PieChart
-                                data={pieData}
-                                width={Dimensions.get("window").width - 40}
-                                height={220}
-                                chartConfig={{
-                                    backgroundColor: "#ffffff",
-                                    backgroundGradientFrom: "#ffffff",
-                                    backgroundGradientTo: "#ffffff",
-                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                }}
-                                accessor="amount"
-                                backgroundColor="transparent"
-                                paddingLeft="15"
-                            />
-                        </View>
-                    </Card>
+                    {visualization ?
+                        <Card>
+                            <View style={globalStyles.cardContainer}>
+                                <Text style={styles.amountTitle}>Wallet Type Distribution</Text>
+                                <PieChart
+                                    data={pieData}
+                                    width={Dimensions.get("window").width - 40}
+                                    height={220}
+                                    chartConfig={{
+                                        backgroundColor: "#ffffff",
+                                        backgroundGradientFrom: "#ffffff",
+                                        backgroundGradientTo: "#ffffff",
+                                        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                    }}
+                                    accessor="amount"
+                                    backgroundColor="transparent"
+                                    paddingLeft="15"
+                                />
+                            </View>
+                        </Card>
+                    :
+                        null
+                    }
                 </View>            
             </ScrollView>
         </View>
