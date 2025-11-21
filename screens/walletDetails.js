@@ -221,9 +221,9 @@ export default function WalletDetails({route}){
             <HeaderWithOptions headerTitle='Wallet Details' navigation={navigation} onOptionPress={() => setOpenWalletOptions(true)}/>
             { (visualization) ? (
                     (walletExpenses.length === 0 && walletIncome.length == 0) ? (
-                        <View style={styles.emptyContainer}>
-                            <MaterialIcons name='info' style={styles.emptyIcon} />
-                            <Text style={styles.emptyText}>No transaction recorded for this wallet</Text>
+                        <View style={globalStyles.emptyContainer}>
+                            <MaterialIcons name='info' style={globalStyles.emptyIcon} />
+                            <Text style={globalStyles.emptyText}>No transaction recorded for this wallet</Text>
                         </View>
                         ) : (
                         <Tab.Navigator
@@ -268,31 +268,12 @@ export default function WalletDetails({route}){
                         </Tab.Navigator>
                         )
                 ) : (
-                    <View style={styles.emptyContainer}>
-                        <MaterialCommunityIcons name='eye-off' style={styles.emptyIcon} />
-                        <Text style={styles.emptyText}>Amount Hidden</Text>
+                    <View style={globalStyles.emptyContainer}>
+                        <MaterialCommunityIcons name='eye-off' style={globalStyles.emptyIcon} />
+                        <Text style={globalStyles.emptyText}>Amount Hidden</Text>
                     </View>
                 ) 
             }
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    emptyContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20
-    },
-    emptyIcon: {
-        fontSize: 48,
-        color: '#666',
-        marginBottom: 16
-    },
-    emptyText: {
-        fontSize: 16,
-        color: '#666',
-        textAlign: 'center'
-    }
-});
