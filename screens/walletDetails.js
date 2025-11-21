@@ -219,12 +219,7 @@ export default function WalletDetails({route}){
             </Modal>
 
             <HeaderWithOptions headerTitle='Wallet Details' navigation={navigation} onOptionPress={() => setOpenWalletOptions(true)}/>
-            { (!visualization) ? (
-                <View style={styles.emptyContainer}>
-                    <MaterialCommunityIcons name='eye-off' style={styles.emptyIcon} />
-                    <Text style={styles.emptyText}>Amount Hidden</Text>
-                </View>
-                ) : (
+            { (visualization) ? (
                     (walletExpenses.length === 0 && walletIncome.length == 0) ? (
                         <View style={styles.emptyContainer}>
                             <MaterialIcons name='info' style={styles.emptyIcon} />
@@ -272,7 +267,12 @@ export default function WalletDetails({route}){
                             />
                         </Tab.Navigator>
                         )
-                )
+                ) : (
+                    <View style={styles.emptyContainer}>
+                        <MaterialCommunityIcons name='eye-off' style={styles.emptyIcon} />
+                        <Text style={styles.emptyText}>Amount Hidden</Text>
+                    </View>
+                ) 
             }
         </View>
     )
