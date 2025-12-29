@@ -106,6 +106,12 @@ export const globalStyles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
     },
+    inputTouchable:{
+        flexDirection:'row',
+        //padding: 10,
+        width: '90%',
+        //alignItems: 'center',
+    },
     input:{
         flex: 1,
         borderWidth: 1,

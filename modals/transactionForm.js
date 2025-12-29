@@ -278,17 +278,25 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                 }}
                             />
 
-                            <TouchableOpacity onPress={() => setDateOpen(true)}>
                                 <View style={globalStyles.inputContainer}>    
                                     
-                                    <MaterialIcons name='calendar-month' style={globalStyles.icons} />
+                                    <TouchableOpacity 
+                                        onPress={() => {
+                                            const today = new Date();
+                                            setDate(today);
+                                            formikProps.setFieldValue('date', today);
+                                        }}
+                                    >
+                                        <MaterialIcons name='calendar-month' style={{...globalStyles.icons, color: '#f7931a'}} />
+                                    </TouchableOpacity>
                                                                 
-                                    <Text style={globalStyles.infoText} >{formikProps.values.date.toDateString()}</Text>
+                                    <TouchableOpacity onPress={() => setDateOpen(true)} style={globalStyles.inputTouchable}>
+                                        <Text style={globalStyles.infoText} >{formikProps.values.date.toDateString()}</Text>
                                     
-                                    <MaterialIcons name='arrow-forward-ios' style={{...globalStyles.icons, ...{position: 'absolute', right: 0}}} />
+                                        <MaterialIcons name='arrow-forward-ios' style={{...globalStyles.icons, ...{position: 'absolute', right: 0}}} />
+                                    </TouchableOpacity>
 
                                 </View>
-                            </TouchableOpacity>
                             
                             {/* Category */}
                             <Modal visible={categoryOpen} animationType="slide">
