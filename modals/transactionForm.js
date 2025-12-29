@@ -146,8 +146,15 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                 console.error('Error loading wallets:', error);
             }
         };
+        const initializeDate = () => {
+            if (initialValues?.date) {
+                const initDate = new Date(initialValues.date);
+                setDate(initDate);
+            }
+        };
         
         initializeWallet();
+        initializeDate();
     }, [initialValues]);
 
     return(
