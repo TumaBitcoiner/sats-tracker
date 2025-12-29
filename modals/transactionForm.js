@@ -113,26 +113,13 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
         }
     };
 
-    const loadWallets = async () => {
-        try {
-            const fetchedWallets = await getWallets();
-            setWalletList(fetchedWallets);
-        } catch (error) {
-            console.error('Error loading wallets:', error);
-        }
-    };
-
     useEffect(() => {
         const initializeWallet = async () => {
-            //await loadWallets();
             try {
                 const fetchedWallets = await getWallets();
                 setWalletList(fetchedWallets);
                 
                 if (initialValues?.walletId) {
-                    // const wallets = initialValues.transactionType === 'LN' ? 
-                    //     await getLNWallets() : 
-                    //     await getOCWallets();
                     const wallet = fetchedWallets.find(w => w.id === initialValues.walletId);
                     console.log('Initial wallet:', wallet);
                     if (wallet) {
@@ -315,8 +302,6 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                                         setCategoryOpen(false);
                                                         console.log(item[1]);
                                                         formikProps.setFieldValue('category', item[1]); 
-                                                        //setCategory(index);
-                                                        //setIsExpenses(isExpenses);
                                                         formikProps.setFieldValue('isExpenses', isExpenses);
                                                     }}
                                                 />
@@ -409,8 +394,6 @@ const styles = StyleSheet.create({
         right: 0
     },
     switchContainer: {
-        //position: 'absolute',
-        //right: 0,
         paddingLeft: 16
     },
     walletSelector: {
