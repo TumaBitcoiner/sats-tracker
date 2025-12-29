@@ -8,7 +8,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import ButtonFlat from "../shared/butttonFlat";
 import DatePicker from 'react-native-date-picker';
 import {categoryArray} from "../styles/categories";
-import TopTabNavigatorCategories from "../routes/topTabNavigatorCategory";
+import TopTabNavigatorCategories from "./categoryChoice";
 import { getWallets, getWalletBalance } from '../database/database';
 import {WalletChoice} from "./walletChoice";
 import * as yup from 'yup';
