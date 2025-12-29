@@ -9,6 +9,7 @@ export const categories = {
         ['coffee', 'Coffee'],
         ['directions-car', 'Transportation'],
         ['restaurant', 'Dining Out'],
+        ['local-bar', 'Drinks'],
         ['delivery-dining', 'Take Out'],
         ['tv', 'Entertainment'],
         ['local-hospital', 'Health'],
@@ -20,7 +21,9 @@ export const categories = {
         ['phone', 'Phone Bill'],
         ['card-giftcard', 'Gift Card'],
         ['assistant', 'AI Agent'],
-        ['sports-esports', 'Games']
+        ['sports-esports', 'Games'],
+        ['school', 'Courses'],
+        ['build', 'Services'],
     ],
     income:[
         ['savings', 'Initial Balance'],
@@ -48,6 +51,7 @@ export const categoryArray = {
         'Coffee': ['coffee', 'Coffee'],
         'Transportation': ['directions-car', 'Transportation'],
         'Dining Out': ['restaurant', 'Dining Out'],
+        'Drinks': ['local-bar', 'Drinks'],
         'Take Out': ['delivery-dining', 'Take Out'],
         'Entertainment': ['tv', 'Entertainment'],
         'Health': ['local-hospital', 'Health'],
@@ -60,6 +64,8 @@ export const categoryArray = {
         'Gift Card': ['card-giftcard', 'Gift Card'],
         'AI Agent': ['assistant', 'AI Agent'],
         'Games': ['sports-esports', 'Games'],
+        'Courses': ['school', 'Courses'],
+        'Services': ['build', 'Services'],
     },
     income:{
         'Initial Balance': ['savings', 'Initial Balance'],
@@ -80,7 +86,8 @@ export const EXPENSES_RANK_COLORS = {
     'Groceries': '#4CAF50',               // Green
     'Coffee': '#795548',                  // Brown
     'Transportation': '#2196F3',          // Blue
-    'Dining Out': '#FF5722',              // Deep Orange
+    'Dining Out': '#FF5722',             // Deep Orange
+    'Drinks': '#852EFA',                  // Light Purple
     'Take Out': '#FF9800',                // Orange
     'Entertainment': '#9C27B0',           // Purple
     'Health': '#F44336',                  // Red
@@ -93,6 +100,8 @@ export const EXPENSES_RANK_COLORS = {
     'Gift Card': '#8BC34A',               // Light Green
     'AI Agent': '#FFEB3B',                // Yellow
     'Games': '#673AB7',                   // Deep Purple
+    'Courses': '#CDDC39',                 // Lime
+    'Services': '#FF6347',                // Tomato
 }
 
 export const INCOME_RANK_COLORS = {
