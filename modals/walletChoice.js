@@ -58,7 +58,7 @@ export function WalletChoice({onPress, walletList}) {
                                         color={focused ? '#f7931a' : 'black'}
                                     />
                                 )
-                                }}
+                            }}
                         />
                         <Tab.Screen 
                             name="LN" 
