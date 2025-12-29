@@ -169,7 +169,6 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                     <View style={styles.formContainer}>
                         <ScrollView style={styles.scrollContent}>
                             {/* Transaction Type */}
-                            <TouchableOpacity onPress={() => setWalletOpen(true)}>
                                 <View style={globalStyles.inputContainer}>
                             
                                     
@@ -177,14 +176,15 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                         name={formikProps.values.transactionType === 'LN' ? 'bolt' : 'currency-bitcoin'} 
                                         style={globalStyles.icons} />
                                     
-                                    <Text style={globalStyles.infoText} >
-                                        {selectedWalletName}
-                                    </Text>
-                                        
-                                    <MaterialIcons name='arrow-forward-ios' style={styles.arrowIcon} />
+                                    <TouchableOpacity onPress={() => setWalletOpen(true)} style={globalStyles.inputTouchable}>
+                                        <Text style={globalStyles.infoText} >
+                                            {selectedWalletName}
+                                        </Text>
+                                            
+                                        <MaterialIcons name='arrow-forward-ios' style={styles.arrowIcon} />
+                                    </TouchableOpacity> 
 
                                 </View>
-                            </TouchableOpacity> 
 
                             {/* Wallet */}
                             <Modal visible={walletOpen} animationType="slide">
@@ -320,7 +320,6 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                                             
                             </Modal>
 
-                            <TouchableOpacity onPress={() => setCategoryOpen(true)}>
                                 <View style={globalStyles.inputContainer}>   
                                     
                                     <MaterialIcons 
@@ -329,16 +328,17 @@ export default function TransactionForm({addNewTransaction, onPress, initialValu
                                                 : categoryArray.income[formikProps.values.category][0]} 
                                         style={globalStyles.icons} />
                                     
-                                    <Text style={globalStyles.infoText} >
-                                        {formikProps.values.isExpenses
-                                            ? categoryArray.expenses[formikProps.values.category][1]
-                                            : categoryArray.income[formikProps.values.category][1]}
-                                    </Text>
-                                        
-                                    <MaterialIcons name='arrow-forward-ios' style={{...globalStyles.icons, ...{position: 'absolute', right: 0}}} />
+                                    <TouchableOpacity onPress={() => setCategoryOpen(true)} style={globalStyles.inputTouchable}>
+                                        <Text style={globalStyles.infoText} >
+                                            {formikProps.values.isExpenses
+                                                ? categoryArray.expenses[formikProps.values.category][1]
+                                                : categoryArray.income[formikProps.values.category][1]}
+                                        </Text>
+                                            
+                                        <MaterialIcons name='arrow-forward-ios' style={{...globalStyles.icons, ...{position: 'absolute', right: 0}}} />
+                                    </TouchableOpacity>               
     
                                 </View>
-                            </TouchableOpacity>               
                             
 
                             {/*Note*/}
